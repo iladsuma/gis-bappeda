@@ -6,18 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Gis Bappeda</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet-sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet.groupedlayercontrol.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet-geoman.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
         html,
         body .map-container {
             height: 100%;
+
+        }
+
+        body {
+            /* font-family: "Helvetica Neue", Arial, Helvetica, sans-serif !important; */
+            font-size: .90rem;
         }
 
         #map {
@@ -45,15 +51,15 @@
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
     <script src="https://kit.fontawesome.com/e4d20a5f83.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="{{ asset('assets/leaflet/js/leaflet.js') }}" crossorigin=""></script>
     <script src="{{ asset('assets/leaflet/js/leaflet-sidebar.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet.groupedlayercontrol.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet.ajax.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet-geoman.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     {{-- leaflet script --}}
     <script>
@@ -151,6 +157,30 @@
             position: 'topleft',
 
         })
+    </script>
+
+    {{-- search script --}}
+    <script>
+        $(document).ready(function() {
+            $('.perencanaan').select2({
+                placeholder: "Masukkan lokasi perencanaan..",
+                width: '100%',
+                theme: 'classic',
+                dropdownParent: $("#search")
+            });
+
+            $('.kecamatan').select2({
+                width: '100%',
+                theme: 'classic',
+                dropdownParent: $("#search")
+            });
+            $('.kelurahan').select2({
+                width: '100%',
+                theme: 'classic',
+                dropdownParent: $("#search")
+            });
+
+        });
     </script>
 </body>
 
