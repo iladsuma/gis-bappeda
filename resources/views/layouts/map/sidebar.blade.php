@@ -5,7 +5,7 @@
             <li><a href="#home" role="tab"><i class="fas fa-layer-group"></i></a></li>
             <li><a href="#search" role="tab"><i class="fas fa-search"></i></a></li>
             <li><a href="#user" role="tab"><i class="fas fa-user"></i></a></li>
-            <li><a href="#back-office" role="tab"><i class="fas fa-computer"></i></a></li>
+            <li><a href="{{ route('dashboard') }}" role="tab"><i class="fas fa-computer"></i></a></li>
         </ul>
 
         <ul role="tablist">
