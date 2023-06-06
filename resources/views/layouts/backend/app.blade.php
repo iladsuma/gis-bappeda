@@ -7,7 +7,7 @@
     <title>@yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @include('layouts.backend-dashboard.stylesheet')
+    @include('layouts.backend.stylesheet')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
@@ -20,11 +20,11 @@
         </div>
 
         <!-- Navbar -->
-        @include('layouts.backend-dashboard.navbar')
+        @include('layouts.backend.navbar')
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        @include('layouts.backend-dashboard.sidebar')
+        @include('layouts.backend.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -38,7 +38,7 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        @include('layouts.backend-dashboard.footer')
+        @include('layouts.backend.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
@@ -48,7 +48,7 @@
     </div>
     <!-- ./wrapper -->
 
-    @include('layouts.backend-dashboard.javascript')
+    @include('layouts.backend.javascript')
     @yield('extra_javascript')
 </body>
 
