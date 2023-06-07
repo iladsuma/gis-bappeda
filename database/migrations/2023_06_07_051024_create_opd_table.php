@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterKelurahanTable extends Migration
+class CreateOpdTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateMasterKelurahanTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_kelurahan', function (Blueprint $table) {
+        Schema::create('opd', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kecamatan_id');
-            $table->string('nama_kelurahan');
-            $table->string('kode_kelurahan');
-            $table->string('geometry');
+            $table->string('nama');
+            $table->string('alamat');
+            $table->string('deskripsi');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateMasterKelurahanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_kelurahan');
+        Schema::dropIfExists('opd');
     }
 }

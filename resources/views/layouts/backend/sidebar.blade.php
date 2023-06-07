@@ -15,24 +15,20 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 ">
-            {{-- @php
-                $avatar = Auth::user()->avatar;
-            @endphp --}}
-            <div class="row">
-                <div class="col-2 ml-0">
-                    {{-- <div class="image"> --}}
-                    <img src="{{ asset('assets/image/logo/logo-kab.png') }}" class="img-rounded mt-1" alt="User Image">
-                    {{-- </div> --}}
-                </div>
-                <div class="col-10 ">
-                    <a class="d-block h7 font-italic mt-0">Dinas Perumahan Rakyat dan</a>
-                    <a class="d-block h7 font-italic mb-0">Kawasan Permukiman</a>
-                </div>
+
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Lambang_Kota_Blitar.png/450px-Lambang_Kota_Blitar.png"
+                    class="img-circle elevation-1 mt-3" alt="User Image">
             </div>
-            {{-- <div class="info">
-            </div> --}}
+
+            <div class="info">
+                <div class="d-block h7 font-italic mt-0">Badan Perancanaan dan </div>
+                <div class="d-block h7 font-italic mb-0">Pembangunan daerah</div>
+                <div class="d-block h7 font-italic mb-0">Kota Blitar</div>
+            </div>
         </div>
+        {{-- </div> --}}
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -46,36 +42,35 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                {{-- @canany(['Data Wilayah.Index', 'Ruas Jalan.Index', 'Data Pemeliharaan.Index']) --}}
-                <li class="nav-header">Data Tables</li>
+                <li class="nav-header">Menu</li>
                 <li class="nav-item">
-                    {{-- @can('Data Wilayah.Index') --}}
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
-                            Data Wilayah
+                            Master Data
                             <i class="fas fa-angle-left right"></i>
                             {{-- <span class="badge badge-info right">6</span> --}}
                         </p>
                     </a>
-                    {{-- @endcan --}}
                     <ul class="nav nav-treeview ms-5">
-                        {{-- @can('Data Wilayah.Kecamatan') --}}
-                        <li class="nav-item ">
-                            <a href="/data/kecamatan" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Kecamatan</p>
-                            </a>
-                        </li>
-                        {{-- @endcan --}}
-                        {{-- @can('Data Wilayah.Kelurahan') --}}
                         <li class="nav-item">
                             <a href="/data/kelurahan" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Kelurahan</p>
+                                <p>Data OPD</p>
                             </a>
                         </li>
-                        {{-- @endcan --}}
+                        <li class="nav-item ">
+                            <a href="/data/kecamatan" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Data Kelurahan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="/data/kecamatan" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Data Lokasi</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -83,7 +78,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
-                            Ruas Jalan
+                            Data Dokumen
                             <i class="fas fa-angle-left right"></i>
                             {{-- <span class="badge badge-info right">6</span> --}}
                         </p>
@@ -94,7 +89,7 @@
                         <li class="nav-item ">
                             <a href="/ruas/kelurahan" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Kelurahan</p>
+                                <p>Infrasuktur</p>
                             </a>
                         </li>
                         {{-- @endcan --}}
@@ -111,7 +106,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
-                            Data Pemeliharaan
+                            Data Pendukung
                             <i class="fas fa-angle-left right"></i>
                             {{-- <span class="badge badge-info right">6</span> --}}
                         </p>
@@ -122,7 +117,31 @@
                         <li class="nav-item">
                             <a href="/data/penyediajasa" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Penyedia Jasa</p>
+                                <p>Kawasan Kumuh</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/data/penyediajasa" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Kawasan RTLH</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/data/penyediajasa" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Lokus Kemiskinan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/data/penyediajasa" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Lokus Stunting</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/data/penyediajasa" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Jaringan SPAM/PDAM</p>
                             </a>
                         </li>
                         {{-- @endcan --}}
