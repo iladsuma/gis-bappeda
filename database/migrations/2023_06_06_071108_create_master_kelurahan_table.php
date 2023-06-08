@@ -16,9 +16,9 @@ class CreateMasterKelurahanTable extends Migration
         Schema::create('master_kelurahan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kecamatan_id');
-            $table->string('nama_kelurahan');
-            $table->string('kode_kelurahan');
-            $table->string('geometry');
+            $table->string('nama');
+            $table->string('kode');
+            $table->text('geometry')->nullable();
             $table->timestamps();
         });
     }

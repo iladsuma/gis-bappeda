@@ -15,10 +15,13 @@ class CreateLokasiKegiatanTable extends Migration
     {
         Schema::create('lokasi_kegiatan', function (Blueprint $table) {
             $table->id();
-            $table->nama();
-            $table->deskripsi();
-            $table->longitude();
-            $table->latitude();
+            $table->foreignId('kelurahan_id');
+            $table->string('nama');
+            $table->string('alamat');
+            $table->string('deskripsi');
+            $table->string('longitude');
+            $table->string('latitude');
+            $table->string('foto');
             $table->timestamps();
         });
     }

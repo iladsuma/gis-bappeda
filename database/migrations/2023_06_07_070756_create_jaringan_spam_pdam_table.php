@@ -16,7 +16,7 @@ class CreateJaringanSpamPdamTable extends Migration
         Schema::create('jaringan_spam_pdam', function (Blueprint $table) {
             $table->id();
             $table->string('nama_jaringan');
-            $table->text('jumlah');
+            $table->text('geometry');
             $table->timestamps();
         });
     }
