@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('backend.dashboard.index');
-})->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
