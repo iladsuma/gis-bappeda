@@ -44,7 +44,7 @@
         <div id="map"></div>
     </div>
 
-    {{-- @include('layouts.map.sidebar') --}}
+    @include('layouts.map.sidebar')
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -134,9 +134,9 @@
         };
 
 
-
+        // create custom control layer
         let controlLayer = L.control.groupedLayers(baseLayers, groupedOverlays, {
-            collapsed: true,
+            collapsed: false,
             exclusiveGroups: ["Data Pendukung"],
             groupCheckboxes: false
         }).addTo(map);
@@ -145,15 +145,9 @@
             position: 'right'
         }).addTo(map)
 
-        let htmlObject = controlLayer.getContainer();
-        let parent = document.getElementById('home');
-
-        function setParentLayer(element, newParent) {
-            newParent.appendChild(element);
-        }
-        // setParentLayer(htmlObject, parent);
-
-
+        // add control layer to sidebar
+        let htmlControlLayer = controlLayer.getContainer();
+        $('#layer-data').append(htmlControlLayer);
 
         // leaflet geoman
         map.pm.addControls({
