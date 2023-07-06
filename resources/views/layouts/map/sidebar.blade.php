@@ -2,10 +2,11 @@
     <!-- Nav tabs -->
     <div class="sidebar-tabs">
         <ul role="tablist">
-            <li><a href="#layer-data" role="tab"><i class="fas fa-layer-group"></i></a></li>
-            <li><a href="#search" role="tab"><i class="fas fa-search"></i></a></li>
-            <li><a href="#user" role="tab"><i class="fas fa-user"></i></a></li>
-            <li><a href="{{ route('dashboard') }}" role="tab"><i class="fas fa-computer"></i></a></li>
+            <li><a href="#layer-data" role="tab" title="Layer Data"><i class="fas fa-layer-group"></i></a></li>
+            <li><a href="#search" role="tab" title="Pencarian"><i class="fas fa-search"></i></a></li>
+            <li><a href="#user" role="tab" title="Profil Pengguna"><i class="fas fa-user"></i></a></li>
+            <li><a href="{{ route('dashboard') }}" role="tab" title="Dashboard Admin"><i
+                        class="fas fa-computer"></i></a></li>
         </ul>
 
         <ul role="tablist">
@@ -109,7 +110,8 @@
         </div>
 
         <div class="sidebar-pane" id="user">
-            <h1 class="sidebar-header">Profile User<span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+            <h1 class="sidebar-header">Profile User<span class="sidebar-close"><i
+                        class="fa fa-caret-left"></i></span>
             </h1>
         </div>
 
