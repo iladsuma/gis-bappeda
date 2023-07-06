@@ -44,7 +44,7 @@
         <div id="map"></div>
     </div>
 
-    @include('layouts.map.sidebar')
+    {{-- @include('layouts.map.sidebar') --}}
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -136,12 +136,10 @@
 
 
         let controlLayer = L.control.groupedLayers(baseLayers, groupedOverlays, {
-            collapsed: false,
+            collapsed: true,
             exclusiveGroups: ["Data Pendukung"],
             groupCheckboxes: false
         }).addTo(map);
-
-
 
         let sidebar = L.control.sidebar('sidebar', {
             position: 'right'
@@ -153,7 +151,7 @@
         function setParentLayer(element, newParent) {
             newParent.appendChild(element);
         }
-        setParentLayer(htmlObject, parent);
+        // setParentLayer(htmlObject, parent);
 
 
 

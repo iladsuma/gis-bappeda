@@ -17,7 +17,6 @@ class LoginRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        dd($this->input());
         $this->loginField = filter_var(
             $this->input('login'),
             FILTER_VALIDATE_EMAIL
