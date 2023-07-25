@@ -2,7 +2,7 @@
     <!-- Nav tabs -->
     <div class="sidebar-tabs">
         <ul role="tablist">
-            <li><a href="#layer-data" role="tab" title="Layer Data"><i class="fas fa-layer-group"></i></a></li>
+            <li><a href="#layer-data" role="tab" title="Layer Ali"><i class="fas fa-layer-group"></i></a></li>
             <li><a href="#search" role="tab" title="Pencarian"><i class="fas fa-search"></i></a></li>
             <li><a href="#user" role="tab" title="Profil Pengguna"><i class="fas fa-user"></i></a></li>
             <li><a href="{{ route('dashboard') }}" role="tab" title="Dashboard Admin"><i
@@ -18,7 +18,7 @@
     <div class="sidebar-content">
         <div class="sidebar-pane" id="layer-data">
             <h1 class="sidebar-header">
-                Layer Data
+                Layer Ali
                 <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
             </h1>
             <div class="leaflet-control-layers">
