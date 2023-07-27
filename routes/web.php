@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\DataDokumen\DataInfrastrukturController;
+use App\Http\Controllers\DataPendukung\DataKawasanKumuhController;
+use App\Http\Controllers\MasterData\DataKelurahanController;
+use App\Http\Controllers\MasterData\DataLokasiController;
 use App\Http\Controllers\DataPendukung\JaringanSpamPdamController;
 use App\Http\Controllers\DataPendukung\KawasanRTLHController;
 use App\Http\Controllers\DataPendukung\LokusKemiskinanController;
@@ -27,7 +31,11 @@ Route::middleware(['auth'])->group(function () {
         return view('backend.dashboard.index');
     })->name('dashboard');
 
-    Route::get('/data-opd',[DataOpdController::class,'index'])->name('dataopd.index');
+    Route::get('/data-opd', [DataOpdController::class, 'index'])->name('data-opd.index');
+    Route::get('/data-kelurahan', [DataKelurahanController::class, 'index'])->name('data-kelurahan.index');
+    Route::get('/data-lokasi', [DataLokasiController::class, 'index'])->name('data-lokasi.index');
+    Route::get('/data-infrastruktur', [DataInfrastrukturController::class, 'index'])->name('data-infrastruktur.index');
+    Route::get('/data-kawasan-kumuh', [DataKawasanKumuhController::class, 'index'])->name('data-kawasan-kumuh.index');
     Route::get('/data-jaringanspampdam',[JaringanSpamPdamController::class,'index'])->name('jaringanspampdam.index');
     Route::get('/data-kawasanrtlh',[KawasanRTLHController::class,'index'])->name('kawasanrtlh.index');
     Route::get('/data-lokuskemiskinan',[LokusKemiskinanController::class,'index'])->name('lokuskemiskinan.index');

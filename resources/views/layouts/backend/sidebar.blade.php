@@ -54,19 +54,19 @@
                     </a>
                     <ul class="nav nav-treeview ms-5">
                         <li class="nav-item">
-                            <a href="{{route('dataopd.index')}}" class="nav-link">
+                            <a href="{{ route('data-opd.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
                                 <p>Data OPD</p>
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a href="/data/kecamatan" class="nav-link">
+                            <a href="{{ route('data-kelurahan.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
                                 <p>Data Kelurahan</p>
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a href="/data/kecamatan" class="nav-link">
+                            <a href="{{ route('data-lokasi.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
                                 <p>Data Lokasi</p>
                             </a>
@@ -87,9 +87,9 @@
                     <ul class="nav nav-treeview ms-5">
                         {{-- @can('Ruas Jalan.Kelurahan') --}}
                         <li class="nav-item ">
-                            <a href="/ruas/kelurahan" class="nav-link">
+                            <a href="{{ route('data-infrastruktur.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Infrasuktur</p>
+                                <p>Infrastruktur</p>
                             </a>
                         </li>
                         {{-- @endcan --}}
@@ -115,7 +115,7 @@
                     <ul class="nav nav-treeview ms-5">
                         {{-- @can('Data Pemeliharaan.Penyedia Jasa') --}}
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('data-kawasan-kumuh.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
                                 <p>Kawasan Kumuh</p>
                             </a>

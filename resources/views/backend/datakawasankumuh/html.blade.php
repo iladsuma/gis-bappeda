@@ -3,7 +3,7 @@
 
         <div class="card">
             <div class="card-header bold font-weight-bold h4" id="title-data-opd">
-                Data OPD
+                Data Kawasan Kumuh
             </div>
             <div class="card-body ">
 

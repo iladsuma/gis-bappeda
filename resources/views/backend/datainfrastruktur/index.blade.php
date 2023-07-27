@@ -1,9 +1,9 @@
 @extends('layouts.backend.app')
-@section('title', 'Data OPD')
+@section('title', 'Data Infrastruktur')
 @section('breadcrumb', 'Dashboard')
 @section('content')
-    @include('backend.dataopd.html')
+    @include('backend.datainfrastruktur.html')
 @endsection
 @section('extra_javascript')
-    @include('backend.dataopd.javascript')
+    @include('backend.datainfrastruktur.javascript')
 @endsection

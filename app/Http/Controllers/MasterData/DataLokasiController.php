@@ -5,10 +5,10 @@ namespace App\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DataOpdController extends Controller
+class DataLokasiController extends Controller
 {
-    public function index()
+    public function index() 
     {
-        return view('backend.dataopd.index');
+        return view('backend.datalokasi.index');
     }
 }
