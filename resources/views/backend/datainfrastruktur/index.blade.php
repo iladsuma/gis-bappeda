@@ -1,9 +1,9 @@
 @extends('layouts.backend.app')
-@section('title', 'Dashboard')
+@section('title', 'Data Infrastruktur')
 @section('breadcrumb', 'Dashboard')
 @section('content')
-    @include('backend.dashboard.html')
+    @include('backend.datainfrastruktur.html')
 @endsection
 @section('extra_javascript')
-    @include('backend.dashboard.javascript')
+    @include('backend.datainfrastruktur.javascript')
 @endsection
