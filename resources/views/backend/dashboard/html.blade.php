@@ -4,7 +4,7 @@
         <!-- Small boxes (Stat box) -->
         <div class="card">
             <div class="card-header bold font-weight-bold h4" id="title-dashboard">
-                Dashboard
+                Ini Dashboard
             </div>
             <div class="card-body ">
                 <form method="" action="" id="filter-chart">
