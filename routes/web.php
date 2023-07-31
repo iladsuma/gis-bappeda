@@ -32,6 +32,12 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     Route::get('/data-opd', [DataOpdController::class, 'index'])->name('data-opd.index');
+    Route::get('/data-opd/datatable', [DataOpdController::class, 'datatable'])->name('data-opd.datatable');
+    Route::post('/data-opd/store', [DataOpdController::class, 'store'])->name('data-opd.store');
+    Route::get('/data-opd/{id}/edit', [DataOpdController::class, 'edit'])->name('data-opd.edit');
+    Route::put('/data-opd/{id}/update', [DataOpdController::class, 'update'])->name('data-opd.update');
+    Route::delete('/data-opd/{id}/drop', [DataOpdController::class, 'drop'])->name('data-opd.drop');
+
     Route::get('/data-kelurahan', [DataKelurahanController::class, 'index'])->name('data-kelurahan.index');
     Route::get('/data-lokasi', [DataLokasiController::class, 'index'])->name('data-lokasi.index');
     Route::get('/data-infrastruktur', [DataInfrastrukturController::class, 'index'])->name('data-infrastruktur.index');
