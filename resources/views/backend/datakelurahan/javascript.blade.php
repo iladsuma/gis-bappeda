@@ -15,83 +15,8 @@
         }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
     })
 </script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-
-{{-- select2 --}}
-<script>
-    $(document).ready(function() {
-        $('.js-example-basic-single').select2({
-            placeholder: 'Select an option',
-            width: '30%',
-            theme: 'classic'
-        });
-    });
-</script>
 
 
-
-{{-- chart js --}}
-<script>
-    var url = '/chart/ruas/dashboard'
-    const canvas = document.getElementById('jalan-chart');
-    var myChart = myChart = new Chart(canvas, {});
-    var nama_kec = $('#list-kecamatan').find("option:selected").text();
-    var nama_kel = $('#list-kelurahan').find("option:selected").text();
-    $('#title-dashboard').html("");
-    $('#title-dashboard').append("DATA " + nama_kec + "/" + nama_kel);
-
-    function getDataChart(url) {
-        $.getJSON(url, (data) => {
-            $('#baik').html("");
-            $('#baik').append(data.baik);
-            $('#sedang').html("");
-            $('#sedang').append(data.sedang);
-            $('#rusak_r').html("");
-            $('#rusak_r').append(data.rusak_r);
-            $('#rusak_b').html("");
-            $('#rusak_b').append(data.rusak_b);
-            myChart.destroy()
-            myChart = new Chart(canvas, {
-                type: 'pie',
-                data: {
-                    labels: data.kondisi,
-                    datasets: [{
-                        label: 'My First Dataset',
-                        data: [data.baik, data.sedang, data.rusak_r, data.rusak_b, ],
-                        backgroundColor: [
-                            '#198754',
-                            '#ffc107',
-                            '#fd7e14',
-                            '#dc3545',
-                        ],
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        labels: {
-                            // render: 'value',
-                            fontSize: 14
-                        },
-                        legend: {
-                            position: 'bottom',
-                            // align: 'start',
-                            labels: {
-                                font: {
-                                    size: 14,
-                                },
-                                padding: 30,
-                            }
-                        },
-                    }
-                    // option of cart
-                }
-            });
-        })
-    }
-    getDataChart(url)
-</script>
 
 {{-- get data for kecamatan and kelurahan select2  --}}
 <script>
@@ -187,7 +112,7 @@
 <script>
 
     // show data
-    var table = $('#table-kecamatan').DataTable({
+    var table = $('#table-kelurahan').DataTable({
         processing: true,
         ajax: {
             url: "{{ route('data-kelurahan.datatable') }}",

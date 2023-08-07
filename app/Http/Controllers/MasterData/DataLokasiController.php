@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class DataLokasiController extends Controller
 {
-    public function index() 
+    public function index()
     {
         return view('backend.datalokasi.index');
     }

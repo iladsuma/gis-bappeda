@@ -47,11 +47,18 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/data-kelurahan/{id}/update', [DataKelurahanController::class, 'update'])->name('data-kelurahan.update');
     Route::delete('/data-kelurahan/{id}/drop', [DataKelurahanController::class, 'drop'])->name('data-kelurahan.drop');
 
-
-
+    // data lokasi
     Route::get('/data-lokasi', [DataLokasiController::class, 'index'])->name('data-lokasi.index');
-    Route::get('/data-infrastruktur', [DataInfrastrukturController::class, 'index'])->name('data-infrastruktur.index');
+
+    // kawasan kumuh
     Route::get('/data-kawasan-kumuh', [DataKawasanKumuhController::class, 'index'])->name('data-kawasan-kumuh.index');
+    Route::get('/data-kawasan-kumuh/datatable', [DataKawasanKumuhController::class, 'datatable'])->name('data-kawasan-kumuh.datatable');
+    Route::post('/data-kawasan-kumuh/store', [DataKawasanKumuhController::class, 'store'])->name('data-kawasan-kumuh.store');
+    Route::get('/data-kawasan-kumuh/{id}/edit', [DataKawasanKumuhController::class, 'edit'])->name('data-kawasan-kumuh.edit');
+    Route::put('/data-kawasan-kumuh/{id}/update', [DataKawasanKumuhController::class, 'update'])->name('data-kawasan-kumuh.update');
+    Route::delete('/data-kawasan-kumuh/{id}/drop', [DataKawasanKumuhController::class, 'drop'])->name('data-kawasan-kumuh.drop');
+
+    Route::get('/data-infrastruktur', [DataInfrastrukturController::class, 'index'])->name('data-infrastruktur.index');
     Route::get('/data-jaringanspampdam',[JaringanSpamPdamController::class,'index'])->name('jaringanspampdam.index');
     Route::get('/data-kawasanrtlh',[KawasanRTLHController::class,'index'])->name('kawasanrtlh.index');
     Route::get('/data-lokuskemiskinan',[LokusKemiskinanController::class,'index'])->name('lokuskemiskinan.index');
