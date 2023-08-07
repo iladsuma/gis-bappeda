@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Database\Seeders\Administrator\UserSeeder;
+use Database\Seeders\Master\MasterKecamatanSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             UserSeeder::class,
+            MasterKecamatanSeeder::class,
         ]);
     }
 }

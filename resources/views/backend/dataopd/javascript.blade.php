@@ -159,8 +159,10 @@
                 }).then(function() {
                     table.ajax.reload();
                 });
+                $('#modalOpd').modal('hide');
             },
             error: (xhr, ajaxOptions, thrownError) => {
+                console.log(xhr.responseJSON.errors)
                 if (xhr.responseJSON.hasOwnProperty('errors')) {
                     var html =
                         "<ul style=justify-content: space-between;'>";
@@ -178,16 +180,18 @@
 
                         }
                     }
-                    html += '</ul>';
-                    swal.fire({
-                    title: 'Error',
-                    text: html,
-                    icon: 'warning',
-                });
+                    html += "</ul>";
+                    // swal.fire({
+                    //     title: 'Error',
+                    //     html: html,
+                    //     icon: 'warning',
+                    // });
+                    $("#opd-validation").html(html)
+                    $("#opd-validation").removeClass("d-none")
                 }
             }
         });
-        $('#modalOpd').modal('hide');
+
 
     })
 </script>

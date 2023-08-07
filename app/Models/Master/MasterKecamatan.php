@@ -15,4 +15,9 @@ class MasterKecamatan extends Model
         'nama',
         'kode',
     ];
+
+    public function kelurahan()
+    {
+        return $this->hasMany(MasterKelurahan::class, 'kecamatan_id', 'id');
+    }
 }

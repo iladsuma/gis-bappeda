@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
         return view('backend.dashboard.index');
     })->name('dashboard');
 
+    // OPD
     Route::get('/data-opd', [DataOpdController::class, 'index'])->name('data-opd.index');
     Route::get('/data-opd/datatable', [DataOpdController::class, 'datatable'])->name('data-opd.datatable');
     Route::post('/data-opd/store', [DataOpdController::class, 'store'])->name('data-opd.store');
@@ -38,7 +39,16 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/data-opd/{id}/update', [DataOpdController::class, 'update'])->name('data-opd.update');
     Route::delete('/data-opd/{id}/drop', [DataOpdController::class, 'drop'])->name('data-opd.drop');
 
+    // Kelurahan
     Route::get('/data-kelurahan', [DataKelurahanController::class, 'index'])->name('data-kelurahan.index');
+    Route::get('/data-kelurahan/datatable', [DataKelurahanController::class, 'datatable'])->name('data-kelurahan.datatable');
+    Route::post('/data-kelurahan/store', [DataKelurahanController::class, 'store'])->name('data-kelurahan.store');
+    Route::get('/data-kelurahan/{id}/edit', [DataKelurahanController::class, 'edit'])->name('data-kelurahan.edit');
+    Route::put('/data-kelurahan/{id}/update', [DataKelurahanController::class, 'update'])->name('data-kelurahan.update');
+    Route::delete('/data-kelurahan/{id}/drop', [DataKelurahanController::class, 'drop'])->name('data-kelurahan.drop');
+
+
+
     Route::get('/data-lokasi', [DataLokasiController::class, 'index'])->name('data-lokasi.index');
     Route::get('/data-infrastruktur', [DataInfrastrukturController::class, 'index'])->name('data-infrastruktur.index');
     Route::get('/data-kawasan-kumuh', [DataKawasanKumuhController::class, 'index'])->name('data-kawasan-kumuh.index');

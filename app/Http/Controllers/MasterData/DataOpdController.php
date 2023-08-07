@@ -4,7 +4,10 @@ namespace App\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
 use App\Models\Administrator\Opd;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationData;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -26,12 +29,24 @@ class DataOpdController extends Controller
 
     public function store(Request $request)
     {
-        $opd = Opd::create([
-            'nama' => $request->nama,
-            'alamat' => $request->alamat,
-            'deskripsi' => $request->deskripsi,
+        $this->validate($request,[
+            'nama' => 'required|unique:master_opd',
+            'alamat' => 'required',
+            "deskripsi" => 'required',
         ]);
-
+        DB::beginTransaction();
+        try {
+            $opd = Opd::create([
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'deskripsi' => $request->deskripsi,
+            ]);
+            DB::commit();
+        } catch (\Throwable $error) {
+            DB::rollBack();
+            throw $error;
+            return response($error->getMessage(),500) ;
+        }
         return response("Data berhasil ditambahkan");
     }
 

@@ -184,3 +184,120 @@
         }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
     })
 </script>
+<script>
+
+    // show data
+    var table = $('#table-kecamatan').DataTable({
+        processing: true,
+        ajax: {
+            url: "{{ route('data-kelurahan.datatable') }}",
+            method: 'GET'
+        },
+        columns: [{
+                data: 'DT_RowIndex',
+            },
+            {
+                data: 'nama',
+            },
+            {
+                data: 'kecamatan.nama',
+            },
+            {
+                data: null,
+                render:function(data){
+                    return data.kecamatan.kode+ "."+ data.kode
+                }
+            },
+            {
+                data: 'id',
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-pencil edit-opd' data-id='" + data + "'></i>"
+                }
+            },
+            {
+                data: null,
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-trash hapus-opd' data-nama='" + data.nama + "' data-id='" + data.id + "'></i>"
+                }
+            },
+        ]
+    });
+
+    // show modal create
+    $(document).on('click', "#tambah-data", function() {
+        $("#modalKelurahanLabel").html("").append("Tambah Data Kelurahan");
+        $("#nama").val("");
+        $("#kode").val("");
+        // $("#kecamatan").val("");
+        $('#modalKelurahan').modal('show');
+        let url = "{{ route('data-kelurahan.store') }}";
+        $('#kelurahan-form').attr('action', url);
+        $('#kelurahan-form').attr('method', 'POST');
+    });
+
+    // submit process
+    $("#kelurahan-form").on("submit", function(e) {
+        e.preventDefault()
+        let urlSave = ($("#kelurahan-form").attr('action'))
+        let method = ($("#kelurahan-form").attr('method'))
+
+        let kelurahanSave = {
+            nama: $("#nama").val(),
+            kode: $("#kode").val(),
+            kecamatan_id: $("#kecamatan").val(),
+        }
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json',
+            },
+            type: method,
+            url: urlSave,
+            data: JSON.stringify(kelurahanSave),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: (data) => {
+                swal.fire({
+                    title: 'Berhasil',
+                    text: data,
+                    icon: 'success',
+                }).then(function() {
+                    table.ajax.reload();
+                });
+            },
+            error: (xhr, ajaxOptions, thrownError) => {
+                if (xhr.responseJSON.hasOwnProperty('errors')) {
+                    var html =
+                        "<ul style=justify-content: space-between;'>";
+                    for (item in xhr.responseJSON.errors) {
+                        if (xhr.responseJSON.errors[item].length) {
+                            for (var i = 0; i < xhr.responseJSON.errors[item]
+                                .length; i++) {
+                                html += "<li class='dropdown-item'>" +
+                                    "<i class='fas fa-times' style='color: red;'></i> &nbsp&nbsp&nbsp&nbsp" +
+                                    xhr
+                                    .responseJSON
+                                    .errors[item][i] +
+                                    "</li>"
+                            }
+
+                        }
+                    }
+                    html += '</ul>';
+                    swal.fire({
+                    title: 'Error',
+                    text: html,
+                    icon: 'warning',
+                });
+                }
+            }
+        });
+        $('#modalKelurahan').modal('hide');
+
+    })
+</script>

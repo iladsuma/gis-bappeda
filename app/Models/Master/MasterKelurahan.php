@@ -17,4 +17,9 @@ class MasterKelurahan extends Model
         'kode',
         'geometry',
     ];
+
+    public function kecamatan()
+    {
+        return $this->belongsTo(MasterKecamatan::class, 'kecamatan_id', 'id');
+    }
 }

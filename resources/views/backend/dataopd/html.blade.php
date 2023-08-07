@@ -40,6 +40,9 @@
             <div class="modal-body">
                 <form id="opd-form">
                     @csrf
+                    <div class="alert alert-danger d-none" id="opd-validation">
+
+                    </div>
                     <div class="form-group">
                         <label for="nama">Nama</label>
                         <input type="text" class="form-control" id="nama">
