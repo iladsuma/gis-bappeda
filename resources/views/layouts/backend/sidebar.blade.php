@@ -37,7 +37,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="/dashboard" class="nav-link">
+                    <a href="{{ route('dashboard.index') }}" class="nav-link">
                         <i class="fas fa-tachometer-alt nav-icon"></i>
                         <p>Dashboard</p>
                     </a>
@@ -83,6 +83,49 @@
                             {{-- <span class="badge badge-info right">6</span> --}}
                         </p>
                     </a>
+                    <ul class="nav nav-treeview ms-5">
+                        <li class="nav-item ">
+                            <a href="{{ route('data-dokumen-fs.index') }}" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Dokumen FS</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview ms-5">
+                        <li class="nav-item ">
+                            <a href="{{ route('data-dokumen-mp.index') }}" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Dokumen Masterplan</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview ms-5">
+                        <li class="nav-item ">
+                            <a href="{{ route('data-dokumen-lingkungan.index') }}" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Dokumen Lingkungan</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview ms-5">
+                        <li class="nav-item ">
+                            <a href="{{ route('data-dokumen-ded.index') }}" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Dokumen DED</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    {{-- @can('Ruas Jalan.Index') --}}
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Data Infrastruktur
+                            <i class="fas fa-angle-left right"></i>
+                            {{-- <span class="badge badge-info right">6</span> --}}
+                        </p>
+                    </a>
                     {{-- @endcan --}}
                     <ul class="nav nav-treeview ms-5">
                         {{-- @can('Ruas Jalan.Kelurahan') --}}
@@ -121,30 +164,30 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('kawasanrtlh.index')}}" class="nav-link">
+                            <a href="{{ route('data-kawasan-rtlh.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
                                 <p>Kawasan RTLH</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('lokuskemiskinan.index')}}" class="nav-link">
+                            <a href="{{ route('data-lokus-kemiskinan.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
                                 <p>Lokus Kemiskinan</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('lokusstunting.index')}}" class="nav-link">
+                            <a href="{{ route('data-lokus-stunting.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
                                 <p>Lokus Stunting</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('jaringanspampdam.index')}}" class="nav-link">
+                            <a href="{{ route('data-jaringan-spampdam.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
                                 <p>Jaringan SPAM/PDAM</p>
                             </a>
                         </li>
-                     
+
                     </ul>
                 </li>
                 {{-- @endcanany --}}

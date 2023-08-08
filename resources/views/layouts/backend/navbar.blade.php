@@ -6,7 +6,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/" class="nav-link">Peta &nbsp<i class="fa fa-globe-asia"></i></a>
+            <a href="{{ route('map.index') }}" class="nav-link">Peta &nbsp<i class="fa fa-globe-asia"></i></a>
         </li>
     </ul>
 

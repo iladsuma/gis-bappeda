@@ -5,7 +5,7 @@
             <li><a href="#layer-data" role="tab" title="Layer Data"><i class="fas fa-layer-group"></i></a></li>
             <li><a href="#search" role="tab" title="Pencarian"><i class="fas fa-search"></i></a></li>
             <li><a href="#user" role="tab" title="Profil Pengguna"><i class="fas fa-user"></i></a></li>
-            <li><a href="{{ route('dashboard') }}" role="tab" title="Dashboard Admin"><i
+            <li><a href="{{ route('dashboard.index') }}" role="tab" title="Dashboard Admin"><i
                         class="fas fa-computer"></i></a></li>
         </ul>
 

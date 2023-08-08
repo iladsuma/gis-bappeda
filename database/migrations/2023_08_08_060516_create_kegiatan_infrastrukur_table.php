@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRealisasiFisikTable extends Migration
+class CreateKegiatanInfrastrukurTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRealisasiFisikTable extends Migration
      */
     public function up()
     {
-        Schema::create('realisasi_fisik', function (Blueprint $table) {
+        Schema::create('kegiatan_infrastrukur', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lokasi_kegiatan_id');
             $table->foreignId('opd_id');
@@ -21,7 +21,7 @@ class CreateRealisasiFisikTable extends Migration
             $table->foreignId('dokumen_mp_id');
             $table->foreignId('dokumen_lingkungan_id');
             $table->foreignId('dokumen_ded_id');
-            $table->string('nama_realisasi');
+            $table->string('nama');
             $table->string('penyedia_jasa');
             $table->string('tahun');
             $table->string('anggaran');
@@ -37,6 +37,6 @@ class CreateRealisasiFisikTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('realisasi_fisik');
+        Schema::dropIfExists('kegiatan_infrastrukur');
     }
 }
