@@ -15,6 +15,7 @@ use App\Http\Controllers\DataPendukung\LokusKemiskinanController;
 use App\Http\Controllers\DataPendukung\LokusStuntingController;
 use App\Http\Controllers\Map\MapController;
 use App\Http\Controllers\MasterData\DataOpdController;
+use App\Models\Dokumen\DokumenFs;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,6 +63,12 @@ Route::middleware(['auth'])->group(function () {
     ## --- start of data dokumen --- ##
     // Dokumen feasibility route
     Route::get('/data-dokumen-fs', [DokumenFsController::class, 'index'])->name('data-dokumen-fs.index');
+    Route::get('/data-dokumen-fs/datatable', [DokumenFsController::class, 'datatable'])->name('data-dokumen-fs.datatable');
+    Route::post('/data-dokumen-fs/store', [DokumenFsController::class, 'store'])->name('data-dokumen-fs.store');
+    Route::get('/data-dokumen-fs/{id}/edit', [DokumenFsController::class, 'edit'])->name('data-dokumen-fs.edit');
+    Route::delete('/data-dokumen-fs/{id}/drop', [DokumenFsController::class, 'drop'])->name('data-dokumen-fs.drop');
+    Route::put('/data-dokumen-fs/{id}/update', [DokumenFsController::class, 'update'])->name('data-dokumen-fs.update');
+
     // Dokumen masterplan route
     Route::get('/data-dokumen-masterplan', [DokumenMpController::class, 'index'])->name('data-dokumen-mp.index');
     // Dokumen lingkungan route

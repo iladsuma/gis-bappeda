@@ -2,6 +2,7 @@
 
 namespace App\Models\Administrator;
 
+use App\Models\Dokumen\DokumenFs;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,4 +18,9 @@ class Opd extends Model
         'alamat',
         'deskripsi',
     ];
+
+    public function dokumenFs()
+    {
+        return $this->hasMany(DokumenFs::class, 'opd_id', 'id');
+    }
 }

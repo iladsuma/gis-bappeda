@@ -15,7 +15,7 @@ class CreateDokumenLingkunganTable extends Migration
     {
         Schema::create('dokumen_lingkungan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lokasi_kegiatan_id');
+            $table->foreignId('lokasi_kegiatan_id')->nullable();
             $table->foreignId('opd_id');
             $table->string('nama_kegiatan');
             $table->string('tahun');

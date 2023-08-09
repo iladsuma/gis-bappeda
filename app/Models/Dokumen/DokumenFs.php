@@ -2,6 +2,7 @@
 
 namespace App\Models\Dokumen;
 
+use App\Models\Administrator\Opd;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +17,11 @@ class DokumenFs extends Model
         'opd_id',
         'nama_kegiatan',
         'tahun',
-        'dokumen',
+        'dokumen_fs',
     ];
+
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class, 'opd_id', 'id');
+    }
 }

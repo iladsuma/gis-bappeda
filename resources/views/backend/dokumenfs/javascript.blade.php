@@ -184,3 +184,196 @@
         }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
     })
 </script>
+
+<script>
+    var table = $('#table-dokumen-fs').DataTable({
+        processing: true,
+        ajax: {
+            url: "{{ route('data-dokumen-fs.datatable') }}",
+            method: 'GET'
+        },
+        columns: [{
+            data: 'DT_RowIndex',
+        },
+        {
+            data: 'nama_kegiatan',
+        },
+        {
+            data: 'opd.nama',
+        },
+        {
+            data: 'tahun',
+        },
+        {
+            data: 'dokumen_fs',
+        },
+        {
+            data: 'id',
+            width: '10px',
+            orderable: false,
+            render: function(data) {
+                return "<i class='fas fa-pencil edit-dokumen-fs' data-id='" + data + "'></i>"
+            }
+        },
+        {
+            data: null,
+            width: '10px',
+            orderable: false,
+            render: function(data) {
+                return "<i class='fas fa-trash hapus-dokumen-fs' data-nama='" + data.nama_kegiatan + "' data-id='" + data.id + "'></i>"
+            }
+        },
+    ]
+    })
+
+    $(document).on('click', "#tambah-data", function() {
+        $("#modalDokumenFSLabel").html("").append("Tambah Data Dokumen FS");
+        $("#nama_kegiatan").val("");
+        $("#tahun").val("");
+        $("#dokumen").val("");
+        $("#opd_id").val("");
+        $('#modalDokumenFS').modal('show');
+        let url = "{{ route('data-dokumen-fs.store') }}";
+        $('#dokumen-fs-form').attr('action', url);
+        $('#dokumen-fs-form').attr('method', 'POST');
+    });
+
+    $(document).on('click', ".hapus-dokumen-fs", function() {
+        swal.fire({
+            title: 'Hapus',
+            text: "Yakin hapus data " + $(this).data('nama') + " ?",
+            icon: 'warning',
+            showCancelButton: true,
+        })
+        .then((result) => {
+            if(result.isConfirmed) {
+            let id = $(this).data('id')
+            let url = "{{ route('data-dokumen-fs.drop', ':id') }}"
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    url: url.replace(":id", id),
+                    type: 'delete',
+                    async: false,
+                    success: function(result) {
+                        swal.fire({
+                            title: 'Berhasil',
+                            text: 'Data berhasil dihapus',
+                            icon: 'success',
+                        })
+                        table.ajax.reload()
+                    }
+                })
+
+            }
+
+        })
+    });
+
+    $(document).on('click', ".edit-dokumen-fs", function() {
+        $("#modalDokumenFSLabel").html("").append("Edit Data Dokumen FS");
+        $("#nama_kegiatan").val("");
+        $("#tahun").val("");
+        $("#dokumen").val("");
+        $("#opd_id").val("");
+        $('#modalDokumenFS').modal('show');
+        let id = $(this).data('id')
+        let url = "{{ route('data-dokumen-fs.edit', ':id') }}"
+        $("#pass-alert").show()
+        $.ajax({
+            header: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            url: url.replace(":id", id),
+            dataType: "json",
+            async: false,
+            success: function(result) {
+                console.log(result);
+                let urlUpdate = "{{ route('data-dokumen-fs.update', ':id') }}"
+                urlUpdate = urlUpdate.replace(':id', id)
+                $('#dokumen-fs-form').attr('action', urlUpdate);
+                $('#dokumen-fs-form').attr('method', 'PUT');
+                $("#nama_kegiatan").val(result.data.nama_kegiatan)
+                $("#tahun").val(result.data.tahun)
+                $("#dokumen").val(result.data.dokumen)
+                $("#opd_id").val(result.data.opd_id)
+            }
+        })
+        // console.log(id);
+    });
+
+    $("#dokumen-fs-form").on("submit", function(e) {
+        e.preventDefault()
+        let urlSave = ($("#dokumen-fs-form").attr('action'))
+        let method = ($("#dokumen-fs-form").attr('method'))
+
+        var formData = new FormData();
+        formData.append('nama_kegiatan', $("#nama_kegiatan").val());
+        formData.append('tahun', $("#tahun").val());
+        formData.append('opd_id', $("#opd_id").val());
+        formData.append('dokumen', $('#dokumen:input[type=file]')[0].files[0]);
+
+        if(method == 'PUT') {
+            formData.append('_method', 'PUT');
+        }
+
+        console.log($('#dokumen:input[type=file]')[0].files[0]);
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            type: 'POST',
+            url: urlSave,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: (data) => {
+                swal.fire({
+                    title: 'Berhasil',
+                    text: data,
+                    icon: 'success',
+                }).then(function() {
+                    table.ajax.reload();
+                });
+                $('#modalDokumenFS').modal('hide');
+            },
+            error: (xhr, ajaxOptions, thrownError) => {
+                console.log(xhr.responseJSON.errors)
+                if (xhr.responseJSON.hasOwnProperty('errors')) {
+                    var html =
+                        "<ul style=justify-content: space-between;'>";
+                    for (item in xhr.responseJSON.errors) {
+                        if (xhr.responseJSON.errors[item].length) {
+                            for (var i = 0; i < xhr.responseJSON.errors[item]
+                                .length; i++) {
+                                html += "<li class='dropdown-item'>" +
+                                    "<i class='fas fa-times' style='color: red;'></i> &nbsp&nbsp&nbsp&nbsp" +
+                                    xhr
+                                    .responseJSON
+                                    .errors[item][i] +
+                                    "</li>"
+                            }
+
+                        }
+                    }
+                    html += "</ul>";
+                    // swal.fire({
+                    //     title: 'Error',
+                    //     html: html,
+                    //     icon: 'warning',
+                    // });
+                    $("#dokumenFs-validation").html(html)
+                    $("#dokumenFs-validation").removeClass("d-none")
+                }
+            }
+        });
+    });
+</script>
