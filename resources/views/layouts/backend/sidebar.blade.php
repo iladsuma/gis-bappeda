@@ -115,35 +115,32 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav nav-treeview ms-5">
+                        <li class="nav-item ">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-file nav-icon ml-3"></i>
+                                <p>Dokumen Fisik</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    {{-- @can('Ruas Jalan.Index') --}}
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Data Infrastruktur
                             <i class="fas fa-angle-left right"></i>
-                            {{-- <span class="badge badge-info right">6</span> --}}
                         </p>
                     </a>
-                    {{-- @endcan --}}
                     <ul class="nav nav-treeview ms-5">
-                        {{-- @can('Ruas Jalan.Kelurahan') --}}
                         <li class="nav-item ">
                             <a href="{{ route('data-infrastruktur.index') }}" class="nav-link">
                                 <i class="far fa-file nav-icon ml-3"></i>
                                 <p>Infrastruktur</p>
                             </a>
                         </li>
-                        {{-- @endcan --}}
-                        {{-- <li class="nav-item">
-                            <a href="/ruas/desa" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Desa</p>
-                            </a>
-                        </li> --}}
                     </ul>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     {{-- @can('Data Pemeliharaan.Index') --}}
                     <a href="#" class="nav-link">
