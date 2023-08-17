@@ -5,7 +5,6 @@ namespace App\Http\Controllers\DataDokumen;
 use App\Http\Controllers\Controller;
 use App\Models\Administrator\Opd;
 use App\Models\Dokumen\DokumenFs;
-use App\Models\Master\LokasiKegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;

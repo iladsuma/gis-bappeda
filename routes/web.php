@@ -71,10 +71,28 @@ Route::middleware(['auth'])->group(function () {
 
     // Dokumen masterplan route
     Route::get('/data-dokumen-masterplan', [DokumenMpController::class, 'index'])->name('data-dokumen-mp.index');
+    Route::post('/data-dokumen-masterplan/store', [DokumenMpController::class, 'store'])->name('data-dokumen-mp.store');
+    Route::get('/data-dokumen-masterplan/datatable', [DokumenMpController::class, 'datatable'])->name('data-dokumen-mp.datatable');
+    Route::get('/data-dokumen-masterplan/{id}/edit', [DokumenMpController::class, 'edit'])->name('data-dokumen-mp.edit');
+    Route::put('/data-dokumen-masterplan/{id}/update', [DokumenMpController::class, 'update'])->name('data-dokumen-mp.update');
+    Route::delete('/data-dokumen-masterplan/{id}/drop', [DokumenMpController::class, 'drop'])->name('data-dokumen-mp.drop');
+
     // Dokumen lingkungan route
     Route::get('/data-dokumen-lingkungan', [DokumenLingkunganController::class, 'index'])->name('data-dokumen-lingkungan.index');
+    Route::post('/data-dokumen-lingkungan/store', [DokumenLingkunganController::class, 'store'])->name('data-dokumen-lingkungan.store');
+    Route::get('/data-dokumen-lingkungan/datatable', [DokumenLingkunganController::class, 'datatable'])->name('data-dokumen-lingkungan.datatable');
+    Route::get('/data-dokumen-lingkungan/{id}/edit', [DokumenLingkunganController::class, 'edit'])->name('data-dokumen-lingkungan.edit');
+    Route::put('/data-dokumen-lingkungan/{id}/update', [DokumenLingkunganController::class, 'update'])->name('data-dokumen-lingkungan.update');
+    Route::delete('/data-dokumen-lingkungan/{id}/drop', [DokumenLingkunganController::class, 'drop'])->name('data-dokumen-lingkungan.drop');
+
     // dokumen ded route
     Route::get('/data-dokumen-ded', [DokumenDedController::class, 'index'])->name('data-dokumen-ded.index');
+    Route::post('/data-dokumen-ded/store', [DokumenDedController::class, 'store'])->name('data-dokumen-ded.store');
+    Route::get('/data-dokumen-ded/datatable', [DokumenDedController::class, 'datatable'])->name('data-dokumen-ded.datatable');
+    Route::get('/data-dokumen-ded/{id}/edit', [DokumenDedController::class, 'edit'])->name('data-dokumen-ded.edit');
+    Route::put('/data-dokumen-ded/{id}/update', [DokumenDedController::class, 'update'])->name('data-dokumen-ded.update');
+    Route::delete('/data-dokumen-ded/{id}/drop', [DokumenDedController::class, 'drop'])->name('data-dokumen-ded.drop');
+
     ## --- end of data dokumen --- ##
 
 
