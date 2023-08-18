@@ -57,6 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/data-kelurahan/{id}/drop', [DataKelurahanController::class, 'drop'])->name('data-kelurahan.drop');
     // Data lokasi Route
     Route::get('/data-lokasi', [DataLokasiController::class, 'index'])->name('data-lokasi.index');
+    Route::get('/data-lokasi/store', [DataLokasiController::class, 'store'])->name('data-lokasi.store');
     ## --- end of master data --- ##
 
 
