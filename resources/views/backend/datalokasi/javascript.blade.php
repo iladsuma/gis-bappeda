@@ -203,7 +203,7 @@
             dataLokasi.append("foto", $("#foto-lokasi")[0].files[0])
 
             if (method == "PUT") {
-                dataLokasi.append("method", "_PUT")
+                dataLokasi.append("_method", "PUT")
             }
 
             $.ajax({

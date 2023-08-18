@@ -12,8 +12,9 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Kelurahan</th>
-                            <th>Nama Kecamatan</th>
-                            <th>Kode</th>
+                            <th>Kecamatan</th>
+                            <th>Kode Kelurahan</th>
+                            <th>Geometry</th>
                             <th>Aksi</th>
                             <th></th>
                         </tr>
@@ -29,37 +30,43 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="modalKelurahanLabel">
+                <h5 class="modal-title" id="modalKelurahanLabel">
 
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="kelurahan-form">
                     @csrf
                     <div class="form-group">
-                        <label for="nama">Nama</label>
+                        <label for="nama">Nama Kelurahan</label>
                         <input type="text" class="form-control" id="nama">
                     </div>
                     <div class="form-group">
-                        <label for="kode">Kode</label>
-                        <textarea name="kode" id="kode" rows="3" class="form-control"></textarea>
+                        <label for="kode">Kode Kelurahan</label>
+                        <input type="text" id="kode" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="kecamatan">Kecamatan</label>
                         <select id="kecamatan" class="form-control">
-                          <option selected>Choose...</option>
-                          @foreach ($kecamatan as $kec)
-                              <option value="{{ $kec->id }}">{{ $kec->nama }}</option>
-                          @endforeach
+                            <option selected>Pilih Kecamatan...</option>
+                            @foreach ($kecamatan as $kec)
+                                <option value="{{ $kec->id }}">{{ $kec->nama }}</option>
+                            @endforeach
                         </select>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <div class="form-group">
+                        <label for="kode">Geometry</label>
+                        <div class="custom-file">
+                            <input type="file" id="geometry" accept=".geojson" required>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
                 </form>
             </div>
         </div>

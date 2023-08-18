@@ -54,13 +54,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/data-kelurahan/store', [DataKelurahanController::class, 'store'])->name('data-kelurahan.store');
     Route::get('/data-kelurahan/{id}/edit', [DataKelurahanController::class, 'edit'])->name('data-kelurahan.edit');
     Route::put('/data-kelurahan/{id}/update', [DataKelurahanController::class, 'update'])->name('data-kelurahan.update');
-    Route::delete('/data-kelurahan/{id}/drop', [DataKelurahanController::class, 'drop'])->name('data-kelurahan.drop');
+    Route::delete('/data-kelurahan/{id}/drop', [DataKelurahanController::class, 'drop'])->name('data-kelurahan.drop'); //  not yet work
     // Data lokasi Route
     Route::get('/data-lokasi', [DataLokasiController::class, 'index'])->name('data-lokasi.index');
     Route::get('/data-lokasi/datatable', [DataLokasiController::class, 'datatable'])->name('data-lokasi.datatable');
     Route::post('/data-lokasi/store', [DataLokasiController::class, 'store'])->name('data-lokasi.store');
     Route::get('/data-lokasi/{id}/edit', [DataLokasiController::class, 'edit'])->name('data-lokasi.edit');
     Route::put('/data-lokasi/{id}/update', [DataLokasiController::class, 'update'])->name('data-lokasi.update');
+    Route::delete('/data-lokasi/{id}/drop', [DataLokasiController::class, 'drop'])->name('data-lokasi.drop'); // not yet work
     ## --- end of master data --- ##
 
 

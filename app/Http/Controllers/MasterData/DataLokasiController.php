@@ -32,7 +32,6 @@ class DataLokasiController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         DB::beginTransaction();
         try {
             $lokasi = LokasiKegiatan::create([
@@ -93,6 +92,10 @@ class DataLokasiController extends Controller
         }
 
 
-        return response("Data berhasil diubah");
+        return response("Data Lokasi berhasil diubah");
+    }
+
+    public function drop($id)
+    {
     }
 }
