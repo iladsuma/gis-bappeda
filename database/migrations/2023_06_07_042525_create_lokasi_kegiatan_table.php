@@ -19,8 +19,7 @@ class CreateLokasiKegiatanTable extends Migration
             $table->string('nama');
             $table->string('alamat');
             $table->string('deskripsi');
-            $table->string('longitude');
-            $table->string('latitude');
+            $table->string('coordinate');
             $table->string('foto');
             $table->timestamps();
         });

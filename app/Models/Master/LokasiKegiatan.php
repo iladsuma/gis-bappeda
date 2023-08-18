@@ -15,8 +15,7 @@ class LokasiKegiatan extends Model
         'nama',
         'alamat',
         'deskripsi',
-        'longitude',
-        'latitude',
+        'coordinate',
         'foto',
     ];
 }
