@@ -93,13 +93,19 @@
         // submit modal form lokasi-kegiatan
         $("#lokasi-kegiatan-form").on("submit", function(e) {
             e.preventDefault()
+            let urlSave = $("#lokasi-kegiatan-form").attr("action")
+            let method = $("#lokasi-kegiatan-form").attr("method")
             let dataLokasi = new FormData()
             dataLokasi.append("nama_lokasi", $("#nama-lokasi").val())
-            dataLokasi.append("kelurahan", $("#kelurahan").val())
+            dataLokasi.append("kelurahan_id", $("#kelurahan").val())
             dataLokasi.append("alamat", $("#alamat").val())
             dataLokasi.append("coordinate", $("#koordinat").val())
             dataLokasi.append("coordinate", $("#koordinat").val())
             dataLokasi.append("foto", $("#foto-lokasi")[0].files[0])
+
+            if (method == "PUT") {
+                dataLokasi.append("method", "_PUT")
+            }
 
             $.ajax({
                 headers: {
@@ -107,7 +113,7 @@
                 },
                 type: 'POST',
                 url: urlSave,
-                data: formData,
+                data: dataLokasi,
                 cache: false,
                 contentType: false,
                 processData: false,
@@ -119,7 +125,7 @@
                     }).then(function() {
                         table.ajax.reload();
                     });
-                    $('#modalDokumenFS').modal('hide');
+                    $('#modal-lokasi-kegiatan').modal('hide');
                 },
                 error: (xhr, ajaxOptions, thrownError) => {
                     console.log(xhr.responseJSON.errors)
@@ -146,6 +152,55 @@
                     }
                 }
             });
+        })
+
+        // datatable lokasi kegiatan
+        var table = $('#table-data-lokasi').DataTable({
+            processing: true,
+            ajax: {
+                url: "{{ route('data-lokasi.datatable') }}",
+                method: 'GET'
+            },
+            columns: [{
+                    data: 'DT_RowIndex',
+                },
+                {
+                    data: 'nama',
+                },
+                {
+                    data: 'kelurahan.nama',
+                },
+                {
+                    data: 'kelurahan.kecamatan.nama',
+                },
+                {
+                    data: 'alamat',
+                },
+                // {
+                //     data: 'deskripsi',
+                // },
+                {
+                    data: 'coordinate',
+                },
+                {
+                    data: 'id',
+                    width: '10px',
+                    orderable: false,
+                    render: function(data) {
+                        return "<i class='fas fa-pencil edit-dokumen-ded' data-id='" + data +
+                            "'></i>"
+                    }
+                },
+                {
+                    data: null,
+                    width: '10px',
+                    orderable: false,
+                    render: function(data) {
+                        return "<i class='fas fa-trash hapus-dokumen-ded' data-nama='" + data
+                            .nama_kegiatan + "' data-id='" + data.id + "'></i>"
+                    }
+                },
+            ]
         })
     });
 </script>

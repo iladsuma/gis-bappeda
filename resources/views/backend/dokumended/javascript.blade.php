@@ -38,40 +38,41 @@
             method: 'GET'
         },
         columns: [{
-            data: 'DT_RowIndex',
-        },
-        {
-            data: 'nama_kegiatan',
-        },
-        {
-            data: 'opd.nama',
-        },
-        {
-            data: 'lokasi.nama',
-        },
-        {
-            data: 'tahun',
-        },
-        {
-            data: 'dokumen',
-        },
-        {
-            data: 'id',
-            width: '10px',
-            orderable: false,
-            render: function(data) {
-                return "<i class='fas fa-pencil edit-dokumen-ded' data-id='" + data + "'></i>"
-            }
-        },
-        {
-            data: null,
-            width: '10px',
-            orderable: false,
-            render: function(data) {
-                return "<i class='fas fa-trash hapus-dokumen-ded' data-nama='" + data.nama_kegiatan + "' data-id='" + data.id + "'></i>"
-            }
-        },
-    ]
+                data: 'DT_RowIndex',
+            },
+            {
+                data: 'nama_kegiatan',
+            },
+            {
+                data: 'opd.nama',
+            },
+            {
+                data: 'lokasi.nama',
+            },
+            {
+                data: 'tahun',
+            },
+            {
+                data: 'dokumen',
+            },
+            {
+                data: 'id',
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-pencil edit-dokumen-ded' data-id='" + data + "'></i>"
+                }
+            },
+            {
+                data: null,
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-trash hapus-dokumen-ded' data-nama='" + data
+                        .nama_kegiatan + "' data-id='" + data.id + "'></i>"
+                }
+            },
+        ]
     })
 
     $("#dokumen-ded-form").on("submit", function(e) {
@@ -86,7 +87,7 @@
         formData.append('lokasi_id', $("#lokasi_id").val());
         formData.append('dokumen', $('#dokumen:input[type=file]')[0].files[0]);
 
-        if(method == 'PUT') {
+        if (method == 'PUT') {
             formData.append('_method', 'PUT');
         }
 
@@ -183,35 +184,35 @@
 
     $(document).on('click', ".hapus-dokumen-ded", function() {
         swal.fire({
-            title: 'Hapus',
-            text: "Yakin hapus data " + $(this).data('nama') + " ?",
-            icon: 'warning',
-            showCancelButton: true,
-        })
-        .then((result) => {
-            if(result.isConfirmed) {
-            let id = $(this).data('id')
-            let url = "{{ route('data-dokumen-ded.drop', ':id') }}"
+                title: 'Hapus',
+                text: "Yakin hapus data " + $(this).data('nama') + " ?",
+                icon: 'warning',
+                showCancelButton: true,
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let id = $(this).data('id')
+                    let url = "{{ route('data-dokumen-ded.drop', ':id') }}"
 
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    url: url.replace(":id", id),
-                    type: 'delete',
-                    async: false,
-                    success: function(result) {
-                        swal.fire({
-                            title: 'Berhasil',
-                            text: 'Data berhasil dihapus',
-                            icon: 'success',
-                        })
-                        table.ajax.reload()
-                    }
-                })
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        url: url.replace(":id", id),
+                        type: 'delete',
+                        async: false,
+                        success: function(result) {
+                            swal.fire({
+                                title: 'Berhasil',
+                                text: 'Data berhasil dihapus',
+                                icon: 'success',
+                            })
+                            table.ajax.reload()
+                        }
+                    })
 
-            }
+                }
 
-        })
+            })
     });
 </script>
