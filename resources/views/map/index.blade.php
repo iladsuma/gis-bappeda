@@ -86,7 +86,11 @@
                 maxZoom: 18,
             })
 
-
+        let baseLayers = {
+            'satelite' : imagery,
+            'google' : google,
+            'openStreet' : osm,
+        }
 
         let style = {
             color: "yellow",
