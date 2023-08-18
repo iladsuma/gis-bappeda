@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-lokasi', [DataLokasiController::class, 'index'])->name('data-lokasi.index');
     Route::get('/data-lokasi/datatable', [DataLokasiController::class, 'datatable'])->name('data-lokasi.datatable');
     Route::post('/data-lokasi/store', [DataLokasiController::class, 'store'])->name('data-lokasi.store');
+    Route::get('/data-lokasi/{id}/edit', [DataLokasiController::class, 'edit'])->name('data-lokasi.edit');
+    Route::put('/data-lokasi/{id}/update', [DataLokasiController::class, 'update'])->name('data-lokasi.update');
     ## --- end of master data --- ##
 
 

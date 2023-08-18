@@ -17,6 +17,7 @@
                             <th>Alamat</th>
                             {{-- <th>Deskripsi</th> --}}
                             <th>Kordinat</th>
+                            <th>Foto Lokasi</th>
                             <th>Aksi</th>
                             <th></th>
                         </tr>
@@ -80,8 +81,9 @@
                                         style="height: 100px; width: 150px" alt="preview" hidden />
                                 </div>
                                 <div class="form-group">
-                                    <div class="border border-danger bg-warning bg-opacity-50 p-3 mt-5">
-                                        <span>Pastikan Lokasi belum ada di database sebelum anda memasukkan data lokasi
+                                    <div class="border border-danger bg-warning p-3 mt-5">
+                                        <span class="h6">Pastikan Lokasi belum ada di database sebelum anda
+                                            memasukkan data lokasi
                                             baru</span>
                                     </div>
                                 </div>
