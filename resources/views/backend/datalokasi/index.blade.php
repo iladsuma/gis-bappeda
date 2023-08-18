@@ -12,6 +12,6 @@
 @section('extra_javascript')
     <script src="{{ asset('assets/leaflet/js/leaflet.js') }}" crossorigin=""></script>
     <script src="{{ asset('assets/leaflet/js/Control.FullScreen.js') }}"></script>
-    <script src="{{ asset('assets/leaflet/js/leaflet-geoman.min.js') }}"></script>1
+    <script src="{{ asset('assets/leaflet/js/leaflet-geoman.min.js') }}"></script>
     @include('backend.datalokasi.javascript')
 @endsection
