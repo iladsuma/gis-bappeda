@@ -20,14 +20,14 @@ class DokumenDedController extends Controller
         $lokasi = LokasiKegiatan::get();
         $opd = Opd::get();
         return view('backend.dokumended.index', [
-            'lokasi_kegiatan' => $lokasi,
+            'lokasi' => $lokasi,
             'opd' => $opd
         ]);
     }
 
     public function datatable()
     {
-        $datatable = DataTables::of(DokumenDed::with('opd')->orderBy('id', 'asc'))
+        $datatable = DataTables::of(DokumenDed::with(['lokasi', 'opd'])->orderBy('id', 'asc'))
         ->addIndexColumn()
         ->make('true');
 
@@ -47,6 +47,7 @@ class DokumenDedController extends Controller
         $dokumen_ded = DokumenDed::findOrFail($id);
         $dokumen_ded->nama_kegiatan = $request->nama_kegiatan;
         $dokumen_ded->opd_id = $request->opd_id;
+        $dokumen_ded->lokasi_kegiatan_id = $request->lokasi_id;
         $dokumen_ded->tahun = $request->tahun;
         if($request->hasFile('dokumen')) {
             File::delete(public_path('assets/dokumen_ded/' . $dokumen_ded->dokumen));
@@ -67,6 +68,7 @@ class DokumenDedController extends Controller
                 'nama_kegiatan' => $request->nama_kegiatan,
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
+                'lokasi_kegiatan_id' => $request->lokasi_id,
                 'dokumen' => $request->file('dokumen')->getClientOriginalName(),
             ]);
 

@@ -20,14 +20,14 @@ class DokumenLingkunganController extends Controller
         $lokasi = LokasiKegiatan::get();
         $opd = Opd::get();
         return view('backend.dokumenlingkungan.index', [
-            'lokasi_kegiatan' => $lokasi,
+            'lokasi' => $lokasi,
             'opd' => $opd
         ]);
     }
 
     public function datatable()
     {
-        $datatable = DataTables::of(DokumenLingkungan::with('opd')->orderBy('id', 'asc'))
+        $datatable = DataTables::of(DokumenLingkungan::with(['lokasi', 'opd'])->orderBy('id', 'asc'))
         ->addIndexColumn()
         ->make('true');
 
@@ -47,6 +47,7 @@ class DokumenLingkunganController extends Controller
         $dokumen_lingkungan = DokumenLingkungan::findOrFail($id);
         $dokumen_lingkungan->nama_kegiatan = $request->nama_kegiatan;
         $dokumen_lingkungan->opd_id = $request->opd_id;
+        $dokumen_lingkungan->lokasi_kegiatan_id = $request->lokasi_id;
         $dokumen_lingkungan->tahun = $request->tahun;
         if($request->hasFile('dokumen')) {
             File::delete(public_path('assets/dokumen_lingkungan/' . $dokumen_lingkungan->dokumen));
@@ -67,6 +68,7 @@ class DokumenLingkunganController extends Controller
                 'nama_kegiatan' => $request->nama_kegiatan,
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
+                'lokasi_kegiatan_id' => $request->lokasi_id,
                 'dokumen' => $request->file('dokumen')->getClientOriginalName(),
             ]);
 

@@ -62,7 +62,7 @@
                         <label for="opd_id">Lokasi Kegiatan</label>
                         <select class="form-control" id="lokasi_id" required>
                             <option value="">Pilih Lokasi Kegiatan ...</option>
-                            @foreach ($lokasi as $loakasi)
+                            @foreach ($lokasi as $lokasi)
                                 <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>
                             @endforeach
                         </select>

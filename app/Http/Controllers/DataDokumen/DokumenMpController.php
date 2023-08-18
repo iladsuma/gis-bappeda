@@ -20,14 +20,14 @@ class DokumenMpController extends Controller
         $lokasi = LokasiKegiatan::get();
         $opd = Opd::get();
         return view('backend.dokumenmp.index', [
-            'lokasi_kegiatan' => $lokasi,
+            'lokasi' => $lokasi,
             'opd' => $opd
         ]);
     }
 
     public function datatable()
     {
-        $datatable = DataTables::of(DokumenMp::with('opd')->orderBy('id', 'asc'))
+        $datatable = DataTables::of(DokumenMp::with(['lokasi', 'opd'])->orderBy('id', 'asc'))
         ->addIndexColumn()
         ->make('true');
 
@@ -47,6 +47,7 @@ class DokumenMpController extends Controller
         $dokumen_mp = DokumenMp::findOrFail($id);
         $dokumen_mp->nama_kegiatan = $request->nama_kegiatan;
         $dokumen_mp->opd_id = $request->opd_id;
+        $dokumen_mp->lokasi_kegiatan_id = $request->lokasi_id;
         $dokumen_mp->tahun = $request->tahun;
         if($request->hasFile('dokumen')) {
             File::delete(public_path('assets/dokumen_mp/' . $dokumen_mp->dokumen));
@@ -67,6 +68,7 @@ class DokumenMpController extends Controller
                 'nama_kegiatan' => $request->nama_kegiatan,
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
+                'lokasi_kegiatan_id' => $request->lokasi_id,
                 'dokumen' => $request->file('dokumen')->getClientOriginalName(),
             ]);
 
