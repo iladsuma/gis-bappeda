@@ -13,6 +13,7 @@
                             <th>#</th>
                             <th>Judul Kegiatan</th>
                             <th>Pelaksana Kegiatan</th>
+                            <th>Lokasi Kegiatan Ded</th>
                             <th>Tahun</th>
                             <th>Dokumen</th>
                             <th>Aksi</th>
@@ -53,6 +54,15 @@
                             <option value="">Pilih OPD ...</option>
                             @foreach ($opd as $opd)
                                 <option value="{{ $opd->id }}">{{ $opd->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="opd_id">Lokasi Kegiatan</label>
+                        <select class="form-control" id="lokasi_id" required>
+                            <option value="">Pilih Lokasi Kegiatan ...</option>
+                            @foreach ($lokasi as $lokasi)
+                                <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>
                             @endforeach
                         </select>
                     </div>

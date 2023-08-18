@@ -110,9 +110,9 @@
         $("#modalDokumenFSLabel").html("").append("Edit Data Dokumen FS");
         $("#nama_kegiatan").val("");
         $("#tahun").val("");
-        $("#dokumen").val("");
-        $("#lokasi_id").val("");
-        $("#opd_id").val("");
+        $("#dokumen").val();
+        $("#lokasi_id").val();
+        $("#opd_id").val();
         $('#modalDokumenFS').modal('show');
         let id = $(this).data('id')
         let url = "{{ route('data-dokumen-fs.edit', ':id') }}"
