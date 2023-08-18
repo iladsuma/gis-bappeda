@@ -15,8 +15,12 @@ class LokasiKegiatan extends Model
         'nama',
         'alamat',
         'deskripsi',
-        'longitude',
-        'latitude',
+        'coordinate',
         'foto',
     ];
+
+    public function kelurahan()
+    {
+        return $this->belongsTo(MasterKelurahan::class, 'kelurahan_id', 'id');
+    }
 }

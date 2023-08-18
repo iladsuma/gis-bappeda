@@ -86,11 +86,7 @@
                 maxZoom: 18,
             })
 
-        let baseLayers = {
-            "Citra Satelit": imagery,
-            "Google": google,
-            "Open Street Map": osm,
-        }
+
 
         let style = {
             color: "yellow",

@@ -15,172 +15,192 @@
         }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
     })
 </script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
-{{-- select2 --}}
 <script>
     $(document).ready(function() {
-        $('.js-example-basic-single').select2({
-            placeholder: 'Select an option',
-            width: '30%',
-            theme: 'classic'
-        });
-    });
-</script>
+
+        function callLeaflet() {
+            let map = new L.map('modal-map', {
+                fullscreenControl: true,
+            })
+            map.setView([-8.098244, 112.165077], 15);
+            // map.addControl(new L.Control.Fullscreen());
+
+            let google = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+            }).addTo(map)
 
 
+            let imagery = L.tileLayer(
+                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 18,
+                })
 
-{{-- chart js --}}
-<script>
-    var url = '/chart/ruas/dashboard'
-    const canvas = document.getElementById('jalan-chart');
-    var myChart = myChart = new Chart(canvas, {});
-    var nama_kec = $('#list-kecamatan').find("option:selected").text();
-    var nama_kel = $('#list-kelurahan').find("option:selected").text();
-    $('#title-dashboard').html("");
-    $('#title-dashboard').append("DATA " + nama_kec + "/" + nama_kel);
+            let osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            });
 
-    function getDataChart(url) {
-        $.getJSON(url, (data) => {
-            $('#baik').html("");
-            $('#baik').append(data.baik);
-            $('#sedang').html("");
-            $('#sedang').append(data.sedang);
-            $('#rusak_r').html("");
-            $('#rusak_r').append(data.rusak_r);
-            $('#rusak_b').html("");
-            $('#rusak_b').append(data.rusak_b);
-            myChart.destroy()
-            myChart = new Chart(canvas, {
-                type: 'pie',
-                data: {
-                    labels: data.kondisi,
-                    datasets: [{
-                        label: 'My First Dataset',
-                        data: [data.baik, data.sedang, data.rusak_r, data.rusak_b, ],
-                        backgroundColor: [
-                            '#198754',
-                            '#ffc107',
-                            '#fd7e14',
-                            '#dc3545',
-                        ],
-                        hoverOffset: 4
-                    }]
+            let marker = L.marker([-8.098090703999619, 112.16517341741141]).addTo(map)
+            let controlLayer = L.control.layers({
+                "Google": google,
+                "OpenStreet": osm,
+                "Satelit": imagery,
+            }, null, {
+                "collapsed": true
+            }).addTo(map)
+            // geoman tool
+            map.pm.enableGlobalDragMode()
+
+            marker.on("pm:dragend", (e) => {
+                console.log(e.layer);
+                console.log(e.layer._latlng.lat);
+                $("#koordinat").val(e.layer._latlng.lat + "," + e.layer._latlng.lng)
+
+            })
+
+            $('#modal-lokasi-kegiatan').on('shown.bs.modal', function() {
+                setTimeout(function() {
+                    map.invalidateSize();
+                }, 500);
+            });
+        }
+
+        // show preview foto before upload
+        $("#foto-lokasi").change(function() {
+            const file = this.files[0]
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    $("#foto-preview").attr("src", event.target.result)
+                }
+                reader.readAsDataURL(file)
+                $("#foto-preview").attr("hidden", false)
+            }
+        })
+
+        // call modal create / update data lokasi
+        $(document).on('click', "#tambah-data", function() {
+            $("#lokasi-kegiatan-form").attr("action", "{{ route('data-lokasi.store') }}")
+            $("#lokasi-kegiatan-form").attr("method", "POST")
+            $("#modal-lokasi-kegiatan").modal("show")
+            $("#foto-preview").attr("hidden", true)
+            $("#foto-lokasi").val("")
+            callLeaflet()
+        })
+
+        // submit modal form lokasi-kegiatan
+        $("#lokasi-kegiatan-form").on("submit", function(e) {
+            e.preventDefault()
+            let urlSave = $("#lokasi-kegiatan-form").attr("action")
+            let method = $("#lokasi-kegiatan-form").attr("method")
+            let dataLokasi = new FormData()
+            dataLokasi.append("nama_lokasi", $("#nama-lokasi").val())
+            dataLokasi.append("kelurahan_id", $("#kelurahan").val())
+            dataLokasi.append("alamat", $("#alamat").val())
+            dataLokasi.append("coordinate", $("#koordinat").val())
+            dataLokasi.append("coordinate", $("#koordinat").val())
+            dataLokasi.append("foto", $("#foto-lokasi")[0].files[0])
+
+            if (method == "PUT") {
+                dataLokasi.append("method", "_PUT")
+            }
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        labels: {
-                            // render: 'value',
-                            fontSize: 14
-                        },
-                        legend: {
-                            position: 'bottom',
-                            // align: 'start',
-                            labels: {
-                                font: {
-                                    size: 14,
-                                },
-                                padding: 30,
+                type: 'POST',
+                url: urlSave,
+                data: dataLokasi,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: (data) => {
+                    swal.fire({
+                        title: 'Berhasil',
+                        text: data,
+                        icon: 'success',
+                    }).then(function() {
+                        table.ajax.reload();
+                    });
+                    $('#modal-lokasi-kegiatan').modal('hide');
+                },
+                error: (xhr, ajaxOptions, thrownError) => {
+                    console.log(xhr.responseJSON.errors)
+                    if (xhr.responseJSON.hasOwnProperty('errors')) {
+                        var html =
+                            "<ul style=justify-content: space-between;'>";
+                        for (item in xhr.responseJSON.errors) {
+                            if (xhr.responseJSON.errors[item].length) {
+                                for (var i = 0; i < xhr.responseJSON.errors[item]
+                                    .length; i++) {
+                                    html += "<li class='dropdown-item'>" +
+                                        "<i class='fas fa-times' style='color: red;'></i> &nbsp&nbsp&nbsp&nbsp" +
+                                        xhr
+                                        .responseJSON
+                                        .errors[item][i] +
+                                        "</li>"
+                                }
+
                             }
-                        },
+                        }
+                        html += "</ul>";
+                        $("#lokasi-validation").html(html)
+                        $("#lokasi-validation").removeClass("d-none")
                     }
-                    // option of cart
                 }
             });
         })
-    }
-    getDataChart(url)
-</script>
 
-{{-- get data for kecamatan and kelurahan select2  --}}
-<script>
-    function kecamatan() {
-        $.ajax({
-            type: "GET",
-            url: '/get/kecamatan',
-            dataType: "json",
-            success: function(kec) {
-                var kecamatan = kec.data,
-                    listItems = ""
-                $.each(kecamatan, (i, property) => {
-                    listItems += "<option value='" + property.id + "'>" + property
-                        .nama +
-                        "</option>"
-                })
-                $("#list-kecamatan").append(listItems);
-            }
-        });
-    }
-    kecamatan();
-
-    function kelurahan(id) {
-        url = '/get/kelurahan/' + id;
-        $.ajax({
-            type: "GET",
-            url: url,
-            dataType: "json",
-            success: function(kel) {
-                var kelurahan = kel.data,
-                    listItems = ""
-                $.each(kelurahan, (i, property) => {
-                    listItems += "<option value='" + property.id + "'>" + property
-                        .nama +
-                        "</option>"
-                })
-                $("#list-kelurahan").append(listItems);
-            }
-        });
-    }
-
-    $('#list-kecamatan').on('change', function() {
-        $("#list-kelurahan").html("<option value=0>SEMUA KELURAHAN</option>")
-        var id = this.value;
-        (id == 0) ? $("#list-kelurahan").prop({
-            "disabled": true
-        }): $("#list-kelurahan").prop({
-            "disabled": false
+        // datatable lokasi kegiatan
+        var table = $('#table-data-lokasi').DataTable({
+            processing: true,
+            ajax: {
+                url: "{{ route('data-lokasi.datatable') }}",
+                method: 'GET'
+            },
+            columns: [{
+                    data: 'DT_RowIndex',
+                },
+                {
+                    data: 'nama',
+                },
+                {
+                    data: 'kelurahan.nama',
+                },
+                {
+                    data: 'kelurahan.kecamatan.nama',
+                },
+                {
+                    data: 'alamat',
+                },
+                // {
+                //     data: 'deskripsi',
+                // },
+                {
+                    data: 'coordinate',
+                },
+                {
+                    data: 'id',
+                    width: '10px',
+                    orderable: false,
+                    render: function(data) {
+                        return "<i class='fas fa-pencil edit-dokumen-ded' data-id='" + data +
+                            "'></i>"
+                    }
+                },
+                {
+                    data: null,
+                    width: '10px',
+                    orderable: false,
+                    render: function(data) {
+                        return "<i class='fas fa-trash hapus-dokumen-ded' data-nama='" + data
+                            .nama_kegiatan + "' data-id='" + data.id + "'></i>"
+                    }
+                },
+            ]
         })
-        kelurahan(id);
     });
-
-    //  filter-chart
-    $("#filter-chart").on('submit', function(e) {
-        e.preventDefault();
-        var kecamatan = $('#list-kecamatan').val();
-        var kelurahan = $('#list-kelurahan').val();
-        (kecamatan == 0) ? url = '/chart/ruas/dashboard': url = '/chart/ruas/' + kecamatan + '/' + kelurahan +
-            '/dashboard';
-
-        getDataChart(url)
-        const nama_kec = $('#list-kecamatan').find("option:selected").text();
-        const nama_kel = $('#list-kelurahan').find("option:selected").text();
-        $('#title-dashboard').html("");
-        if (kecamatan == 0) {
-            $('#title-dashboard').append("DATA " + nama_kec + " / " + nama_kel)
-        } else if (kelurahan == 0) {
-            $('#title-dashboard').append("DATA KECAMATAN " + nama_kec + " / " + nama_kel);
-        } else {
-            $('#title-dashboard').append("DATA KECAMATAN " + nama_kec + " / KELURAHAN " + nama_kel);
-        }
-
-    })
-</script>
-
-<script>
-    // $(document).ready(function() {
-    //     $('#dashboard').addClass('active');
-    // });
-    var urlw = window.location;
-    $(document).ready(function() {
-        // for sidebar menu entirely but not cover treeview
-        $('ul.nav-sidebar a').filter(function() {
-            return this.href == urlw;
-        }).addClass('active');
-
-        // for treeview
-        $('ul.nav-treeview a').filter(function() {
-            return this.href == urlw;
-        }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
-    })
 </script>

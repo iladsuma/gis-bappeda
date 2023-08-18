@@ -95,7 +95,7 @@
         formData.append('lokasi_id', $("#lokasi_id").val());
         formData.append('dokumen', $('#dokumen:input[type=file]')[0].files[0]);
 
-        if(method == 'PUT') {
+        if (method == 'PUT') {
             formData.append('_method', 'PUT');
         }
 
@@ -192,35 +192,35 @@
 
     $(document).on('click', ".hapus-dokumen-ded", function() {
         swal.fire({
-            title: 'Hapus',
-            text: "Yakin hapus data " + $(this).data('nama') + " ?",
-            icon: 'warning',
-            showCancelButton: true,
-        })
-        .then((result) => {
-            if(result.isConfirmed) {
-            let id = $(this).data('id')
-            let url = "{{ route('data-dokumen-ded.drop', ':id') }}"
+                title: 'Hapus',
+                text: "Yakin hapus data " + $(this).data('nama') + " ?",
+                icon: 'warning',
+                showCancelButton: true,
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let id = $(this).data('id')
+                    let url = "{{ route('data-dokumen-ded.drop', ':id') }}"
 
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    url: url.replace(":id", id),
-                    type: 'delete',
-                    async: false,
-                    success: function(result) {
-                        swal.fire({
-                            title: 'Berhasil',
-                            text: 'Data berhasil dihapus',
-                            icon: 'success',
-                        })
-                        table.ajax.reload()
-                    }
-                })
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        url: url.replace(":id", id),
+                        type: 'delete',
+                        async: false,
+                        success: function(result) {
+                            swal.fire({
+                                title: 'Berhasil',
+                                text: 'Data berhasil dihapus',
+                                icon: 'success',
+                            })
+                            table.ajax.reload()
+                        }
+                    })
 
-            }
+                }
 
-        })
+            })
     });
 </script>

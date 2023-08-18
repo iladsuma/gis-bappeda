@@ -18,10 +18,9 @@ class CreateLokasiKegiatanTable extends Migration
             $table->foreignId('kelurahan_id');
             $table->string('nama');
             $table->string('alamat');
-            $table->string('deskripsi');
-            $table->string('longitude');
-            $table->string('latitude');
-            $table->string('foto');
+            $table->string('deskripsi')->nullable();
+            $table->string('coordinate');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
