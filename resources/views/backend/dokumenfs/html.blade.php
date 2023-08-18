@@ -13,6 +13,7 @@
                             <th>#</th>
                             <th>Judul Kegiatan</th>
                             <th>Pelaksana Kegiatan</th>
+                            <th>Lokasi Kegiatan Fs</th>
                             <th>Tahun</th>
                             <th>Dokumen</th>
                             <th>Aksi</th>
@@ -31,12 +32,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="modalDokumenFSLabel">
+                <h5 class="modal-title" id="modalDokumenFSLabel">
 
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="dokumen-fs-form">
@@ -49,7 +50,7 @@
                         <input type="text" class="form-control" id="nama_kegiatan" required>
                     </div>
                     <div class="form-group">
-                        <label for="opd_id">OPD</label>
+                        <label for="opd_id">OPD Pelaksana FS</label>
                         <select class="form-control" id="opd_id" required>
                             <option value="">Pilih OPD ...</option>
                             @foreach ($opd as $opd)
@@ -58,11 +59,20 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="opd_id">Lokasi Kegiatan</label>
+                        <select class="form-control" id="lokasi_id" required>
+                            <option value="">Pilih Lokasi Kegiatan ...</option>
+                            @foreach ($lokasi as $loakasi)
+                                <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="tahun">Tahun</label>
                         <select class="form-control" id="tahun" required>
                             <option value="">Pilih tahun ...</option>
-                            <?php $tahun = date('Y') ?>
-                            @for ($i = $tahun; $i > $tahun-10; $i--)
+                            <?php $tahun = date('Y'); ?>
+                            @for ($i = $tahun; $i > $tahun - 10; $i--)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
@@ -73,10 +83,10 @@
                             <input type="file" id="dokumen" accept="application/pdf" required>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
                 </form>
             </div>
         </div>

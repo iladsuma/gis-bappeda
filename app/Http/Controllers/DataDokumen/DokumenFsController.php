@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DataDokumen;
 use App\Http\Controllers\Controller;
 use App\Models\Administrator\Opd;
 use App\Models\Dokumen\DokumenFs;
+use App\Models\Master\LokasiKegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -17,16 +18,18 @@ class DokumenFsController extends Controller
     public function index()
     {
         $opd = Opd::get();
+        $lokasi = LokasiKegiatan::get();
         return view('backend.dokumenfs.index', [
+            'lokasi' => $lokasi,
             'opd' => $opd
         ]);
     }
 
     public function datatable()
     {
-        $datatable = DataTables::of(DokumenFs::with('opd')->orderBy('id', 'asc'))
-        ->addIndexColumn()
-        ->make('true');
+        $datatable = DataTables::of(DokumenFs::with(['lokasi', 'opd'])->orderBy('id', 'asc'))
+            ->addIndexColumn()
+            ->make('true');
 
         return $datatable;
     }
@@ -44,8 +47,9 @@ class DokumenFsController extends Controller
         $dokumen_fs = DokumenFs::findOrFail($id);
         $dokumen_fs->nama_kegiatan = $request->nama_kegiatan;
         $dokumen_fs->opd_id = $request->opd_id;
+        $dokumen_fs->lokasi_kegiatan_id = $request->lokasi_id;
         $dokumen_fs->tahun = $request->tahun;
-        if($request->hasFile('dokumen')) {
+        if ($request->hasFile('dokumen')) {
             File::delete(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen_fs));
             $nama_dokumen = $request->file('dokumen')->getClientOriginalName();
             $request->file('dokumen')->move(public_path('assets/dokumen_fs'), $nama_dokumen);
@@ -64,10 +68,11 @@ class DokumenFsController extends Controller
                 'nama_kegiatan' => $request->nama_kegiatan,
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
+                'lokasi_kegiatan_id' => $request->lokasi_id,
                 'dokumen_fs' => $request->file('dokumen')->getClientOriginalName(),
             ]);
 
-            if($request->hasFile('dokumen')) {
+            if ($request->hasFile('dokumen')) {
                 $nama_dokumen = $request->file('dokumen')->getClientOriginalName();
                 $request->file('dokumen')->move(public_path('assets/dokumen_fs'), $nama_dokumen);
             }
@@ -75,7 +80,7 @@ class DokumenFsController extends Controller
         } catch (\Throwable $error) {
             DB::rollBack();
             throw $error;
-            return response($error->getMessage(),500) ;
+            return response($error->getMessage(), 500);
         }
         return response("Data berhasil ditambahkan");
     }
@@ -83,7 +88,7 @@ class DokumenFsController extends Controller
     public function drop($id)
     {
         $dokumen_fs = DokumenFs::find($id);
-        if(file_exists(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen_fs))) {
+        if (file_exists(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen_fs))) {
             File::delete(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen_fs));
         }
         $dokumen_fs->delete();
