@@ -1,7 +1,4 @@
 <script>
-    // $(document).ready(function() {
-    //     $('#dashboard').addClass('active');
-    // });
     var urlw = window.location;
     $(document).ready(function() {
         // for sidebar menu entirely but not cover treeview
