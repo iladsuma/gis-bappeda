@@ -6,7 +6,7 @@
             <div class="card-header bold font-weight-bold h4" id="title-dashboard">
                 Dashboard
             </div>
-            <div class="card-body ">
+            {{-- <div class="card-body ">
                 <form method="" action="" id="filter-chart">
                     {{ csrf_field() }}
                     <div class="mb-3 mt-0">
@@ -21,7 +21,7 @@
 
                         <button class="btn btn-primary btn-sm ml-3">Cari</button>
                 </form>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-4">
                     {{-- <div class="col-lg-3 col-6"> --}}
@@ -33,7 +33,7 @@
                             <div class="small-box bg-success">
                                 <div class="inner">
                                     <h3 id="baik"></h3>
-                                    <p>Baik</p>
+                                    <p></p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-road"></i>
@@ -46,7 +46,7 @@
                             <div class="small-box" style="background: #ffc107">
                                 <div class="inner">
                                     <h3 id="sedang"></h3>
-                                    <p>Sedang</p>
+                                    <p></p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-road"></i>
@@ -61,7 +61,7 @@
                                 <div class="inner">
                                     <h3 id="rusak_r"></h3>
 
-                                    <p>Rusak Ringan</p>
+                                    <p></p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-road"></i>
@@ -75,7 +75,7 @@
                                 <div class="inner">
                                     <h3 id="rusak_b"></h3>
 
-                                    <p>Rusak Berat</p>
+                                    <p></p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-road"></i>

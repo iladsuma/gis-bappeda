@@ -1,6 +1,13 @@
 /node_modules
 /public/hot
 /public/storage
+/public/assets/dokumen_fs
+/public/assets/dokumen_mp
+/public/assets/dokumen_ded
+/public/assets/dokumen_lingkungan
+/public/assets/dokumen_fisik
+/public/assets/geometry_kelurahan
+/public/assets/foto_lokasi
 /storage/*.key
 /vendor
 .env

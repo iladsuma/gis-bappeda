@@ -33,6 +33,9 @@ Route::middleware(['auth'])->group(function () {
 
     ## --- Start of Map Route --- ##
     Route::get('/', [MapController::class, 'index'])->name('map.index');
+    Route::get('/lokasi/all', [MapController::class, 'lokasi'])->name('map.lokasi-all');
+    Route::get('/lokasi/{id}/datatable-fs', [MapController::class, 'datatable_fs'])->name('map.datatable-fs');
+    Route::get('/lokasi/{ids}/filter', [MapController::class, 'filter_select'])->name('map.filter-select');
     ## --- End of Map Route --- ##
 
 

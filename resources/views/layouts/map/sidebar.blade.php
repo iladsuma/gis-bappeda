@@ -18,7 +18,7 @@
     <div class="sidebar-content">
         <div class="sidebar-pane" id="layer-data">
             <h1 class="sidebar-header">
-                Layer Data new feature
+                Layer Data
                 <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
             </h1>
             <div class="leaflet-control-layers">

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet.css') }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet-sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet.groupedlayercontrol.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet-geoman.css') }}">
@@ -45,20 +46,20 @@
     </div>
 
     @include('layouts.map.sidebar')
+    @include('layouts.map.modal')
 
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/e4d20a5f83.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet.js') }}" crossorigin=""></script>
     <script src="{{ asset('assets/leaflet/js/leaflet-sidebar.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet.groupedlayercontrol.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet.ajax.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet-geoman.min.js') }}"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     {{-- leaflet script --}}
@@ -81,12 +82,20 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         });
 
-        let sampleLayer = L.tileLayer(
-            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                maxZoom: 18,
-            })
+        let tesMarker = L.marker([-8.098244, 112.165077]).addTo(map)
+        tesMarker.on("click", function() {
+            // var popup = L
+            //     .popup()
+            //     .setContent("sasa")
 
+            tesMarker.bindPopup("sasa")
+        })
 
+        let baseLayers = {
+            "Satelite": imagery,
+            "Google": google,
+            "OpenStreet": osm,
+        }
 
         let style = {
             color: "yellow",
@@ -109,6 +118,17 @@
             alt: altText,
             interactive: true
         });
+
+        let voidPerencanaan = L.layerGroup();
+        let perencanaan = L.layerGroup();
+        let voidKumuh = L.layerGroup();
+        let voidRtlh = L.layerGroup();
+        let voidKemiskinan = L.layerGroup();
+        let voidStunting = L.layerGroup();
+        let voidSpam = L.layerGroup();
+        let voidPdam = L.layerGroup();
+        // let sampleLayer = L.layerGroup();
+
         let groupedOverlays = {
             "Peta Tematik ": {
                 "Kecamatan Sananwetan": sananwetan,
@@ -117,15 +137,15 @@
                 "Tata Ruang (RDTR)": rdtr,
             },
             "Peta Perencanaan": {
-                "Dokumen Perencanaan": sampleLayer
+                "Dokumen Perencanaan": voidPerencanaan
             },
             "Data Pendukung": {
-                "Kawasan Kumuh": sampleLayer,
-                "Kawasan RTLH": sampleLayer,
-                "Lokus Kemiskinan": sampleLayer,
-                "Lokus Stunting": sampleLayer,
-                "Jaringan Spam": sampleLayer,
-                "Jaringan Pipa PDAM": sampleLayer,
+                "Kawasan Kumuh": voidKumuh,
+                "Kawasan RTLH": voidRtlh,
+                "Lokus Kemiskinan": voidKemiskinan,
+                "Lokus Stunting": voidStunting,
+                "Jaringan Spam": voidSpam,
+                "Jaringan Pipa PDAM": voidPdam,
             }
         };
 
@@ -148,6 +168,112 @@
         // leaflet geoman
         map.pm.addControls({
             position: 'topleft',
+
+        })
+
+
+
+        map.on('overlayadd', function(event) {
+            if (event.name == "Dokumen Perencanaan") {
+                voidPerencanaan.clearLayers()
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                    },
+                    type: "GET",
+                    url: "{{ route('map.lokasi-all') }}",
+                    dataType: "json",
+                    success: function(result) {
+                        $.each(result.data, function(index, data) {
+                            let coordinate = data.coordinate.split(",")
+                            let marker = L.marker(coordinate)
+                            marker.addTo(voidPerencanaan);
+                            voidPerencanaan.addTo(map)
+                            markerOnclik(marker, data)
+                        })
+                    }
+                });
+            }
+        })
+
+
+        // function marker form ajax add the content and bind the pop up
+        function markerOnclik(marker, data) {
+            console.log(data)
+            let content = `<img class="img-fluid" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
+                                            <table class="table table-sm table-bordered">
+                                                <tr>
+                                                    <th>Nama</th>
+                                                    <td>` + data.nama + `</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Kecamatan</th>
+                                                    <td>` + data.kelurahan.nama + `</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Kelurahan</th>
+                                                    <td>` + data.kelurahan.kecamatan.nama + `</th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center" colspan="2">
+                                                        <a href="#" class="open-modal" data-id="` + data.id + `">
+                                                            <i class="fa fa-info-circle"></i>Detail
+                                                        </a>
+                                                    </td>      
+                                                </tr>
+                                            </table>`
+
+            marker.on("click", function(e) {
+                $(".detail-tab").attr("data-id", data.id)
+                if (e.target._popup == undefined) {
+                    marker.bindPopup(content).openPopup()
+                } else {
+                    marker.bindPopup()
+                }
+            })
+        }
+
+        // open the modal of detail marker
+        $(document).on("click", ".open-modal", function() {
+
+            if ($.fn.DataTable.isDataTable('#table-fs')) {
+                // tableFs.clear()
+                $('#table-fs').DataTable().destroy()
+            }
+
+            let id = $(this).data("id")
+            alert(id)
+            var urlFs = "{{ route('map.datatable-fs', ':id') }}"
+            urlFs = urlFs.replace(":id", id)
+            var tableFs = $('#table-fs').DataTable({
+                processing: true,
+                ajax: {
+                    url: urlFs,
+                    method: 'GET'
+                },
+                lengthChange: false,
+                searching: false,
+                retrieve: true,
+                columns: [{
+                        data: 'DT_RowIndex',
+                    },
+                    {
+                        data: 'nama_kegiatan',
+                    },
+                    {
+                        data: 'opd.nama',
+                    },
+                    {
+                        data: 'tahun',
+                    },
+                    {
+                        data: 'dokumen_fs',
+                    },
+                ]
+            })
+
+            $("#modal-detail").modal("show")
 
         })
     </script>

@@ -37,8 +37,8 @@
     var myChart = myChart = new Chart(canvas, {});
     var nama_kec = $('#list-kecamatan').find("option:selected").text();
     var nama_kel = $('#list-kelurahan').find("option:selected").text();
-    $('#title-dashboard').html("");
-    $('#title-dashboard').append("DATA " + nama_kec + "/" + nama_kel);
+    // $('#title-dashboard').html("");
+    // $('#title-dashboard').append("DATA " + nama_kec + "/" + nama_kel);
 
     function getDataChart(url) {
         $.getJSON(url, (data) => {
