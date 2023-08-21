@@ -254,6 +254,7 @@
                 dataType: "json",
                 success: function(result) {
                     $.each(result.data, function(index, data) {
+                        console.log(data)
                         let coordinate = data.coordinate.split(",")
                         let marker = L.marker(coordinate)
                         marker.addTo(layerPerencanaan);
@@ -300,29 +301,29 @@
 
         // function get data for marker and set the content and bind the pop up marker on click
         function markerOnClick(marker, data) {
-            console.log(data)
-            let content = `<img class="img-fluid" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
-                                            <table class="table table-sm table-striped">
-                                                <tr>
-                                                    <th>Nama</th>
-                                                    <td>` + data.nama + `</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Kecamatan</th>
-                                                    <td>` + data.kelurahan.nama + `</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Kelurahan</th>
-                                                    <td>` + data.kelurahan.kecamatan.nama + `</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center" colspan="2">
-                                                        <a href="#" class="open-modal" data-id="` + data.id + `">
-                                                            <i class="fa fa-info-circle"></i>Detail
-                                                        </a>
-                                                    </td>      
-                                                </tr>
-                                            </table>`
+            let content = ` <img class="img-fluid" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
+                            <table class="table table-sm table-striped">
+                                <tr>
+                                    <th>Nama</th>
+                                    <td>` + data.nama + `</td>
+                                </tr>
+                                <tr>
+                                    <th>Kecamatan</th>
+                                    <td>` + data.kelurahan.nama + `</td>
+                                </tr>
+                                <tr>
+                                    <th>Kelurahan</th>
+                                    <td>` + data.kelurahan.kecamatan.nama + `</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="2">
+                                        <a href="#" class="open-modal" data-id="` + data.id + `" 
+                                        data-nama="` + data.nama + `"> 
+                                            <i class="fa fa-info-circle"></i>Detail
+                                        </a>
+                                    </td>      
+                                </tr>
+                            </table>`
 
             marker.on("click", function(e) {
                 $(".detail-tab").attr("data-id", data.id)
@@ -361,6 +362,8 @@
         // open the modal of detail marker
         $(document).on("click", ".open-modal", function() {
             let id = $(this).data("id")
+            let nama = $(this).data("nama")
+            $("#detail-title").html("").html("Detail " + nama)
 
             //datatable fs in modal detail
             if ($.fn.DataTable.isDataTable('#table-fs')) {
