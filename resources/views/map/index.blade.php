@@ -135,7 +135,7 @@
         }
 
         let styleStunting = {
-            color: "blue",
+            color: "orange",
             opacity: .50
         }
 
@@ -236,7 +236,7 @@
             }
 
             if (event.name == "Lokus Stunting") {
-                layerKemiskinan.clearLayers()
+                layerStunting.clearLayers()
                 let url = "{{ route('map.lokus-stunting') }}"
                 getDataPendukung(url, styleStunting);
             }
@@ -392,6 +392,10 @@
                     },
                     {
                         data: 'dokumen_fs',
+                        render: function(data) {
+                            return `<a href="assets/dokumen_fs/` + data + `" target="_blank" >` +
+                                data + `</a>`
+                        },
                     },
                 ],
             })
@@ -425,6 +429,10 @@
                     },
                     {
                         data: 'dokumen',
+                        render: function(data) {
+                            return `<a href="assets/dokumen_mp/` + data + `" target="_blank" >` +
+                                data + `</a>`
+                        },
                     },
                 ]
             })
@@ -458,6 +466,11 @@
                     },
                     {
                         data: 'dokumen',
+                        render: function(data) {
+                            return `<a href="assets/dokumen_lingkungan/` + data +
+                                `" target="_blank" >` +
+                                data + `</a>`
+                        },
                     },
                 ]
             })
@@ -491,6 +504,10 @@
                     },
                     {
                         data: 'dokumen',
+                        render: function(data) {
+                            return `<a href="assets/dokumen_ded/` + data + `" target="_blank" >` +
+                                data + `</a>`
+                        },
                     },
                 ]
             })
