@@ -51,9 +51,9 @@ class DokumenMpController extends Controller
         $dokumen_mp->tahun = $request->tahun;
         if($request->hasFile('dokumen')) {
             File::delete(public_path('assets/dokumen_mp/' . $dokumen_mp->dokumen));
-            $nama_dokumen = $request->file('dokumen')->getClientOriginalName();
+            $nama_dokumen = $request->nama_kegiatan . ".pdf";
             $request->file('dokumen')->move(public_path('assets/dokumen_mp'), $nama_dokumen);
-            $dokumen_mp->dokumen = $request->file('dokumen')->getClientOriginalName();
+            $dokumen_mp->dokumen = $request->nama_kegiatan . ".pdf";
         }
         $dokumen_mp->save();
 
@@ -69,11 +69,11 @@ class DokumenMpController extends Controller
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
                 'lokasi_kegiatan_id' => $request->lokasi_id,
-                'dokumen' => $request->nama_kegiatan,
+                'dokumen' => $request->nama_kegiatan . ".pdf",
             ]);
 
             if($request->hasFile('dokumen')) {
-                $nama_dokumen = $request->nama_kegiatan;
+                $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_mp'), $nama_dokumen);
             }
             DB::commit();
