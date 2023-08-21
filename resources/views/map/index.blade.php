@@ -37,6 +37,32 @@
             right: 0;
             margin-bottom: 0;
         }
+
+        table.dataTable th,
+        table.dataTable td {
+            /* font-size: .7em; */
+            font-size: 12px;
+        }
+
+        .nav-tabs .nav-item .nav-link {
+            color: #000000;
+        }
+
+        .nav-tabs .nav-item .nav-link.active {
+            color: #0080FF;
+        }
+
+        .tab-pane {
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            border-radius: 0px 0px 10px 10px;
+            padding: 10px;
+        }
+
+        .nav-tabs {
+            margin-bottom: -10px;
+        }
     </style>
 </head>
 
@@ -82,15 +108,6 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         });
 
-        let tesMarker = L.marker([-8.098244, 112.165077]).addTo(map)
-        tesMarker.on("click", function() {
-            // var popup = L
-            //     .popup()
-            //     .setContent("sasa")
-
-            tesMarker.bindPopup("sasa")
-        })
-
         let baseLayers = {
             "Satelite": imagery,
             "Google": google,
@@ -101,6 +118,27 @@
             color: "yellow",
             opacity: .75
         }
+
+        let styleKawasanKumuh = {
+            color: "white",
+            opacity: .50
+        }
+
+        let styleKawasanRTLH = {
+            color: "cyan",
+            opacity: .50
+        }
+
+        let styleKemiskinan = {
+            color: "red",
+            opacity: .50
+        }
+
+        let styleStunting = {
+            color: "blue",
+            opacity: .50
+        }
+
 
         let sananwetan = new L.GeoJSON.AJAX("assets/leaflet/geojson/sananwetan.geojson", style).addTo(map),
             kepanjenkidul = new L.GeoJSON.AJAX("assets/leaflet/geojson/kepanjenkidul.geojson", style).addTo(map),
@@ -119,14 +157,13 @@
             interactive: true
         });
 
-        let voidPerencanaan = L.layerGroup();
-        let perencanaan = L.layerGroup();
-        let voidKumuh = L.layerGroup();
-        let voidRtlh = L.layerGroup();
-        let voidKemiskinan = L.layerGroup();
-        let voidStunting = L.layerGroup();
-        let voidSpam = L.layerGroup();
-        let voidPdam = L.layerGroup();
+        let layerPerencanaan = L.layerGroup();
+        let layerKawasanKumuh = L.layerGroup();
+        let layerRtlh = L.layerGroup();
+        let layerKemiskinan = L.layerGroup();
+        let layerStunting = L.layerGroup();
+        let layerSpam = L.layerGroup();
+        let layerPdam = L.layerGroup();
         // let sampleLayer = L.layerGroup();
 
         let groupedOverlays = {
@@ -137,15 +174,15 @@
                 "Tata Ruang (RDTR)": rdtr,
             },
             "Peta Perencanaan": {
-                "Dokumen Perencanaan": voidPerencanaan
+                "Dokumen Perencanaan": layerPerencanaan
             },
             "Data Pendukung": {
-                "Kawasan Kumuh": voidKumuh,
-                "Kawasan RTLH": voidRtlh,
-                "Lokus Kemiskinan": voidKemiskinan,
-                "Lokus Stunting": voidStunting,
-                "Jaringan Spam": voidSpam,
-                "Jaringan Pipa PDAM": voidPdam,
+                "Kawasan Kumuh": layerKawasanKumuh,
+                "Kawasan RTLH": layerRtlh,
+                "Lokus Kemiskinan": layerKemiskinan,
+                "Lokus Stunting": layerStunting,
+                "Jaringan Spam": layerSpam,
+                "Jaringan Pipa PDAM": layerPdam,
             }
         };
 
@@ -175,45 +212,108 @@
 
         map.on('overlayadd', function(event) {
             if (event.name == "Dokumen Perencanaan") {
-                voidPerencanaan.clearLayers()
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json',
-                    },
-                    type: "GET",
-                    url: "{{ route('map.lokasi-all') }}",
-                    dataType: "json",
-                    success: function(result) {
-                        $.each(result.data, function(index, data) {
-                            let coordinate = data.coordinate.split(",")
-                            let marker = L.marker(coordinate)
-                            marker.addTo(voidPerencanaan);
-                            voidPerencanaan.addTo(map)
-                            markerOnclik(marker, data)
-                        })
-                    }
-                });
+                layerPerencanaan.clearLayers()
+                let url = "{{ route('map.lokasi-all') }}"
+                getDataPerencanaan(url)
+            }
+
+            if (event.name == "Kawasan Kumuh") {
+                layerKawasanKumuh.clearLayers()
+                let url = "{{ route('map.kawasan-kumuh') }}"
+                getDataPendukung(url, styleKawasanKumuh)
+            }
+
+            if (event.name == "Kawasan RTLH") {
+                layerRtlh.clearLayers()
+                let url = "{{ route('map.kawasan-rtlh') }}"
+                getDataPendukung(url, styleKawasanRTLH);
+            }
+
+            if (event.name == "Lokus Kemiskinan") {
+                layerKemiskinan.clearLayers()
+                let url = "{{ route('map.lokus-kemiskinan') }}"
+                getDataPendukung(url, styleKemiskinan);
+            }
+
+            if (event.name == "Lokus Stunting") {
+                layerKemiskinan.clearLayers()
+                let url = "{{ route('map.lokus-stunting') }}"
+                getDataPendukung(url, styleStunting);
             }
         })
 
+        // function ajax call data for any pendukung
+        function getDataPerencanaan(url) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+                type: "GET",
+                url: url,
+                dataType: "json",
+                success: function(result) {
+                    $.each(result.data, function(index, data) {
+                        let coordinate = data.coordinate.split(",")
+                        let marker = L.marker(coordinate)
+                        marker.addTo(layerPerencanaan);
+                        layerPerencanaan.addTo(map)
+                        markerOnClick(marker, data)
+                    })
+                }
+            });
+        }
 
-        // function marker form ajax add the content and bind the pop up
-        function markerOnclik(marker, data) {
+        // function ajax call data for any pendukung
+        function getDataPendukung(url, style) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+                type: "GET",
+                url: url,
+                dataType: "json",
+                success: function(result) {
+                    $.each(result.data, function(index, data) {
+                        console.log(result);
+                        let polygon = new L.GeoJSON.AJAX("assets/geometry_kelurahan/" + data
+                            .kelurahan.geometry, style)
+                        if (result.judul == "Kawasan Kumuh") {
+                            polygon.addTo(layerKawasanKumuh)
+                            layerKawasanKumuh.addTo(map)
+                        } else if (result.judul == "RTLH") {
+                            polygon.addTo(layerRtlh)
+                            layerRtlh.addTo(map)
+                        } else if (result.judul == "Lokus Kemiskinan") {
+                            polygon.addTo(layerKemiskinan)
+                            layerKemiskinan.addTo(map)
+                        } else if (result.judul == "Lokus Stunting") {
+                            polygon.addTo(layerStunting)
+                            layerStunting.addTo(map)
+                        }
+                        polygonOnClick(polygon, data, result.judul)
+                    })
+                }
+            });
+        }
+
+        // function get data for marker and set the content and bind the pop up marker on click
+        function markerOnClick(marker, data) {
             console.log(data)
             let content = `<img class="img-fluid" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
-                                            <table class="table table-sm table-bordered">
+                                            <table class="table table-sm table-striped">
                                                 <tr>
                                                     <th>Nama</th>
-                                                    <td>` + data.nama + `</th>
+                                                    <td>` + data.nama + `</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Kecamatan</th>
-                                                    <td>` + data.kelurahan.nama + `</th>
+                                                    <td>` + data.kelurahan.nama + `</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Kelurahan</th>
-                                                    <td>` + data.kelurahan.kecamatan.nama + `</th>
+                                                    <td>` + data.kelurahan.kecamatan.nama + `</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center" colspan="2">
@@ -234,16 +334,39 @@
             })
         }
 
+        // function polygon form ajax add the content and bind the pop up
+        function polygonOnClick(polygon, data, judul) {
+            let content = `<p class="text-center h7" >` + judul + `</p>
+                        <table class="table table-sm table-striped">
+                            <tr>
+                                <th>Kelurahan</th>
+                                <td>` + data.kelurahan.nama + `</td>
+                            </tr>
+                            <tr>
+                                <th>Jumlah</th>
+                                <td>` + data.jumlah + `</td>
+                            </tr>
+                        </table>`
+
+
+            polygon.on("click", function(e) {
+                if (e.target._popup == undefined) {
+                    polygon.bindPopup(content).openPopup()
+                } else {
+                    polygon.bindPopup()
+                }
+            })
+        }
+
         // open the modal of detail marker
         $(document).on("click", ".open-modal", function() {
+            let id = $(this).data("id")
 
+            //datatable fs in modal detail
             if ($.fn.DataTable.isDataTable('#table-fs')) {
-                // tableFs.clear()
                 $('#table-fs').DataTable().destroy()
             }
 
-            let id = $(this).data("id")
-            alert(id)
             var urlFs = "{{ route('map.datatable-fs', ':id') }}"
             urlFs = urlFs.replace(":id", id)
             var tableFs = $('#table-fs').DataTable({
@@ -254,7 +377,7 @@
                 },
                 lengthChange: false,
                 searching: false,
-                retrieve: true,
+                responsive: true,
                 columns: [{
                         data: 'DT_RowIndex',
                     },
@@ -269,6 +392,105 @@
                     },
                     {
                         data: 'dokumen_fs',
+                    },
+                ],
+            })
+
+            //datatable fs in modal detail
+            if ($.fn.DataTable.isDataTable('#table-mp')) {
+                $('#table-mp').DataTable().destroy()
+            }
+            var urlMp = "{{ route('map.datatable-mp', ':id') }}"
+            urlMp = urlMp.replace(":id", id)
+            var tableMp = $('#table-mp').DataTable({
+                processing: true,
+                ajax: {
+                    url: urlMp,
+                    method: 'GET'
+                },
+                lengthChange: false,
+                searching: false,
+                responsive: true,
+                columns: [{
+                        data: 'DT_RowIndex',
+                    },
+                    {
+                        data: 'nama_kegiatan',
+                    },
+                    {
+                        data: 'opd.nama',
+                    },
+                    {
+                        data: 'tahun',
+                    },
+                    {
+                        data: 'dokumen',
+                    },
+                ]
+            })
+
+            //datatable lingkungan in modal detail
+            if ($.fn.DataTable.isDataTable('#table-lingkungan')) {
+                $('#table-lingkungan').DataTable().destroy()
+            }
+            var urlLingkungan = "{{ route('map.datatable-lingkungan', ':id') }}"
+            urlLingkungan = urlLingkungan.replace(":id", id)
+            var tablelingkungan = $('#table-lingkungan').DataTable({
+                processing: true,
+                ajax: {
+                    url: urlLingkungan,
+                    method: 'GET'
+                },
+                lengthChange: false,
+                searching: false,
+                responsive: true,
+                columns: [{
+                        data: 'DT_RowIndex',
+                    },
+                    {
+                        data: 'nama_kegiatan',
+                    },
+                    {
+                        data: 'opd.nama',
+                    },
+                    {
+                        data: 'tahun',
+                    },
+                    {
+                        data: 'dokumen',
+                    },
+                ]
+            })
+
+            //datatable DED in modal detail
+            if ($.fn.DataTable.isDataTable('#table-ded')) {
+                $('#table-ded').DataTable().destroy()
+            }
+            var urlDed = "{{ route('map.datatable-ded', ':id') }}"
+            urlDed = urlDed.replace(":id", id)
+            var tablelingkungan = $('#table-ded').DataTable({
+                processing: true,
+                ajax: {
+                    url: urlDed,
+                    method: 'GET'
+                },
+                lengthChange: false,
+                searching: false,
+                responsive: true,
+                columns: [{
+                        data: 'DT_RowIndex',
+                    },
+                    {
+                        data: 'nama_kegiatan',
+                    },
+                    {
+                        data: 'opd.nama',
+                    },
+                    {
+                        data: 'tahun',
+                    },
+                    {
+                        data: 'dokumen',
                     },
                 ]
             })

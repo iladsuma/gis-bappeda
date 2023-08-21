@@ -67,36 +67,36 @@
 
     $(document).on('click', ".hapus-kawasankumuh", function() {
         swal.fire({
-            title: 'Hapus',
-            text: "Yakin hapus data" + " ?",
-            icon: 'warning',
-            showCancelButton: true,
-        })
-        .then((result) => {
-            if(result.isConfirmed) {
-            let id = $(this).data('id')
-            let url = "{{ route('data-kawasan-kumuh.drop', ':id') }}"
+                title: 'Hapus',
+                text: "Yakin hapus data" + " ?",
+                icon: 'warning',
+                showCancelButton: true,
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let id = $(this).data('id')
+                    let url = "{{ route('data-kawasan-kumuh.drop', ':id') }}"
 
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    url: url.replace(":id", id),
-                    type: 'delete',
-                    async: false,
-                    success: function(result) {
-                        swal.fire({
-                            title: 'Berhasil',
-                            text: 'Data berhasil dihapus',
-                            icon: 'success',
-                        })
-                        table.ajax.reload()
-                    }
-                })
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        url: url.replace(":id", id),
+                        type: 'delete',
+                        async: false,
+                        success: function(result) {
+                            swal.fire({
+                                title: 'Berhasil',
+                                text: result,
+                                icon: 'success',
+                            })
+                            table.ajax.reload()
+                        }
+                    })
 
-            }
+                }
 
-        })
+            })
     });
 
     // Proses edit kawasankumuh
@@ -152,6 +152,7 @@
             contentType: false,
             processData: false,
             success: (data) => {
+                $('#modalKawasanKumuh').modal('hide');
                 swal.fire({
                     title: 'Berhasil',
                     text: data,
@@ -180,14 +181,13 @@
                     }
                     html += '</ul>';
                     swal.fire({
-                    title: 'Error',
-                    text: html,
-                    icon: 'warning',
-                });
+                        title: 'Error',
+                        text: html,
+                        icon: 'warning',
+                    });
                 }
             }
         });
-        $('#modalKawasanKumuh').modal('hide');
 
     })
 </script>

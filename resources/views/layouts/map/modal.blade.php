@@ -9,41 +9,40 @@
                 <div class="modal-body">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="btn btn-success nav-link detail-tab active" role="tab" data-bs-target="#fs"
+                            <a class=" nav-link detail-tab active" role="tab" data-bs-target="#fs"
                                 data-bs-toggle="tab" aria-current="page" href="javascript:void(0)" id="fs-tab"
                                 data-id="">Feasibility
                                 Study</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-success nav-link detail-tab" role="tab" data-bs-target="#mp"
-                                data-bs-toggle="tab" href="javascript:void(0)" id="mp-tab" data-id="">Master
+                            <a class=" nav-link detail-tab" role="tab" data-bs-target="#mp" data-bs-toggle="tab"
+                                href="javascript:void(0)" id="mp-tab" data-id="">Master
                                 Plan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-success nav-link detail-tab" role="tab" data-bs-target="#lingkungan"
+                            <a class=" nav-link detail-tab" role="tab" data-bs-target="#lingkungan"
                                 data-bs-toggle="tab" href="javascript:void(0)" id="lingkungan-tab"
                                 data-id="">Lingkungan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-success nav-link detail-tab" role="tab" data-bs-target="#ded"
-                                data-bs-toggle="tab" href="javascript:void(0)" id="ded-tab" data-id="">Detail
+                            <a class=" nav-link detail-tab" role="tab" data-bs-target="#ded" data-bs-toggle="tab"
+                                href="javascript:void(0)" id="ded-tab" data-id="">Detail
                                 Enginering Design</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-success nav-link detail-tab" role="tab" data-bs-target="#fisik"
-                                data-bs-toggle="tab" href="javascript:void(0)" id="fisik-tab" data-id="">Realisasi
+                            <a class=" nav-link detail-tab" role="tab" data-bs-target="#fisik" data-bs-toggle="tab"
+                                href="javascript:void(0)" id="fisik-tab" data-id="">Realisasi
                                 Fisik</a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" role='tab-panel' id="fs">
-                            <hr>
                             <div class="mt-3">
-                                <table class="table table-stripped" id="table-fs">
+                                <table class="table table-sm table-striped" id="table-fs" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Judul Kegiatan</th>
+                                            <th style="width: 2%">#</th>
+                                            <th>Judul Dokumen</th>
                                             <th>Pelaksana Kegiatan</th>
                                             <th>Tahun Kegiatan</th>
                                             <th>Dokumen Kegiatan</th>
@@ -53,16 +52,60 @@
                             </div>
                         </div>
                         <div class="tab-pane" role='tab-panel' id="mp">
-                            master plan
+                            <div class="mt-3">
+                                <table class="table table-sm table-striped" id="table-mp" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 2%">#</th>
+                                            <th>Judul Dokumen</th>
+                                            <th>Pelaksana Kegiatan</th>
+                                            <th>Tahun Kegiatan</th>
+                                            <th>Dokumen Kegiatan</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                         <div class="tab-pane" role='tab-panel' id="lingkungan">
-                            lingkungan
+                            <hr>
+                            <div class="mt-3">
+                                <table class="table table-striped" id="table-lingkungan" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 2%">#</th>
+                                            <th>Judul Dokumen</th>
+                                            <th>Pelaksana Kegiatan</th>
+                                            <th>Tahun Kegiatan</th>
+                                            <th>Dokumen Kegiatan</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                         <div class="tab-pane" role='tab-panel' id="ded">
-                            detail engingering design
+                            <hr>
+                            <div class="mt-3">
+                                <table class="table table-stripped" id="table-ded" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 2%">#</th>
+                                            <th>Judul Kegiatan</th>
+                                            <th>Pelaksana Kegiatan</th>
+                                            <th>Tahun Kegiatan</th>
+                                            <th>Dokumen Kegiatan</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                         <div class="tab-pane" role='tab-panel' id="fisik">
-                            Realisasi fisik
+                            <br>
+                            <br>
+                            <br>
+                            Realisasi Fisik
+                            <br>
+                            <br>
+                            <br>
                         </div>
                     </div>
                     <div class="modal-footer">

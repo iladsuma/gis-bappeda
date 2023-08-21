@@ -33,9 +33,16 @@ Route::middleware(['auth'])->group(function () {
 
     ## --- Start of Map Route --- ##
     Route::get('/', [MapController::class, 'index'])->name('map.index');
-    Route::get('/lokasi/all', [MapController::class, 'lokasi'])->name('map.lokasi-all');
-    Route::get('/lokasi/{id}/datatable-fs', [MapController::class, 'datatable_fs'])->name('map.datatable-fs');
-    Route::get('/lokasi/{ids}/filter', [MapController::class, 'filter_select'])->name('map.filter-select');
+    Route::get('/map/lokasi-all', [MapController::class, 'lokasi'])->name('map.lokasi-all');
+    Route::get('/map/kawasan-kumuh', [MapController::class, 'kawasan_kumuh'])->name('map.kawasan-kumuh');
+    Route::get('/map/kawasan-rtlh', [MapController::class, 'kawasan_rtlh'])->name('map.kawasan-rtlh');
+    Route::get('/map/lokus-kemiskinan', [MapController::class, 'lokus_kemiskinan'])->name('map.lokus-kemiskinan');
+    Route::get('/map/lokus-stunting', [MapController::class, 'lokus_stunting'])->name('map.lokus-stunting');
+    Route::get('/map/{id}/datatable-fs', [MapController::class, 'datatable_fs'])->name('map.datatable-fs');
+    Route::get('/map/{id}/datatable-mp', [MapController::class, 'datatable_mp'])->name('map.datatable-mp');
+    Route::get('/map/{id}/datatable-lingkungan', [MapController::class, 'datatable_lingkungan'])->name('map.datatable-lingkungan');
+    Route::get('/map/{id}/datatable-ded', [MapController::class, 'datatable_ded'])->name('map.datatable-ded');
+    Route::get('/map/{ids}/lokasi-filter', [MapController::class, 'lokasi_filter'])->name('map.lokasi-filter');
     ## --- End of Map Route --- ##
 
 
@@ -123,10 +130,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-jaringan-spampdam', [JaringanSpamPdamController::class, 'index'])->name('data-jaringan-spampdam.index');
     // Data kawasan rtlh route
     Route::get('/data-kawasan-rtlh', [KawasanRTLHController::class, 'index'])->name('data-kawasan-rtlh.index');
+    Route::get('/data-kawasan-rtlh/datatable', [KawasanRTLHController::class, 'datatable'])->name('data-kawasan-rtlh.datatable');
+    Route::post('/data-kawasan-rtlh/store', [KawasanRTLHController::class, 'store'])->name('data-kawasan-rtlh.store');
+    Route::get('/data-kawasan-rtlh/{id}/edit', [KawasanRTLHController::class, 'edit'])->name('data-kawasan-rtlh.edit');
+    Route::put('/data-kawasan-rtlh/{id}/update', [KawasanRTLHController::class, 'update'])->name('data-kawasan-rtlh.update');
+    Route::delete('/data-kawasan-rtlh/{id}/drop', [KawasanRTLHController::class, 'drop'])->name('data-kawasan-rtlh.drop');
     // Data lokus kemiskinan route
     Route::get('/data-lokus-kemiskinan', [LokusKemiskinanController::class, 'index'])->name('data-lokus-kemiskinan.index');
+    Route::get('/data-lokus-kemiskinan/datatable', [LokusKemiskinanController::class, 'datatable'])->name('data-lokus-kemiskinan.datatable');
+    Route::post('/data-lokus-kemiskinan/store', [LokusKemiskinanController::class, 'store'])->name('data-lokus-kemiskinan.store');
+    Route::get('/data-lokus-kemiskinan/{id}/edit', [LokusKemiskinanController::class, 'edit'])->name('data-lokus-kemiskinan.edit');
+    Route::put('/data-lokus-kemiskinan/{id}/update', [LokusKemiskinanController::class, 'update'])->name('data-lokus-kemiskinan.update');
+    Route::delete('/data-lokus-kemiskinan/{id}/drop', [LokusKemiskinanController::class, 'drop'])->name('data-lokus-kemiskinan.drop');
+
     // Data lokus stunting route
     Route::get('/data-lokus-stunting', [LokusStuntingController::class, 'index'])->name('data-lokus-stunting.index');
+    Route::get('/data-lokus-stunting/datatable', [LokusStuntingController::class, 'datatable'])->name('data-lokus-stunting.datatable');
+    Route::post('/data-lokus-stunting/store', [LokusStuntingController::class, 'store'])->name('data-lokus-stunting.store');
+    Route::get('/data-lokus-stunting/{id}/edit', [LokusStuntingController::class, 'edit'])->name('data-lokus-stunting.edit');
+    Route::put('/data-lokus-stunting/{id}/update', [LokusStuntingController::class, 'update'])->name('data-lokus-stunting.update');
+    Route::delete('/data-lokus-stunting/{id}/drop', [LokusStuntingController::class, 'drop'])->name('data-lokus-stunting.drop');
     ## --- end of data pendukung --- ##
 });
 
