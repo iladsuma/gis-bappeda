@@ -51,9 +51,9 @@ class DokumenDedController extends Controller
         $dokumen_ded->tahun = $request->tahun;
         if($request->hasFile('dokumen')) {
             File::delete(public_path('assets/dokumen_ded/' . $dokumen_ded->dokumen));
-            $nama_dokumen = $request->file('dokumen')->getClientOriginalName();
+            $nama_dokumen = $request->nama_kegiatan . ".pdf";
             $request->file('dokumen')->move(public_path('assets/dokumen_ded'), $nama_dokumen);
-            $dokumen_ded->dokumen = $request->file('dokumen')->getClientOriginalName();
+            $dokumen_ded->dokumen = $request->nama_kegiatan . ".pdf";
         }
         $dokumen_ded->save();
 
@@ -69,11 +69,11 @@ class DokumenDedController extends Controller
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
                 'lokasi_kegiatan_id' => $request->lokasi_id,
-                'dokumen' => $request->nama_kegiatan,
+                'dokumen' => $request->nama_kegiatan . ".pdf",
             ]);
 
             if($request->hasFile('dokumen')) {
-                $nama_dokumen = $request->nama_kegiatan;
+                $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_ded'), $nama_dokumen);
             }
             DB::commit();
