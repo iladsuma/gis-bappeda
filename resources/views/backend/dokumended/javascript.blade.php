@@ -38,41 +38,49 @@
             method: 'GET'
         },
         columns: [{
-                data: 'DT_RowIndex',
-            },
-            {
-                data: 'nama_kegiatan',
-            },
-            {
-                data: 'opd.nama',
-            },
-            {
-                data: 'lokasi.nama',
-            },
-            {
-                data: 'tahun',
-            },
-            {
-                data: 'dokumen',
-            },
-            {
-                data: 'id',
-                width: '10px',
-                orderable: false,
-                render: function(data) {
-                    return "<i class='fas fa-pencil edit-dokumen-ded' data-id='" + data + "'></i>"
-                }
-            },
-            {
-                data: null,
-                width: '10px',
-                orderable: false,
-                render: function(data) {
-                    return "<i class='fas fa-trash hapus-dokumen-ded' data-nama='" + data
-                        .nama_kegiatan + "' data-id='" + data.id + "'></i>"
-                }
-            },
-        ]
+            data: 'DT_RowIndex',
+        },
+        {
+            data: 'nama_kegiatan',
+        },
+        {
+            data: 'opd.nama',
+        },
+        {
+            data: 'lokasi.nama',
+        },
+        {
+            data: 'tahun',
+        },
+        {
+            data: 'dokumen',
+            render: function(data) {
+                return "<button class='btn btn-light border border-success btn-sm document-preview' data-nama='" + data + "' data-toggle='modal'>Lihat Dokumen</button>"
+            }
+        },
+        {
+            data: 'id',
+            width: '10px',
+            orderable: false,
+            render: function(data) {
+                return "<i class='fas fa-pencil edit-dokumen-ded' data-id='" + data + "'></i>"
+            }
+        },
+        {
+            data: null,
+            width: '10px',
+            orderable: false,
+            render: function(data) {
+                return "<i class='fas fa-trash hapus-dokumen-ded' data-nama='" + data.nama_kegiatan + "' data-id='" + data.id + "'></i>"
+            }
+        },
+    ]
+    })
+
+    $(document).on('click', '.document-preview', function() {
+        $('#iframeDocumentPreview').attr('src', '{{ asset("assets/dokumen_ded/") }}' + '/' + $(this).data('nama'))
+        $('#documentPreviewModalLabel').html('Dokumen ' + $(this).data('nama'))
+        $('#documentPreviewModal').modal('show')
     })
 
     $("#dokumen-ded-form").on("submit", function(e) {

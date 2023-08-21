@@ -38,6 +38,9 @@
             },
             {
                 data: 'dokumen_fs',
+                render: function(data) {
+                    return "<button class='btn btn-light border border-success btn-sm document-preview' data-nama='" + data + "' data-toggle='modal'>Lihat Dokumen</button>"
+                }
             },
             {
                 data: 'id',
@@ -71,6 +74,12 @@
         $('#dokumen-fs-form').attr('action', url);
         $('#dokumen-fs-form').attr('method', 'POST');
     });
+
+    $(document).on('click', '.document-preview', function() {
+        $('#iframeDocumentPreview').attr('src', '{{ asset("assets/dokumen_fs/") }}' + '/' + $(this).data('nama'))
+        $('#documentPreviewModalLabel').html('Dokumen ' + $(this).data('nama'))
+        $('#documentPreviewModal').modal('show')
+    })
 
     $(document).on('click', ".hapus-dokumen-fs", function() {
         swal.fire({

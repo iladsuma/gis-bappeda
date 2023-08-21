@@ -54,6 +54,9 @@
         },
         {
             data: 'dokumen',
+            render: function(data) {
+                return "<button class='btn btn-light border border-success btn-sm document-preview' data-nama='" + data + "' data-toggle='modal'>Lihat Dokumen</button>"
+            }
         },
         {
             data: 'id',
@@ -72,6 +75,12 @@
             }
         },
     ]
+    })
+
+    $(document).on('click', '.document-preview', function() {
+        $('#iframeDocumentPreview').attr('src', '{{ asset("assets/dokumen_mp/") }}' + '/' + $(this).data('nama'))
+        $('#documentPreviewModalLabel').html('Dokumen ' + $(this).data('nama'))
+        $('#documentPreviewModal').modal('show')
     })
 
     $("#dokumen-mp-form").on("submit", function(e) {

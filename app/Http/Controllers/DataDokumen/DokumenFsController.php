@@ -69,11 +69,11 @@ class DokumenFsController extends Controller
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
                 'lokasi_kegiatan_id' => $request->lokasi_id,
-                'dokumen_fs' => $request->file('dokumen')->getClientOriginalName(),
+                'dokumen_fs' => $request->nama_kegiatan,
             ]);
 
             if ($request->hasFile('dokumen')) {
-                $nama_dokumen = $request->file('dokumen')->getClientOriginalName();
+                $nama_dokumen = $request->nama_kegiatan;
                 $request->file('dokumen')->move(public_path('assets/dokumen_fs'), $nama_dokumen);
             }
             DB::commit();
