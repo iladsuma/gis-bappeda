@@ -17,9 +17,9 @@
 
             {{-- User menu toggler --}}
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                {{-- @php $avatar = Auth::user()->avatar @endphp --}}
-                {{-- <img src="{{ asset("assets/image/avatar/$avatar") }}"
-                    class="user-image img-circle img-thumbnail elevation-2" alt="ADMIN"> --}}
+                @php $avatar = Auth::user()->avatar @endphp
+                <img src="{{ asset("assets/image/avatar/$avatar") }}"
+                    class="user-image img-circle img-thumbnail elevation-2" alt="ADMIN">
                 <span class="d-none d-md-inline">
                     {{-- {{ Auth::user()->name }} --}}
                 </span>
@@ -31,10 +31,10 @@
                 {{-- User menu header --}}
 
                 <li class="user-header h-auto">
-                    {{-- <img src="{{ asset("assets/image/avatar/$avatar") }}" class="img-circle img-thumbnail elevation-2"
-                        alt="ADMIN"> --}}
+                    <img src="{{ asset("assets/image/avatar/$avatar") }}" class="img-circle img-thumbnail elevation-2"
+                        alt="ADMIN">
 
-                    {{-- <p class=" mt-0"> {{ Auth::user()->username }} <small>{{ Auth::user()->name }}</small> --}}
+                    <p class=" mt-0"> {{ Auth::user()->username }} <small>{{ Auth::user()->name }}</small>
                     </p>
                 </li>
 
