@@ -9,6 +9,7 @@
                         class="fas fa-computer"></i></a></li> --}}
             <li><a href="{{ route('data-opd.index') }}" role="tab" title="Dashboard Admin"><i
                         class="fas fa-computer"></i></a></li>
+            <li><a data-bs-toggle="modal" data-bs-target="#locationModal" id="location-modal"><i class="fa-solid fa-location-dot"></i></a></li>
         </ul>
 
         <ul role="tablist">
@@ -33,17 +34,20 @@
                         class="fa fa-caret-left"></i></span></h1>
             <div class="card mt-2">
                 <div class="card-body">
-                    <form id="cari-satuan" method="" class="">
+                    <form id="cari-lokasi" method="" class="">
                         <div id="search-ruas" class="">
                             <label for="pencarianRuas" class="mb-2">
                                 <h6>Pencarian Lokasi Perencanaan</h6>
                             </label>
-                            <select name="pencarianRuas" class="perencanaan" multiple="multiple" id="no-kegiatan"
+                            <select name="pencarianRuas" class="perencanaan" multiple="multiple" id="lokasi-select"
                                 required>
+                                @foreach ($data_lokasi as $lokasi)
+                                    <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>
+                                @endforeach
                             </select>
                             <div class="mt-3">
-                                <button type="submit" class="btn btn-primary btn-sm custom"
-                                    id="ruas-satuan">Cari</button>
+                                <button type="submit" class="btn button-submit btn-primary btn-sm custom"
+                                    id="button-submit">Cari</button>
                             </div>
                         </div>
                     </form>

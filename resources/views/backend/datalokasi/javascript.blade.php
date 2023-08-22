@@ -170,7 +170,7 @@
                     let urlUpdate = "{{ route('data-lokasi.update', ':id') }}"
                     urlUpdate = urlUpdate.replace(":id", data.id)
                     $("#lokasi-kegiatan-form").attr("action", urlUpdate)
-                    $("#lokasi-kegiatan-form").attr("method", "POST")
+                    $("#lokasi-kegiatan-form").attr("method", "PUT")
                     $("#nama-lokasi").val(data.nama)
                     $("#kelurahan").val(data.kelurahan_id)
                     $("#alamat").val(data.alamat)

@@ -21,7 +21,33 @@ class MapController extends Controller
     //
     public function index()
     {
-        return view('map.index');
+        $data_lokasi = LokasiKegiatan::select('id', 'nama')->get();
+        return view('map.index', [
+            'data_lokasi' => $data_lokasi,
+        ]);
+    }
+
+    public function lokasi_spesifik($id)
+    {
+        $data_lokasi = LokasiKegiatan::where('id', $id)
+        ->with('kelurahan', 'kelurahan.kecamatan')
+        ->get();
+
+        $response = [
+            'data'=>$data_lokasi,
+            'jumlah'=>count($data_lokasi),
+            'method' => 'spesifik',
+        ];
+
+        return response()->json($response, Response::HTTP_OK);
+    }
+
+    public function datatable_modal()
+    {
+        $datatable = DataTables::of(LokasiKegiatan::with(['dokumen_fs', 'dokumen_mp', 'dokumen_lingkungan', 'dokumen_ded'])->orderBy('id', 'asc'))
+        ->addIndexColumn()
+        ->make('true');
+        return $datatable;
     }
 
     public function lokasi_filter($ids)
@@ -34,7 +60,8 @@ class MapController extends Controller
 
         $response = [
             'jumlah' => count($lokasi),
-            'data' => $lokasi
+            'data' => $lokasi,
+            'method' => 'multiple',
         ];
 
         return response()->json($response, Response::HTTP_OK);
@@ -47,7 +74,8 @@ class MapController extends Controller
 
         $response = [
             'jumlah' => count($lokasi),
-            'data' => $lokasi
+            'data' => $lokasi,
+            'method' => 'all',
         ];
 
         return response()->json($response, Response::HTTP_OK);

@@ -137,3 +137,34 @@
             </table>
         </div>
 </section>
+
+<div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content modal-dialog-location">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="locationModalLabel">Daftar Lokasi</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table id="table-location" class="table table-bordered table-striped">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="text-center">#</th>
+                            <th class="text-center">Nama Lokasi</th>
+                            <th class="text-center">Alamat</th>
+                            <th class="text-center document ">FS</th>
+                            <th class="text-center document">MP</th>
+                            <th class="text-center document">Lingkungan</th>
+                            <th class="text-center document">DED</th>
+                            <th class="text-center document">Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            {{-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div> --}}
+        </div>
+    </div>
+</div>

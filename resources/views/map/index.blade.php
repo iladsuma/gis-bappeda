@@ -41,7 +41,7 @@
         table.dataTable th,
         table.dataTable td {
             /* font-size: .7em; */
-            font-size: 12px;
+            /* font-size: 12px; */
         }
 
         .nav-tabs .nav-item .nav-link {
@@ -62,6 +62,14 @@
 
         .nav-tabs {
             margin-bottom: -10px;
+        }
+
+        #locationModal {
+            z-index: 2001;
+        }
+
+        .modal-dialog-location {
+            background-color: rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
@@ -157,7 +165,9 @@
             interactive: true
         });
 
+        let layerSpesifik = L.layerGroup();
         let layerPerencanaan = L.layerGroup();
+        let layerMultiple = L.layerGroup();
         let layerKawasanKumuh = L.layerGroup();
         let layerRtlh = L.layerGroup();
         let layerKemiskinan = L.layerGroup();
@@ -212,6 +222,7 @@
 
         map.on('overlayadd', function(event) {
             if (event.name == "Dokumen Perencanaan") {
+                map.removeLayer(layerSpesifik);
                 layerPerencanaan.clearLayers()
                 let url = "{{ route('map.lokasi-all') }}"
                 getDataPerencanaan(url)
@@ -257,8 +268,22 @@
                         console.log(data)
                         let coordinate = data.coordinate.split(",")
                         let marker = L.marker(coordinate)
-                        marker.addTo(layerPerencanaan);
-                        layerPerencanaan.addTo(map)
+                        if (result.method == 'all') {
+                            marker.addTo(layerPerencanaan);
+                            layerPerencanaan.addTo(map)
+                            map.flyTo([-8.098244, 112.165077], 13);
+                        }
+                        if (result.method == 'spesifik') {
+                            map.removeLayer(layerPerencanaan);
+                            marker.addTo(layerSpesifik);
+                            layerSpesifik.addTo(map);
+                            map.flyTo(coordinate, 18);
+                        }
+                        if (result.method == 'multiple') {
+                            marker.addTo(layerMultiple);
+                            layerMultiple.addTo(map)
+                            map.flyTo([-8.098244, 112.165077], 13);
+                        }
                         markerOnClick(marker, data)
                     })
                 }
@@ -317,11 +342,11 @@
                                 </tr>
                                 <tr>
                                     <td class="text-center" colspan="2">
-                                        <a href="#" class="open-modal" data-id="` + data.id + `" 
-                                        data-nama="` + data.nama + `"> 
+                                        <a href="#" class="open-modal" data-id="` + data.id + `"
+                                        data-nama="` + data.nama + `">
                                             <i class="fa fa-info-circle"></i>Detail
                                         </a>
-                                    </td>      
+                                    </td>
                                 </tr>
                             </table>`
 
@@ -518,6 +543,104 @@
             $("#modal-detail").modal("show")
 
         })
+
+        $(document).on('click', '#location-modal', function() {
+            if ($.fn.DataTable.isDataTable('#table-location')) {
+                $('#table-location').DataTable().destroy()
+            }
+            var tableLocation = $('#table-location').DataTable({
+                processing: true,
+                ajax: {
+                    url: '{{ route('map.datatable-modal') }}',
+                    method: 'GET'
+                },
+                lengthChange: false,
+                searching: false,
+                responsive: true,
+                columns: [{
+                        data: 'DT_RowIndex',
+                        render: function(data) {
+                            return `<div class='text-center'>${data}</div>`;
+                        }
+                    },
+                    {
+                        data: 'nama',
+                    },
+                    {
+                        data: 'alamat',
+                    },
+                    {
+                        data: 'dokumen_fs',
+                        render: function(data) {
+                            if (data.length > 0) {
+                                return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
+                            } else {
+                                return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                            }
+                        }
+                    },
+                    {
+                        data: 'dokumen_mp',
+                        render: function(data) {
+                            if (data.length > 0) {
+                                return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
+                            } else {
+                                return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                            }
+                        }
+                    },
+                    {
+                        data: 'dokumen_lingkungan',
+                        render: function(data) {
+                            if (data.length > 0) {
+                                return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
+                            } else {
+                                return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                            }
+                        }
+                    },
+                    {
+                        data: 'dokumen_ded',
+                        render: function(data) {
+                            if (data.length > 0) {
+                                return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
+                            } else {
+                                return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                            }
+                        }
+                    },
+                    {
+                        data: 'id',
+                        render: function(data) {
+                            return `<div class="text-center"><button class="btn btn-light fokus" data-id="${data}"><i class="fas fa-search"></i></button></div>`;
+                        },
+                    },
+                ],
+                order: [],
+                columnDefs: [{
+                    targets: 'document',
+                    orderable: false,
+                }]
+            });
+
+            $(document).on('click', '.fokus', function() {
+                layerSpesifik.clearLayers();
+                let url = '{{ route('map.lokasi-spesifik', ':id') }}';
+                url = url.replace(':id', $(this).data('id'));
+                getDataPerencanaan(url);
+                $('#locationModal').modal('hide');
+            });
+        });
+
+        $("#cari-lokasi").on('submit', function(event) {
+            event.preventDefault()
+            layerMultiple.clearLayers();
+            let ids = $('#lokasi-select').val()
+            let url = "{{ route('map.lokasi-filter', ':id') }}"
+            url = url.replace(":id", ids)
+            layerMultiple.clearLayers()
+            getDataPerencanaan(url);
+        });
     </script>
 
     {{-- search script --}}

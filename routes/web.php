@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
 
     ## --- Start of Map Route --- ##
     Route::get('/', [MapController::class, 'index'])->name('map.index');
+    Route::get('/map/{id}/lokasi-spesifik', [MapController::class, 'lokasi_spesifik'])->name('map.lokasi-spesifik');
+    Route::get('/map/datatable-modal', [MapController::class, 'datatable_modal'])->name('map.datatable-modal');
     Route::get('/map/lokasi-all', [MapController::class, 'lokasi'])->name('map.lokasi-all');
     Route::get('/map/kawasan-kumuh', [MapController::class, 'kawasan_kumuh'])->name('map.kawasan-kumuh');
     Route::get('/map/kawasan-rtlh', [MapController::class, 'kawasan_rtlh'])->name('map.kawasan-rtlh');
