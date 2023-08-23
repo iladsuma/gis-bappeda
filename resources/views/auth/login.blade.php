@@ -30,7 +30,7 @@
         }
 
         .hero-image {
-            background: url('https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/rm222-mind-16_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=1c53e59a7b21c1ffee85bc36a3837392');
+            background-image: url('https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/rm222-mind-16_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=1c53e59a7b21c1ffee85bc36a3837392');
             background-size: cover;
             background-position-x: -150px;
         }
@@ -62,6 +62,14 @@
         .card-login h1 {
             color: #0095D6;
         }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: .8;
+        }
     </style>
 
 </head>
@@ -69,8 +77,7 @@
 <body class="bg-light">
 
     <div class="container">
-
-        <div class="row d-flex justify-content-center mt-5">
+        <div class="row d-flex justify-content-center">
             <div class="col-lg-10">
                 <div class="row card-login">
                     <div class="col-lg-6 hero-image d-flex justify-content-center align-items-center">
@@ -89,7 +96,8 @@
                         </div>
                     </div>
                     <div class="col-lg-6 p-5">
-                        <form action="{{ route('login') }}" method="POST" class="px-5" style="border: 2px solid #B8EEFF; border-radius: 20px;">
+                        <form action="{{ route('login') }}" method="POST" class="px-5"
+                            style="border: 2px solid #B8EEFF; border-radius: 20px;">
                             @csrf
                             <h1 class="text-center mb-3 mt-4 font-weight-bold">Login</h1>
                             <div class="mb-3">
@@ -103,8 +111,8 @@
                                     class="form-control" autofocus required>
                             </div>
                             <div class="mb-5 mt-5 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary w-100 font-weight-bold">Masuk Akun <i class="fa fa-sign-in"
-                                        aria-hidden="true"></i></button>
+                                <button type="submit" class="btn btn-primary w-100 font-weight-bold">Masuk Akun <i
+                                        class="fa fa-sign-in" aria-hidden="true"></i></button>
                             </div>
                         </form>
                     </div>
