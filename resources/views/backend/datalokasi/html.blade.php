@@ -16,7 +16,7 @@
                             <th>Kecamatan</th>
                             <th>Alamat</th>
                             {{-- <th>Deskripsi</th> --}}
-                            <th>Kordinat</th>
+                            <th>geometry</th>
                             <th>Foto Lokasi</th>
                             <th>Aksi</th>
                             <th></th>
@@ -67,7 +67,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="koordinat">Koordinat</label>
-                                    <input type="text" class="form-control" id="koordinat" required>
+                                    {{-- <input type="text" class="form-control" id="koordinat" required> --}}
+                                    <textarea class="form-control" id="koordinat" cols="3" rows="2"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="foto-lokasi">Foto Lokasi</label>
@@ -94,7 +95,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            id="dismiss">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>

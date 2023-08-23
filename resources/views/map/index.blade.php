@@ -166,15 +166,14 @@
         });
 
         let layerSpesifik = L.layerGroup();
-        let layerPerencanaan = L.layerGroup();
-        let layerMultiple = L.layerGroup();
-        let layerKawasanKumuh = L.layerGroup();
-        let layerRtlh = L.layerGroup();
-        let layerKemiskinan = L.layerGroup();
-        let layerStunting = L.layerGroup();
-        let layerSpam = L.layerGroup();
-        let layerPdam = L.layerGroup();
-        // let sampleLayer = L.layerGroup();
+        let layerPerencanaan = L.featureGroup();
+        let layerMultiple = L.featureGroup();
+        let layerKawasanKumuh = L.featureGroup();
+        let layerRtlh = L.featureGroup();
+        let layerKemiskinan = L.featureGroup();
+        let layerStunting = L.featureGroup();
+        let layerSpam = L.featureGroup();
+        let layerPdam = L.featureGroup();
 
         let groupedOverlays = {
             "Peta Tematik ": {
@@ -223,6 +222,7 @@
         map.on('overlayadd', function(event) {
             if (event.name == "Dokumen Perencanaan") {
                 map.removeLayer(layerSpesifik);
+                map.removeLayer(layerMultiple);
                 layerPerencanaan.clearLayers()
                 let url = "{{ route('map.lokasi-all') }}"
                 getDataPerencanaan(url)
@@ -264,27 +264,29 @@
                 url: url,
                 dataType: "json",
                 success: function(result) {
+                    console.log(result)
                     $.each(result.data, function(index, data) {
-                        console.log(data)
-                        let coordinate = data.coordinate.split(",")
-                        let marker = L.marker(coordinate)
+                        let geometry = JSON.parse(data.coordinate)
+                        let layer = L.geoJSON(geometry)
                         if (result.method == 'all') {
-                            marker.addTo(layerPerencanaan);
+                            layer.addTo(layerPerencanaan);
                             layerPerencanaan.addTo(map)
-                            map.flyTo([-8.098244, 112.165077], 13);
+                            center = layerPerencanaan.getBounds()
+                            map.flyToBounds(center);
                         }
                         if (result.method == 'spesifik') {
-                            map.removeLayer(layerPerencanaan);
-                            marker.addTo(layerSpesifik);
+                            layer.addTo(layerSpesifik);
                             layerSpesifik.addTo(map);
-                            map.flyTo(coordinate, 18);
+                            center = layer.getBounds()
+                            map.flyToBounds(center);
                         }
                         if (result.method == 'multiple') {
-                            marker.addTo(layerMultiple);
+                            layer.addTo(layerMultiple);
                             layerMultiple.addTo(map)
-                            map.flyTo([-8.098244, 112.165077], 13);
+                            center = layerMultiple.getBounds()
+                            map.flyToBounds(center);
                         }
-                        markerOnClick(marker, data)
+                        layerOnClick(layer, data)
                     })
                 }
             });
@@ -324,8 +326,8 @@
             });
         }
 
-        // function get data for marker and set the content and bind the pop up marker on click
-        function markerOnClick(marker, data) {
+        // function get data for marker and set the content and bind the pop up layer on click
+        function layerOnClick(layer, data) {
             let content = ` <img class="img-fluid" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
                             <table class="table table-sm table-striped">
                                 <tr>
@@ -350,12 +352,12 @@
                                 </tr>
                             </table>`
 
-            marker.on("click", function(e) {
+            layer.on("click", function(e) {
                 $(".detail-tab").attr("data-id", data.id)
                 if (e.target._popup == undefined) {
-                    marker.bindPopup(content).openPopup()
+                    layer.bindPopup(content).openPopup()
                 } else {
-                    marker.bindPopup()
+                    layer.bindPopup()
                 }
             })
         }
@@ -421,7 +423,8 @@
                     {
                         data: 'dokumen_fs',
                         render: function(data) {
-                            return `<a href="assets/dokumen_fs/` + data + `" target="_blank" >` +
+                            return `<a href="assets/dokumen_fs/` + data +
+                                `" target="_blank" >` +
                                 data + `</a>`
                         },
                     },
@@ -458,7 +461,8 @@
                     {
                         data: 'dokumen',
                         render: function(data) {
-                            return `<a href="assets/dokumen_mp/` + data + `" target="_blank" >` +
+                            return `<a href="assets/dokumen_mp/` + data +
+                                `" target="_blank" >` +
                                 data + `</a>`
                         },
                     },
@@ -533,7 +537,8 @@
                     {
                         data: 'dokumen',
                         render: function(data) {
-                            return `<a href="assets/dokumen_ded/` + data + `" target="_blank" >` +
+                            return `<a href="assets/dokumen_ded/` + data +
+                                `" target="_blank" >` +
                                 data + `</a>`
                         },
                     },
@@ -545,16 +550,17 @@
         })
 
         $(document).on('click', '#location-modal', function() {
+            console.log($.fn.DataTable.isDataTable('#table-location'))
             if ($.fn.DataTable.isDataTable('#table-location')) {
                 $('#table-location').DataTable().destroy()
             }
             var tableLocation = $('#table-location').DataTable({
                 processing: true,
                 ajax: {
-                    url: '{{ route('map.datatable-modal') }}',
+                    url: "{{ route('map.datatable-modal') }}",
                     method: 'GET'
                 },
-                lengthChange: false,
+                // lengthChange: false,
                 searching: false,
                 responsive: true,
                 columns: [{
@@ -622,23 +628,27 @@
                     orderable: false,
                 }]
             });
+        });
 
-            $(document).on('click', '.fokus', function() {
-                layerSpesifik.clearLayers();
-                let url = '{{ route('map.lokasi-spesifik', ':id') }}';
-                url = url.replace(':id', $(this).data('id'));
-                getDataPerencanaan(url);
-                $('#locationModal').modal('hide');
-            });
+        $(document).on('click', '.fokus', function(e) {
+            layerSpesifik.clearLayers();
+            map.removeLayer(layerPerencanaan);
+            map.removeLayer(layerMultiple);
+            // console.log(layerSpesifik);
+            let url = '{{ route('map.lokasi-spesifik', ':id') }}';
+            url = url.replace(':id', $(this).data('id'));
+            getDataPerencanaan(url);
+            $('#locationModal').modal('hide');
         });
 
         $("#cari-lokasi").on('submit', function(event) {
             event.preventDefault()
             layerMultiple.clearLayers();
+            map.removeLayer(layerSpesifik);
+            map.removeLayer(layerPerencanaan);
             let ids = $('#lokasi-select').val()
             let url = "{{ route('map.lokasi-filter', ':id') }}"
             url = url.replace(":id", ids)
-            layerMultiple.clearLayers()
             getDataPerencanaan(url);
         });
     </script>

@@ -98,8 +98,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         });
 
-        let marker = L.marker([-8.098090703999619, 112.16517341741141]).addTo(map)
-
+        var drawnLayer
         let controlLayer = L.control.layers({
             "Google": google,
             "OpenStreet": osm,
@@ -110,7 +109,55 @@
 
 
         // geoman tool
-        map.pm.enableGlobalDragMode()
+
+        let optionsBeforeDraw = {
+            drawMarker: true,
+            drawCircleMarker: false,
+            drawCircle: false,
+            drawPolyline: true,
+            drawRectangle: false,
+            drawPolygon: true,
+            drawText: false,
+            editMode: false,
+            dragMode: false,
+            cutPolygon: false,
+            removalMode: false,
+            rotateMode: false,
+        }
+
+        let optionsAfterDraw = {
+            drawMarker: false,
+            drawCircleMarker: false,
+            drawCircle: false,
+            drawPolyline: false,
+            drawRectangle: false,
+            drawPolygon: false,
+            drawText: false,
+            editMode: false,
+            dragMode: false,
+            cutPolygon: false,
+            removalMode: true,
+            rotateMode: false,
+        }
+
+
+        map.pm.addControls(optionsBeforeDraw)
+
+        map.on("pm:create", (e) => {
+            map.pm.disableDraw()
+            drawnLayer = e.layer
+            $("#koordinat").val(JSON.stringify(e.layer.toGeoJSON()))
+            map.pm.addControls(optionsAfterDraw)
+            map.pm.enableGlobalDragMode()
+
+        })
+
+        map.on("pm:remove", (e) => {
+            map.pm.addControls(optionsBeforeDraw)
+            map.pm.disableGlobalDragMode()
+            $("#koordinat").val("")
+        })
+
 
         $('#modal-lokasi-kegiatan').on('shown.bs.modal', function() {
             setTimeout(function() {
@@ -142,18 +189,16 @@
             $("#modal-lokasi-kegiatan").modal("show")
             $("#foto-preview").attr("hidden", true)
             $("#foto-lokasi").val("")
-            map.removeLayer(marker);
-            marker = L.marker([-8.098090703999619, 112.16517341741141]).addTo(map)
-            marker.on("pm:dragend", (e) => {
-                console.log(e.layer);
-                console.log(e.layer._latlng.lat);
-                $("#koordinat").val(e.layer._latlng.lat + "," + e.layer._latlng.lng)
-
-            })
+            if (drawnLayer != undefined) {
+                map.removeLayer(drawnLayer)
+            }
         })
 
         // call modal update data lokasi
         $(document).on('click', ".edit-data-lokasi", function() {
+            if (drawnLayer != undefined) {
+                map.removeLayer(drawnLayer)
+            }
             let url = "{{ route('data-lokasi.edit', ':id') }}"
             url = url.replace(":id", $(this).data("id"))
             $("input").val("")
@@ -165,7 +210,6 @@
                 dataType: "json",
                 async: false,
                 success: function(result) {
-                    console.log(result);
                     let data = result.data
                     let urlUpdate = "{{ route('data-lokasi.update', ':id') }}"
                     urlUpdate = urlUpdate.replace(":id", data.id)
@@ -176,16 +220,9 @@
                     $("#alamat").val(data.alamat)
                     $("#koordinat").val(data.coordinate)
                     $("#modal-lokasi-kegiatan").modal("show")
-                    let coorArray = data.coordinate.split(",")
-                    map.removeLayer(marker);
-                    marker = L.marker(coorArray).addTo(map)
-                    marker.on("pm:dragend", (e) => {
-                        console.log(e.layer);
-                        console.log(e.layer._latlng.lat);
-                        $("#koordinat").val(e.layer._latlng.lat + "," + e.layer
-                            ._latlng.lng)
-
-                    })
+                    // let coorArray = data.coordinate.split(",")
+                    let geometry = L.geoJSON(JSON.parse(result.data.coordinate)).addTo(map)
+                    drawnLayer = geometry
                 }
             })
         });
@@ -227,7 +264,6 @@
                     $('#modal-lokasi-kegiatan').modal('hide');
                 },
                 error: (xhr, ajaxOptions, thrownError) => {
-                    console.log(xhr.responseJSON.errors)
                     if (xhr.responseJSON.hasOwnProperty('errors')) {
                         var html =
                             "<ul style=justify-content: space-between;'>";
