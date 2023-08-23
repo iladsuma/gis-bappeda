@@ -7,104 +7,111 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
 
+    {{-- Google Font --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;700&display=swap" rel="stylesheet">
+
     {{-- Bootstrap --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
-    {{-- Font Awesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     {{-- CSS --}}
     <style>
         body {
-            background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkojnDvoDZ25oHrTLekmuf9Ywug3vFuwJlrIQoFtLXuzBCgatNzrk3P7cGX3k-lQoMYwhdvNRh8asEQqNc5TVBTsB-ksSG6J62dq6l2z7NieodSPXvF1g4EPdTNaqbFMX9n-4_Iy2NITYXjoJv98WWBAxTscEAxxK5pfGlXq8c-qN2Bo5lXEV-Npl7xQ/s3168/Monumen%20PETA.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-            overflow-x: hidden;
+            font-family: 'Quicksand', sans-serif;
         }
 
         .card-login {
-            background: rgba(255, 255, 255, 0.9);
-            -webkit-box-shadow: 0px 0px 33px 8px rgba(255, 255, 255, 0.47);
-            -moz-box-shadow: 0px 0px 33px 8px rgba(255, 255, 255, 0.47);
-            box-shadow: 0px 0px 33px 8px rgba(255, 255, 255, 0.47);
+            -webkit-box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.09);
+            -moz-box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.09);
+            box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.09);
+            background-color: #ffffff;
         }
 
-        .logo p {
-            font-size: 19px;
-            letter-spacing: 1px;
+        .hero-image {
+            background: url('https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/rm222-mind-16_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=1c53e59a7b21c1ffee85bc36a3837392');
+            background-size: cover;
+            background-position-x: -150px;
         }
 
-        input[type=text], input[type=password] {
-            border: none;
-            background: transparent;
-            border-bottom: 2px solid gray;
+        .hero-image div {
+            background-color: rgba(255, 255, 255, 0.3);
+            word-spacing: 10px;
         }
 
-        input[type=text]:focus, input[type=password]:focus {
-            border: none;
-            background: transparent;
-            border-bottom: 2px solid gray;
+        .hero-image img {
+            text-shadow:
+                3px 3px 0 #fff,
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff;
+        }
+
+        .hero-image h3 {
+            font-weight: 900;
+            text-shadow:
+                3px 3px 0 #fff,
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff;
+        }
+
+        .card-login h1 {
+            color: #0095D6;
         }
     </style>
 
 </head>
 
-<body>
+<body class="bg-light">
 
-    <div class="row d-flex justify-content-center mt-5">
-        <div class="col-lg-5">
-            <div class="card card-login py-4">
-                <div class="card-body">
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-lg-10">
-                            <div class="d-flex justify-content-between align-items-center logo">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Lambang_Kota_Blitar.png/450px-Lambang_Kota_Blitar.png"
-                                    class="mx-2" width="70px">
-                                <p class="mx-2">
-                                    Badan Perancanaan dan Pembangunan daerah Kota Blitar
-                                </p>
-                            </div>
+    <div class="container">
+
+        <div class="row d-flex justify-content-center mt-5">
+            <div class="col-lg-10">
+                <div class="row card-login">
+                    <div class="col-lg-6 hero-image d-flex justify-content-center align-items-center">
+                        <div class="col-lg-10 py-3 rounded-sm">
+                            <span class="d-flex justify-content-center mt-3 mb-4" style="opacity: 1.0;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Lambang_Kota_Blitar.png"
+                                    alt="" class="col-lg-3">
+                            </span>
+                            <h3 class="text-center text-dark">
+                                ( BAPPEDA )
+                                <br>
+                                Badan Perencanaan dan Pembangunan Daerah
+                                <br>
+                                Kota Blitar
+                            </h3>
                         </div>
                     </div>
-                    <hr>
-                    <div class="mt-5">
-                        <h3 class="font-weight-bold text-center mb-4">
-                            Halaman Login
-                        </h3>
-                        <form method="POST" action="{{ route('login') }}">
+                    <div class="col-lg-6 p-5">
+                        <form action="{{ route('login') }}" method="POST" class="px-5" style="border: 2px solid #B8EEFF; border-radius: 20px;">
                             @csrf
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-lg-11">
-                                    <div class="form-group mb-4">
-                                        <div class="d-flex align-items-center">
-                                            <h3 class="m-0 p-0 mr-3 text-secondary">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                            </h3>
-                                            <input type="text" id="username" name="login" class="form-control"
-                                                placeholder="Masukkan username ..." autofocus required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="d-flex align-items-center">
-                                            <h3 class="m-0 p-0 mr-3 text-secondary">
-                                                <i class="fa fa-lock" aria-hidden="true"></i>
-                                            </h3>
-                                            <input type="password" class="form-control" name="password" id="password"
-                                                placeholder="Masukkan password ..." required>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-center mt-5">
-                                        <button type="submit" class="btn btn-secondary px-5">Masuk Akun <i
-                                                class="fa fa-sign-in" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
+                            <h1 class="text-center mb-3 mt-4 font-weight-bold">Login</h1>
+                            <div class="mb-3">
+                                <label for="login" class="form-label">Username</label>
+                                <input type="text" name="login" placeholder="Masukkan username ..."
+                                    class="form-control" autofocus required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" name="password" placeholder="Masukkan password ..."
+                                    class="form-control" autofocus required>
+                            </div>
+                            <div class="mb-5 mt-5 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary w-100 font-weight-bold">Masuk Akun <i class="fa fa-sign-in"
+                                        aria-hidden="true"></i></button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     {{-- Bootstrap --}}
@@ -114,6 +121,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
     </script>
+
+    {{-- font awesome  --}}
+    <script src="https://kit.fontawesome.com/e4d20a5f83.js" crossorigin="anonymous"></script>
 
 </body>
 
