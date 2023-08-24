@@ -22,7 +22,11 @@ class User extends Authenticatable
         'opd_id',
         'name',
         'username',
+        'email',
+        'email_verified_at',
+        'username',
         'password',
+        'avatar',
     ];
 
     /**

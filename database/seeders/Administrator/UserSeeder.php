@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
             'username' => 'administrator',
             'email' => 'administrator@test',
             'password' => bcrypt('password'),
+            'avatar' => 'avatar-default.png',
         ]);
     }
 }
