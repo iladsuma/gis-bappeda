@@ -66,6 +66,40 @@
         ]
     });
 
+    $(document).on('click', ".hapus-kelurahan", function() {
+        swal.fire({
+            title: 'Hapus',
+            text: "Yakin hapus data" + $(this).data('nama') + " ?",
+            icon: 'warning',
+            showCancelButton: true,
+        })
+        .then((result) => {
+            if(result.isConfirmed) {
+            let id = $(this).data('id')
+            let url = "{{ route('data-opd.drop', ':id') }}"
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    url: url.replace(":id", id),
+                    type: 'delete',
+                    async: false,
+                    success: function(result) {
+                        swal.fire({
+                            title: 'Berhasil',
+                            text: 'Data berhasil dihapus',
+                            icon: 'success',
+                        })
+                        table.ajax.reload()
+                    }
+                })
+
+            }
+
+        })
+    });
+
     // show modal create
     $(document).on('click', "#tambah-data", function() {
         $("#modalKelurahanLabel").html("").append("Tambah Data Kelurahan");

@@ -15,6 +15,7 @@ use App\Http\Controllers\DataPendukung\LokusKemiskinanController;
 use App\Http\Controllers\DataPendukung\LokusStuntingController;
 use App\Http\Controllers\Map\MapController;
 use App\Http\Controllers\MasterData\DataOpdController;
+use App\Http\Controllers\Profile\UserController;
 use App\Models\Dokumen\DokumenFs;
 use Illuminate\Support\Facades\Route;
 
@@ -153,6 +154,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/data-lokus-stunting/{id}/update', [LokusStuntingController::class, 'update'])->name('data-lokus-stunting.update');
     Route::delete('/data-lokus-stunting/{id}/drop', [LokusStuntingController::class, 'drop'])->name('data-lokus-stunting.drop');
     ## --- end of data pendukung --- ##
+
+    // User
+    Route::put('/user/{id}.update', [UserController::class, 'update'])->name('profile.update');
+    Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('profile.edit');
 });
 
 require __DIR__ . '/auth.php';

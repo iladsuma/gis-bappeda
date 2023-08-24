@@ -164,3 +164,42 @@
         </div>
     </div>
 </div>
+
+{{-- Profile Edit Modal --}}
+<div class="modal fade" id="profileEditModal" tabindex="-1" aria-labelledby="profileEditModalLabel"
+    aria-hidden="true" style="z-index: 2001;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="profileEditModalLabel">Edit Profile</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-edit-profile">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama</label>
+                        <input type="text" id="name" class="form-control form-control-sm">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" id="username" class="form-control form-control-sm">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Perbarui Password</label>
+                        <input type="password" id="password" class="form-control form-control-sm" placeholder="Masukkan password baru ...">
+                        <span style="font-size: 10px; font-style: italic;">*kosongkan isian jika tidak ingin merubah password</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="profile-picture" class="form-label">Foto Profil</label>
+                        <input type="file" id="avatar" class="form-control form-control-sm">
+                        <span style="font-size: 10px; font-style: italic;">*kosongkan isian jika tidak ingin merubah foto profil</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save"></i> Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
