@@ -121,17 +121,17 @@
             editMode: false,
             dragMode: false,
             cutPolygon: false,
-            removalMode: false,
+            removalMode: true,
             rotateMode: false,
         }
 
         let optionsAfterDraw = {
-            drawMarker: false,
+            drawMarker: true,
             drawCircleMarker: false,
             drawCircle: false,
-            drawPolyline: false,
+            drawPolyline: true,
             drawRectangle: false,
-            drawPolygon: false,
+            drawPolygon: true,
             drawText: false,
             editMode: false,
             dragMode: false,
@@ -143,20 +143,46 @@
 
         map.pm.addControls(optionsBeforeDraw)
 
-        map.on("pm:create", (e) => {
-            map.pm.disableDraw()
-            drawnLayer = e.layer
-            $("#koordinat").val(JSON.stringify(e.layer.toGeoJSON()))
-            map.pm.addControls(optionsAfterDraw)
-            map.pm.enableGlobalDragMode()
+        let drawnItems = L.geoJSON()
 
+        map.on("pm:create", (e) => {
+            // map.pm.disableDraw()
+            let drawnLayer = e.layer
+            let feature = drawnLayer.feature = drawnLayer.feature || {};
+            feature.type = feature.type || "Feature";
+            var props = feature.properties = feature.properties || {};
+            props.lokasi = null;
+            props.kelurahan = null;
+            props.alamat = null;
+            drawnItems.addLayer(drawnLayer)
+            // map.pm.addControls(optionsAfterDraw)
+            // addPopup(drawnLayer)
+            $("#koordinat").val(JSON.stringify(drawnItems.toGeoJSON()))
         })
 
         map.on("pm:remove", (e) => {
-            map.pm.addControls(optionsBeforeDraw)
             map.pm.disableGlobalDragMode()
-            $("#koordinat").val("")
+            removedLayer = e.layer
+            drawnItems.removeLayer(removedLayer)
+            $("#koordinat").val(JSON.stringify(drawnItems.toGeoJSON()))
+            if (drawnItems.toGeoJSON().features.length < 1) {
+                $("#koordinat").val("")
+                // map.pm.addControls(optionsBeforeDraw)
+            }
         })
+
+        function addPopup(layer) {
+            // var content = document.createElement("textarea");
+            // content.addEventListener("keyup", function() {
+            //     layer.feature.properties.desc = content.value;
+            //     $("#koordinat").val(JSON.stringify(drawnItems.toGeoJSON()))
+            // });
+            // layer.on("popupopen", function() {
+            //     content.value = layer.feature.properties.desc;
+            //     content.focus();
+            // });
+            layer.bindPopup(content).openPopup();
+        }
 
 
         $('#modal-lokasi-kegiatan').on('shown.bs.modal', function() {
