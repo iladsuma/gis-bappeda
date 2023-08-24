@@ -107,6 +107,40 @@
             }
         })
     });
+    $(document).on('click', ".hapus-kelurahan", function() {
+        swal.fire({
+            title: 'Hapus',
+            text: "Yakin hapus data" + $(this).data('nama') + " ?",
+            icon: 'warning',
+            showCancelButton: true,
+        })
+        .then((result) => {
+            if(result.isConfirmed) {
+            let id = $(this).data('id')
+            let url = "{{ route('data-kelurahan.drop', ':id') }}"
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    url: url.replace(":id", id),
+                    type: 'delete',
+                    async: false,
+                    success: function(result) {
+                        console.log(result);
+                        swal.fire({
+                            title: result.title,
+                            text: result.message,
+                            icon: result.icon
+                        })
+                        table.ajax.reload()
+                    }
+                })
+
+            }
+
+        })
+    });
 
     // submit process
     $("#kelurahan-form").on("submit", function(e) {

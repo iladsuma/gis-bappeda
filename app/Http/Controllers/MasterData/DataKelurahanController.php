@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\LokasiKegiatan;
 use App\Models\Master\MasterKecamatan;
 use App\Models\Master\MasterKelurahan;
+use App\Models\Pendukung\KawasanKumuh;
+use App\Models\Pendukung\KawasanRtlh;
+use App\Models\Pendukung\LokusKemiskinan;
+use App\Models\Pendukung\LokusStunting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,5 +95,52 @@ class DataKelurahanController extends Controller
 
 
         return response("Data Lokasi berhasil diubah");
+    }
+    public function drop($id)
+    {
+        $kelurahan = MasterKelurahan::find($id);
+        $lokasi = LokasiKegiatan::where('kelurahan_id',$id)->get();
+        $kawasan_kumuh = KawasanKumuh::where('kelurahan_id',$id)->get();
+        $kawasan_rtlh = KawasanRtlh::where('kelurahan_id',$id)->get();
+        $lokus_kemiskinan = LokusKemiskinan::where('kelurahan_id',$id)->get();
+        $lokus_stunting = LokusStunting::where('kelurahan_id',$id)->get();
+        if (count($lokasi) > 0 || count($kawasan_kumuh) > 0 || count($kawasan_rtlh) > 0 || count($lokus_kemiskinan) > 0 || count($lokus_stunting) > 0) {
+            return response()->json([
+                "message"=>"Data tidak dapat dihapus!",
+                "title"=>"Gagal!",
+                "icon"=>"warning",
+                "status"=>"401"
+            ]
+            );
+        }
+        DB::beginTransaction();
+        
+        try {
+            if (file_exists(public_path('assets/geometry_kelurahan/' . $kelurahan->geometry))) {
+                File::delete(public_path('assets/geometry_kelurahan/' . $kelurahan->geometry));
+                
+            }
+            
+            $kelurahan->delete();
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+            return response()->json([
+                "message"=>"Data tidak dapat dihapus!",
+                "title"=>"Gagal!",
+                "icon"=>"warning",
+                "status"=>"500"
+            ]
+            );
+        }
+        
+        return response()->json([
+            "message"=>"Data berhasil dihapus!",
+            "title"=>"Berhasil!",
+            "icon"=>"success",
+            "status"=>"200"
+        ]
+        );
     }
 }

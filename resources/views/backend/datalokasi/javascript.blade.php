@@ -69,7 +69,7 @@
                     orderable: false,
                     render: function(data) {
                         return "<i class='fas fa-trash hapus-data-lokasi' data-nama='" + data
-                            .nama_kegiatan + "' data-id='" + data.id + "'></i>"
+                            .nama + "' data-id='" + data.id + "'></i>"
                     }
                 },
             ]
@@ -193,7 +193,40 @@
                 map.removeLayer(drawnLayer)
             }
         })
+        $(document).on('click', ".hapus-data-lokasi", function() {
+        swal.fire({
+            title: 'Hapus',
+            text: "Yakin hapus data " + $(this).data('nama') + " ?",
+            icon: 'warning',
+            showCancelButton: true,
+        })
+        .then((result) => {
+            if(result.isConfirmed) {
+            let id = $(this).data('id')
+            let url = "{{ route('data-lokasi.drop', ':id') }}"
 
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    url: url.replace(":id", id),
+                    type: 'delete',
+                    async: false,
+                    success: function(result) {
+                        console.log(result);
+                        swal.fire({
+                            title: result.title,
+                            text: result.message,
+                            icon: result.icon
+                        })
+                        table.ajax.reload()
+                    }
+                })
+
+            }
+
+        })
+    });
         // call modal update data lokasi
         $(document).on('click', ".edit-data-lokasi", function() {
             if (drawnLayer != undefined) {

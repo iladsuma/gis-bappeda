@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dokumen\DokumenDed;
+use App\Models\Dokumen\DokumenFs;
+use App\Models\Dokumen\DokumenLingkungan;
+use App\Models\Dokumen\DokumenMp;
 use App\Models\Master\LokasiKegiatan;
 use App\Models\Master\MasterKelurahan;
 use Illuminate\Http\Request;
@@ -97,5 +101,48 @@ class DataLokasiController extends Controller
 
     public function drop($id)
     {
+        $kelurahan = LokasiKegiatan::find($id);
+        $dokumen_fs = DokumenFs::where('lokasi_kegiatan_id',$id)->get();
+        $dokumen_mp = DokumenMp::where('lokasi_kegiatan_id',$id)->get();
+        $dokumen_lingkungan = DokumenLingkungan::where('lokasi_kegiatan_id',$id)->get();
+        $dokumen_ded = DokumenDed::where('lokasi_kegiatan_id',$id)->get();
+        if (count($dokumen_fs) > 0 || count($dokumen_mp) > 0 || count($dokumen_lingkungan) > 0 || count($dokumen_ded) > 0 ) {
+            return response()->json([
+                "message"=>"Data tidak dapat dihapus!",
+                "title"=>"Gagal!",
+                "icon"=>"warning",
+                "status"=>"401"
+            ]
+            );
+        }
+        DB::beginTransaction();
+        
+        try {
+            if (file_exists(public_path('assets/geometry_kelurahan/' . $kelurahan->geometry))) {
+                File::delete(public_path('assets/geometry_kelurahan/' . $kelurahan->geometry));
+                
+            }
+            
+            $kelurahan->delete();
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+            return response()->json([
+                "message"=>"Data tidak dapat dihapus!",
+                "title"=>"Gagal!",
+                "icon"=>"warning",
+                "status"=>"500"
+            ]
+            );
+        }
+        
+        return response()->json([
+            "message"=>"Data berhasil dihapus!",
+            "title"=>"Berhasil!",
+            "icon"=>"success",
+            "status"=>"200"
+        ]
+        );
     }
 }
