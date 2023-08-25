@@ -30,12 +30,12 @@ class MapController extends Controller
     public function lokasi_spesifik($id)
     {
         $data_lokasi = LokasiKegiatan::where('id', $id)
-        ->with('kelurahan', 'kelurahan.kecamatan')
-        ->get();
+            ->with('kelurahan', 'kelurahan.kecamatan')
+            ->get();
 
         $response = [
-            'data'=>$data_lokasi,
-            'jumlah'=>count($data_lokasi),
+            'data' => $data_lokasi,
+            'jumlah' => count($data_lokasi),
             'method' => 'spesifik',
         ];
 
@@ -45,8 +45,8 @@ class MapController extends Controller
     public function datatable_modal()
     {
         $datatable = DataTables::of(LokasiKegiatan::with(['dokumen_fs', 'dokumen_mp', 'dokumen_lingkungan', 'dokumen_ded'])->orderBy('id', 'asc'))
-        ->addIndexColumn()
-        ->make('true');
+            ->addIndexColumn()
+            ->make('true');
         return $datatable;
     }
 
@@ -83,7 +83,9 @@ class MapController extends Controller
 
     public function datatable_fs($id)
     {
-        $datatable_fs = DataTables::of(DokumenFs::where('lokasi_kegiatan_id', $id)->with(['lokasi', 'opd'])->orderBy('id', 'asc'))
+        $datatable_fs = DataTables::of(DokumenFs::whereHas('lokasi', function ($q) use ($id) {
+            $q->where('lokasi_kegiatan_id', $id);
+        })->with('opd')->orderBy('id', 'asc'))
             ->addIndexColumn()
             ->make('true');
 

@@ -16,7 +16,7 @@
                             <th>Kecamatan</th>
                             <th>Alamat</th>
                             {{-- <th>Deskripsi</th> --}}
-                            <th>geometry</th>
+                            {{-- <th>geometry</th> --}}
                             <th>Foto Lokasi</th>
                             <th>Aksi</th>
                             <th></th>
@@ -67,7 +67,6 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="koordinat">Koordinat</label>
-                                    {{-- <input type="text" class="form-control" id="koordinat" required> --}}
                                     <textarea class="form-control" id="koordinat" cols="3" rows="2"></textarea>
                                 </div>
                                 <div class="form-group">

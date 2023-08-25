@@ -31,15 +31,16 @@
                 data: 'opd.nama',
             },
             {
-                data: 'lokasi.nama',
+                data: 'lokasi[].nama',
             },
             {
                 data: 'tahun',
             },
             {
-                data: 'dokumen_fs',
+                data: 'dokumen',
                 render: function(data) {
-                    return "<button class='btn btn-light border border-success btn-sm document-preview' data-nama='" + data + "' data-toggle='modal'>Lihat Dokumen</button>"
+                    return "<button class='btn btn-light border border-success btn-sm document-preview' data-nama='" +
+                        data + "' data-toggle='modal'>Lihat Dokumen</button>"
                 }
             },
             {
@@ -62,6 +63,13 @@
         ]
     })
 
+    $('#lokasi_id').select2({
+        placeholder: "Pilih minimal 1 atau lebih lokasi ...",
+        width: '100%',
+        theme: 'classic',
+        // dropdownParent: $("#search")
+    });
+
     $(document).on('click', "#tambah-data", function() {
         $("#modalDokumenFSLabel").html("").append("Tambah Data Dokumen FS");
         $("#nama_kegiatan").val("");
@@ -76,7 +84,8 @@
     });
 
     $(document).on('click', '.document-preview', function() {
-        $('#iframeDocumentPreview').attr('src', '{{ asset("assets/dokumen_fs/") }}' + '/' + $(this).data('nama'))
+        $('#iframeDocumentPreview').attr('src', '{{ asset('assets/dokumen_fs/') }}' + '/' + $(this).data(
+            'nama'))
         $('#documentPreviewModalLabel').html('Dokumen ' + $(this).data('nama'))
         $('#documentPreviewModal').modal('show')
     })
@@ -134,15 +143,19 @@
             dataType: "json",
             async: false,
             success: function(result) {
-                console.log(result);
                 let urlUpdate = "{{ route('data-dokumen-fs.update', ':id') }}"
                 urlUpdate = urlUpdate.replace(':id', id)
                 $('#dokumen-fs-form').attr('action', urlUpdate);
                 $('#dokumen-fs-form').attr('method', 'PUT');
                 $("#nama_kegiatan").val(result.data.nama_kegiatan)
                 $("#tahun").val(result.data.tahun)
-                $("#dokumen").val(result.data.dokumen)
+                // $("#dokumen").val(result.data.dokumen)
                 $("#opd_id").val(result.data.opd_id)
+                let select2Value = []
+                $.each(result.data.lokasi, function(key, lokasi) {
+                    select2Value.push(lokasi.id)
+                })
+                $("#lokasi_id").val(select2Value).trigger('change');
             }
         })
         // console.log(id);

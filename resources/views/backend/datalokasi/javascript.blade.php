@@ -44,9 +44,9 @@
                 // {
                 //     data: 'deskripsi',
                 // },
-                {
-                    data: 'coordinate',
-                },
+                // {
+                //     data: 'coordinate',
+                // },
                 {
                     data: 'foto',
                     render: function(data) {
@@ -74,7 +74,6 @@
                 },
             ]
         })
-
 
         // leaflet for add coordinate
         let map = new L.map('modal-map', {
@@ -142,21 +141,11 @@
 
 
         map.pm.addControls(optionsBeforeDraw)
-
         let drawnItems = L.geoJSON()
 
         map.on("pm:create", (e) => {
-            // map.pm.disableDraw()
-            let drawnLayer = e.layer
-            let feature = drawnLayer.feature = drawnLayer.feature || {};
-            feature.type = feature.type || "Feature";
-            var props = feature.properties = feature.properties || {};
-            props.lokasi = null;
-            props.kelurahan = null;
-            props.alamat = null;
+            drawnLayer = e.layer
             drawnItems.addLayer(drawnLayer)
-            // map.pm.addControls(optionsAfterDraw)
-            // addPopup(drawnLayer)
             $("#koordinat").val(JSON.stringify(drawnItems.toGeoJSON()))
         })
 
@@ -167,22 +156,8 @@
             $("#koordinat").val(JSON.stringify(drawnItems.toGeoJSON()))
             if (drawnItems.toGeoJSON().features.length < 1) {
                 $("#koordinat").val("")
-                // map.pm.addControls(optionsBeforeDraw)
             }
         })
-
-        function addPopup(layer) {
-            // var content = document.createElement("textarea");
-            // content.addEventListener("keyup", function() {
-            //     layer.feature.properties.desc = content.value;
-            //     $("#koordinat").val(JSON.stringify(drawnItems.toGeoJSON()))
-            // });
-            // layer.on("popupopen", function() {
-            //     content.value = layer.feature.properties.desc;
-            //     content.focus();
-            // });
-            layer.bindPopup(content).openPopup();
-        }
 
 
         $('#modal-lokasi-kegiatan').on('shown.bs.modal', function() {
@@ -207,6 +182,7 @@
 
         // call modal create data lokasi
         $(document).on('click', "#tambah-data", function() {
+            drawnItems.clearLayers()
             $("#lokasi-kegiatan-form").attr("action", "{{ route('data-lokasi.store') }}")
             $("#lokasi-kegiatan-form").attr("method", "POST")
             $("input").val("")
@@ -215,16 +191,19 @@
             $("#modal-lokasi-kegiatan").modal("show")
             $("#foto-preview").attr("hidden", true)
             $("#foto-lokasi").val("")
-            if (drawnLayer != undefined) {
-                map.removeLayer(drawnLayer)
-            }
+            map.eachLayer(function(layer) {
+                map.removeLayer(layer);
+                map.addLayer(google, imagery, osm)
+            });
         })
 
         // call modal update data lokasi
         $(document).on('click', ".edit-data-lokasi", function() {
-            if (drawnLayer != undefined) {
-                map.removeLayer(drawnLayer)
-            }
+            drawnItems.clearLayers()
+            map.eachLayer(function(layer) {
+                map.removeLayer(layer);
+                map.addLayer(google, imagery, osm)
+            });
             let url = "{{ route('data-lokasi.edit', ':id') }}"
             url = url.replace(":id", $(this).data("id"))
             $("input").val("")
@@ -247,8 +226,11 @@
                     $("#koordinat").val(data.coordinate)
                     $("#modal-lokasi-kegiatan").modal("show")
                     // let coorArray = data.coordinate.split(",")
+                    console.log(JSON.parse(data.coordinate))
                     let geometry = L.geoJSON(JSON.parse(result.data.coordinate)).addTo(map)
-                    drawnLayer = geometry
+
+                    drawnItems.addLayer(geometry)
+                    // drawnLayer = JSON.parse(result.data.coordinate)
                 }
             })
         });

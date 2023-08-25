@@ -26,7 +26,8 @@
     </div>
 
     {{-- Dokumen Preview Modal --}}
-    <div class="modal fade" id="documentPreviewModal" tabindex="-1" aria-labelledby="documentPreviewModalLabel" aria-hidden="true">
+    <div class="modal fade" id="documentPreviewModal" tabindex="-1" aria-labelledby="documentPreviewModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
@@ -36,7 +37,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <iframe src="" id="iframeDocumentPreview" height="500" width="100%" title="Iframe Example"></iframe>
+                    <iframe src="" id="iframeDocumentPreview" height="500" width="100%"
+                        title="Iframe Example"></iframe>
                 </div>
             </div>
         </div>
@@ -78,8 +80,8 @@
                     </div>
                     <div class="form-group">
                         <label for="opd_id">Lokasi Kegiatan</label>
-                        <select class="form-control" id="lokasi_id" required>
-                            <option value="">Pilih Lokasi Kegiatan ...</option>
+                        <select class="form-control" id="lokasi_id" multiple required>
+                            {{-- <option value="">Pilih Lokasi Kegiatan ...</option> --}}
                             @foreach ($lokasi as $lokasi)
                                 <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>
                             @endforeach
