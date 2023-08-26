@@ -80,12 +80,14 @@
             fullscreenControl: true,
         })
 
-        map.setView([-8.098244, 112.165077], 15);
+        function setView(coordinate) {
+            map.setView(coordinate, 15);
+        }
 
         let google = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
             maxZoom: 20,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-        }).addTo(map)
+        })
 
         let imagery = L.tileLayer(
             'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -95,7 +97,7 @@
         let osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
+        }).addTo(map);
 
         var drawnLayer
         let controlLayer = L.control.layers({
@@ -188,21 +190,24 @@
             $("input").val("")
             $("textarea").val("")
             $("select").val("")
-            $("#modal-lokasi-kegiatan").modal("show")
             $("#foto-preview").attr("hidden", true)
             $("#foto-lokasi").val("")
             map.eachLayer(function(layer) {
-                map.removeLayer(layer);
-                map.addLayer(google, imagery, osm)
+                if (layer.toGeoJSON) {
+                    map.removeLayer(layer);
+                }
             });
+            setView([-8.098244, 112.165077])
+            $("#modal-lokasi-kegiatan").modal("show")
         })
 
         // call modal update data lokasi
         $(document).on('click', ".edit-data-lokasi", function() {
             drawnItems.clearLayers()
             map.eachLayer(function(layer) {
-                map.removeLayer(layer);
-                map.addLayer(google, imagery, osm)
+                if (layer.toGeoJSON) {
+                    map.removeLayer(layer);
+                }
             });
             let url = "{{ route('data-lokasi.edit', ':id') }}"
             url = url.replace(":id", $(this).data("id"))
@@ -224,13 +229,11 @@
                     $("#kelurahan").val(data.kelurahan_id)
                     $("#alamat").val(data.alamat)
                     $("#koordinat").val(data.coordinate)
-                    $("#modal-lokasi-kegiatan").modal("show")
-                    // let coorArray = data.coordinate.split(",")
                     console.log(JSON.parse(data.coordinate))
                     let geometry = L.geoJSON(JSON.parse(result.data.coordinate)).addTo(map)
-
                     drawnItems.addLayer(geometry)
-                    // drawnLayer = JSON.parse(result.data.coordinate)
+                    $("#modal-lokasi-kegiatan").modal("show")
+                    setView(geometry.getBounds().getCenter())
                 }
             })
         });

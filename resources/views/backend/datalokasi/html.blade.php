@@ -15,8 +15,6 @@
                             <th>Kelurahan</th>
                             <th>Kecamatan</th>
                             <th>Alamat</th>
-                            {{-- <th>Deskripsi</th> --}}
-                            {{-- <th>geometry</th> --}}
                             <th>Foto Lokasi</th>
                             <th>Aksi</th>
                             <th></th>
