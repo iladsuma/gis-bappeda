@@ -28,6 +28,6 @@ class DokumenLingkungan extends Model
 
     public function lokasi()
     {
-        return $this->belongsTo(LokasiKegiatan::class, 'lokasi_kegiatan_id', 'id');
+        return $this->belongsToMany(LokasiKegiatan::class, 'lokasi_dokumen_lingkungan');
     }
 }

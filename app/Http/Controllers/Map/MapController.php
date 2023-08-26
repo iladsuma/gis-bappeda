@@ -94,29 +94,35 @@ class MapController extends Controller
 
     public function datatable_mp($id)
     {
-        $datatable_fs = DataTables::of(DokumenMp::where('lokasi_kegiatan_id', $id)->with(['lokasi', 'opd'])->orderBy('id', 'asc'))
+        $datatable_mp = DataTables::of(DokumenFs::whereHas('lokasi', function ($q) use ($id) {
+            $q->where('lokasi_kegiatan_id', $id);
+        })->with('opd')->orderBy('id', 'asc'))
             ->addIndexColumn()
             ->make('true');
 
-        return $datatable_fs;
+        return $datatable_mp;
     }
 
     public function datatable_lingkungan($id)
     {
-        $datatable_fs = DataTables::of(DokumenLingkungan::where('lokasi_kegiatan_id', $id)->with(['lokasi', 'opd'])->orderBy('id', 'asc'))
+        $datatable_lingkungan = DataTables::of(DokumenFs::whereHas('lokasi', function ($q) use ($id) {
+            $q->where('lokasi_kegiatan_id', $id);
+        })->with('opd')->orderBy('id', 'asc'))
             ->addIndexColumn()
             ->make('true');
 
-        return $datatable_fs;
+        return $datatable_lingkungan;
     }
 
     public function datatable_ded($id)
     {
-        $datatable_fs = DataTables::of(DokumenDed::where('lokasi_kegiatan_id', $id)->with(['lokasi', 'opd'])->orderBy('id', 'asc'))
+        $datatable_ded = DataTables::of(DokumenFs::whereHas('lokasi', function ($q) use ($id) {
+            $q->where('lokasi_kegiatan_id', $id);
+        })->with('opd')->orderBy('id', 'asc'))
             ->addIndexColumn()
             ->make('true');
 
-        return $datatable_fs;
+        return $datatable_ded;
     }
 
     public function kawasan_kumuh()
