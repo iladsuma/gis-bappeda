@@ -28,7 +28,7 @@
     <!-- Modal -->
     <div class="modal fade" id="modal-lokasi-kegiatan" tabindex="-1" aria-labelledby="modal-lokasi-kegiatan"
         aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">
@@ -38,8 +38,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="lokasi-kegiatan-form">
-                    <div class="modal-body">
+                <div class="modal-body">
+                    <form id="lokasi-kegiatan-form">
                         @csrf
                         <div class="row p-2">
                             <div class="col-md-4 border p-3">
@@ -90,14 +90,33 @@
                             <div class="col-md-8 p-4">
                                 <div id="modal-map" class="border" style="height: 600px"></div>
                             </div>
+
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                            id="dismiss">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="dismiss">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Dokumen Preview Modal --}}
+    <div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                {{-- <div class="modal-header">
+                    <h5 class="modal-title" id="imagePreviewModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div> --}}
+                <div class="modal-body d-flex justify-content-center">
+                    {{-- <iframe src="" id="iframeImagePreview" height="500" width="100%" title="Iframe Example"></iframe> --}}
+                    <img src="" id="iframeImagePreview" class="img img-fluid">
+                </div>
             </div>
         </div>
     </div>

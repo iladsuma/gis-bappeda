@@ -123,8 +123,8 @@
             <div class="card mt-3">
                 <div class="card-body">
                     <div class="row d-flex justify-content-center">
-                        <div class="col-lg-10">
-                            <img src="assets/image/avatar/{{ Auth::user()->avatar }}" class="img img-fluid my-3" alt="">
+                        <div class="col-lg-10 d-flex justify-content-center">
+                            <img id="avatar-sidebar" src="assets/image/avatar/{{ Auth::user()->avatar }}" class="img my-3 rounded rounded-circle" width="250" height="250" alt="">
                         </div>
                     </div>
                     <h3 class="text-center fw-bold">{{ Auth::user()->name }}</h3>

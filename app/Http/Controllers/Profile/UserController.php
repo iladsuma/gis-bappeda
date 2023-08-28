@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Profile;
 
-use Symfony\Component\HttpFoundation\Response;
 
 use App\Http\Controllers\Controller;
 use App\Models\Administrator\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -29,7 +29,10 @@ class UserController extends Controller
         }
         $user_profile->save();
 
-        return response("Data berhasil diubah");
+        return response()->json([
+            "message" => "Profil berhasil diubah",
+            "avatar" => $user_profile->avatar,
+        ]);
     }
 
     public function edit($id)
