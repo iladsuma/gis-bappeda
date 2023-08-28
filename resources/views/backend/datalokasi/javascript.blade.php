@@ -44,9 +44,9 @@
                 // {
                 //     data: 'deskripsi',
                 // },
-                {
-                    data: 'coordinate',
-                },
+                // {
+                //     data: 'coordinate',
+                // },
                 {
                     data: 'foto',
                     render: function(data) {
@@ -75,18 +75,19 @@
             ]
         })
 
-
         // leaflet for add coordinate
         let map = new L.map('modal-map', {
             fullscreenControl: true,
         })
 
-        map.setView([-8.098244, 112.165077], 15);
+        function setView(coordinate) {
+            map.setView(coordinate, 15);
+        }
 
         let google = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
             maxZoom: 20,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-        }).addTo(map)
+        })
 
         let imagery = L.tileLayer(
             'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -96,7 +97,7 @@
         let osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
+        }).addTo(map);
 
         var drawnLayer
         let controlLayer = L.control.layers({
@@ -121,17 +122,17 @@
             editMode: false,
             dragMode: false,
             cutPolygon: false,
-            removalMode: false,
+            removalMode: true,
             rotateMode: false,
         }
 
         let optionsAfterDraw = {
-            drawMarker: false,
+            drawMarker: true,
             drawCircleMarker: false,
             drawCircle: false,
-            drawPolyline: false,
+            drawPolyline: true,
             drawRectangle: false,
-            drawPolygon: false,
+            drawPolygon: true,
             drawText: false,
             editMode: false,
             dragMode: false,
@@ -142,20 +143,22 @@
 
 
         map.pm.addControls(optionsBeforeDraw)
+        let drawnItems = L.geoJSON()
 
         map.on("pm:create", (e) => {
-            map.pm.disableDraw()
             drawnLayer = e.layer
-            $("#koordinat").val(JSON.stringify(e.layer.toGeoJSON()))
-            map.pm.addControls(optionsAfterDraw)
-            map.pm.enableGlobalDragMode()
-
+            drawnItems.addLayer(drawnLayer)
+            $("#koordinat").val(JSON.stringify(drawnItems.toGeoJSON()))
         })
 
         map.on("pm:remove", (e) => {
-            map.pm.addControls(optionsBeforeDraw)
             map.pm.disableGlobalDragMode()
-            $("#koordinat").val("")
+            removedLayer = e.layer
+            drawnItems.removeLayer(removedLayer)
+            $("#koordinat").val(JSON.stringify(drawnItems.toGeoJSON()))
+            if (drawnItems.toGeoJSON().features.length < 1) {
+                $("#koordinat").val("")
+            }
         })
 
 
@@ -181,24 +184,31 @@
 
         // call modal create data lokasi
         $(document).on('click', "#tambah-data", function() {
+            drawnItems.clearLayers()
             $("#lokasi-kegiatan-form").attr("action", "{{ route('data-lokasi.store') }}")
             $("#lokasi-kegiatan-form").attr("method", "POST")
             $("input").val("")
             $("textarea").val("")
             $("select").val("")
-            $("#modal-lokasi-kegiatan").modal("show")
             $("#foto-preview").attr("hidden", true)
             $("#foto-lokasi").val("")
-            if (drawnLayer != undefined) {
-                map.removeLayer(drawnLayer)
-            }
+            map.eachLayer(function(layer) {
+                if (layer.toGeoJSON) {
+                    map.removeLayer(layer);
+                }
+            });
+            setView([-8.098244, 112.165077])
+            $("#modal-lokasi-kegiatan").modal("show")
         })
 
         // call modal update data lokasi
         $(document).on('click', ".edit-data-lokasi", function() {
-            if (drawnLayer != undefined) {
-                map.removeLayer(drawnLayer)
-            }
+            drawnItems.clearLayers()
+            map.eachLayer(function(layer) {
+                if (layer.toGeoJSON) {
+                    map.removeLayer(layer);
+                }
+            });
             let url = "{{ route('data-lokasi.edit', ':id') }}"
             url = url.replace(":id", $(this).data("id"))
             $("input").val("")
@@ -219,10 +229,11 @@
                     $("#kelurahan").val(data.kelurahan_id)
                     $("#alamat").val(data.alamat)
                     $("#koordinat").val(data.coordinate)
-                    $("#modal-lokasi-kegiatan").modal("show")
-                    // let coorArray = data.coordinate.split(",")
+                    console.log(JSON.parse(data.coordinate))
                     let geometry = L.geoJSON(JSON.parse(result.data.coordinate)).addTo(map)
-                    drawnLayer = geometry
+                    drawnItems.addLayer(geometry)
+                    $("#modal-lokasi-kegiatan").modal("show")
+                    setView(geometry.getBounds().getCenter())
                 }
             })
         });

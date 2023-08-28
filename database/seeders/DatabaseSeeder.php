@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Master\MasterKelurahan;
 use Database\Seeders\Administrator\UserSeeder;
 use Database\Seeders\Master\MasterKecamatanSeeder;
+use Database\Seeders\Master\MasterKelurahanSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             MasterKecamatanSeeder::class,
+            MasterKelurahanSeeder::class,
         ]);
     }
 }

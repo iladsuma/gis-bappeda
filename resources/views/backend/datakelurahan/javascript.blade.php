@@ -53,16 +53,16 @@
                     return "<i class='fas fa-pencil edit-kelurahan' data-id='" + data + "'></i>"
                 }
             },
-            {
-                data: null,
-                width: '10px',
-                orderable: false,
-                render: function(data) {
-                    return "<i class='fas fa-trash hapus-kelurahan' data-nama='" + data.nama +
-                        "' data-id='" +
-                        data.id + "'></i>"
-                }
-            },
+            // {
+            //     data: null,
+            //     width: '10px',
+            //     orderable: false,
+            //     render: function(data) {
+            //         return "<i class='fas fa-trash hapus-kelurahan' data-nama='" + data.nama +
+            //             "' data-id='" +
+            //             data.id + "'></i>"
+            //     }
+            // },
         ]
     });
 

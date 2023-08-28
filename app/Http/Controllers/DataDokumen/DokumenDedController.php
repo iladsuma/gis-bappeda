@@ -28,8 +28,8 @@ class DokumenDedController extends Controller
     public function datatable()
     {
         $datatable = DataTables::of(DokumenDed::with(['lokasi', 'opd'])->orderBy('id', 'asc'))
-        ->addIndexColumn()
-        ->make('true');
+            ->addIndexColumn()
+            ->make('true');
 
         return $datatable;
     }
@@ -44,12 +44,14 @@ class DokumenDedController extends Controller
 
     public function update(Request $request, $id)
     {
+        $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
         $dokumen_ded = DokumenDed::findOrFail($id);
         $dokumen_ded->nama_kegiatan = $request->nama_kegiatan;
         $dokumen_ded->opd_id = $request->opd_id;
-        $dokumen_ded->lokasi_kegiatan_id = $request->lokasi_id;
+        // $dokumen_ded->lokasi_kegiatan_id = $request->lokasi_id;
         $dokumen_ded->tahun = $request->tahun;
-        if($request->hasFile('dokumen')) {
+        $dokumen_ded->lokasi()->sync($lokasi_kegiatan_ids);
+        if ($request->hasFile('dokumen')) {
             File::delete(public_path('assets/dokumen_ded/' . $dokumen_ded->dokumen));
             $nama_dokumen = $request->nama_kegiatan . ".pdf";
             $request->file('dokumen')->move(public_path('assets/dokumen_ded'), $nama_dokumen);
@@ -62,17 +64,19 @@ class DokumenDedController extends Controller
 
     public function store(Request $request)
     {
+        $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
         DB::beginTransaction();
         try {
             $dokumen_ded = DokumenDed::create([
                 'nama_kegiatan' => $request->nama_kegiatan,
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
-                'lokasi_kegiatan_id' => $request->lokasi_id,
+                // 'lokasi_kegiatan_id' => $request->lokasi_id,
                 'dokumen' => $request->nama_kegiatan . ".pdf",
             ]);
+            $dokumen_ded->lokasi()->sync($lokasi_kegiatan_ids);
 
-            if($request->hasFile('dokumen')) {
+            if ($request->hasFile('dokumen')) {
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_ded'), $nama_dokumen);
             }
@@ -80,7 +84,7 @@ class DokumenDedController extends Controller
         } catch (\Throwable $error) {
             DB::rollBack();
             throw $error;
-            return response($error->getMessage(),500) ;
+            return response($error->getMessage(), 500);
         }
         return response("Data berhasil ditambahkan");
     }
@@ -88,7 +92,7 @@ class DokumenDedController extends Controller
     public function drop($id)
     {
         $dokumen_ded = DokumenDed::find($id);
-        if(file_exists(public_path('assets/dokumen_ded/' . $dokumen_ded->dokumen))) {
+        if (file_exists(public_path('assets/dokumen_ded/' . $dokumen_ded->dokumen))) {
             File::delete(public_path('assets/dokumen_ded/' . $dokumen_ded->dokumen));
         }
         $dokumen_ded->delete();

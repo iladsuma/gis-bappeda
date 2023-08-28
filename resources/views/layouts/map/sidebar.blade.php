@@ -9,7 +9,8 @@
                         class="fas fa-computer"></i></a></li> --}}
             <li><a href="{{ route('data-opd.index') }}" role="tab" title="Dashboard Admin"><i
                         class="fas fa-computer"></i></a></li>
-            <li><a data-bs-toggle="modal" data-bs-target="#locationModal" id="location-modal"><i class="fa-solid fa-location-dot"></i></a></li>
+            <li style="cursor: pointer"><a data-bs-toggle="modal" data-bs-target="#locationModal" id="location-modal"><i
+                        class="fa-solid fa-location-dot"></i></a></li>
         </ul>
 
         <ul role="tablist">

@@ -30,7 +30,7 @@ class LokasiKegiatan extends Model
 
     public function dokumen_fs()
     {
-        return $this->hasMany(DokumenFs::class, 'lokasi_kegiatan_id', 'id');
+        return $this->belongsToMany(DokumenFs::class, 'lokasi_dokumen_fs');
     }
 
     public function dokumen_mp()

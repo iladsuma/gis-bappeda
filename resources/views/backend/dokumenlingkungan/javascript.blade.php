@@ -38,47 +38,58 @@
             method: 'GET'
         },
         columns: [{
-            data: 'DT_RowIndex',
-        },
-        {
-            data: 'nama_kegiatan',
-        },
-        {
-            data: 'opd.nama',
-        },
-        {
-            data: 'lokasi.nama',
-        },
-        {
-            data: 'tahun',
-        },
-        {
-            data: 'dokumen',
-            render: function(data) {
-                return "<button class='btn btn-light border border-success btn-sm document-preview' data-nama='" + data + "' data-toggle='modal'>Lihat Dokumen</button>"
-            }
-        },
-        {
-            data: 'id',
-            width: '10px',
-            orderable: false,
-            render: function(data) {
-                return "<i class='fas fa-pencil edit-dokumen-lingkungan' data-id='" + data + "'></i>"
-            }
-        },
-        {
-            data: null,
-            width: '10px',
-            orderable: false,
-            render: function(data) {
-                return "<i class='fas fa-trash hapus-dokumen-lingkungan' data-nama='" + data.nama_kegiatan + "' data-id='" + data.id + "'></i>"
-            }
-        },
-    ]
+                data: 'DT_RowIndex',
+            },
+            {
+                data: 'nama_kegiatan',
+            },
+            {
+                data: 'opd.nama',
+            },
+            {
+                data: 'lokasi[].nama',
+            },
+            {
+                data: 'tahun',
+            },
+            {
+                data: 'dokumen',
+                render: function(data) {
+                    return "<button class='btn btn-light border border-success btn-sm document-preview' data-nama='" +
+                        data + "' data-toggle='modal'>Lihat Dokumen</button>"
+                }
+            },
+            {
+                data: 'id',
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-pencil edit-dokumen-lingkungan' data-id='" + data +
+                        "'></i>"
+                }
+            },
+            {
+                data: null,
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-trash hapus-dokumen-lingkungan' data-nama='" + data
+                        .nama_kegiatan + "' data-id='" + data.id + "'></i>"
+                }
+            },
+        ]
     })
 
+    $('#lokasi_id').select2({
+        placeholder: "Pilih minimal 1 atau lebih lokasi ...",
+        width: '100%',
+        theme: 'classic',
+        // dropdownParent: $("#search")
+    });
+
     $(document).on('click', '.document-preview', function() {
-        $('#iframeDocumentPreview').attr('src', '{{ asset("assets/dokumen_lingkungan/") }}' + '/' + $(this).data('nama'))
+        $('#iframeDocumentPreview').attr('src', '{{ asset('assets/dokumen_lingkungan/') }}' + '/' + $(this)
+            .data('nama'))
         $('#documentPreviewModalLabel').html('Dokumen ' + $(this).data('nama'))
         $('#documentPreviewModal').modal('show')
     })
@@ -95,7 +106,7 @@
         formData.append('lokasi_id', $("#lokasi_id").val());
         formData.append('dokumen', $('#dokumen:input[type=file]')[0].files[0]);
 
-        if(method == 'PUT') {
+        if (method == 'PUT') {
             formData.append('_method', 'PUT');
         }
 
@@ -183,8 +194,13 @@
                 $('#dokumen-lingkungan-form').attr('method', 'PUT');
                 $("#nama_kegiatan").val(result.data.nama_kegiatan)
                 $("#tahun").val(result.data.tahun)
-                $("#dokumen").val(result.data.dokumen)
+                // $("#dokumen").val(result.data.dokumen)
                 $("#opd_id").val(result.data.opd_id)
+                let select2Value = []
+                $.each(result.data.lokasi, function(key, lokasi) {
+                    select2Value.push(lokasi.id)
+                })
+                $("#lokasi_id").val(select2Value).trigger('change');
             }
         })
         // console.log(id);
@@ -192,35 +208,35 @@
 
     $(document).on('click', ".hapus-dokumen-lingkungan", function() {
         swal.fire({
-            title: 'Hapus',
-            text: "Yakin hapus data " + $(this).data('nama') + " ?",
-            icon: 'warning',
-            showCancelButton: true,
-        })
-        .then((result) => {
-            if(result.isConfirmed) {
-            let id = $(this).data('id')
-            let url = "{{ route('data-dokumen-lingkungan.drop', ':id') }}"
+                title: 'Hapus',
+                text: "Yakin hapus data " + $(this).data('nama') + " ?",
+                icon: 'warning',
+                showCancelButton: true,
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let id = $(this).data('id')
+                    let url = "{{ route('data-dokumen-lingkungan.drop', ':id') }}"
 
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    url: url.replace(":id", id),
-                    type: 'delete',
-                    async: false,
-                    success: function(result) {
-                        swal.fire({
-                            title: 'Berhasil',
-                            text: 'Data berhasil dihapus',
-                            icon: 'success',
-                        })
-                        table.ajax.reload()
-                    }
-                })
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        url: url.replace(":id", id),
+                        type: 'delete',
+                        async: false,
+                        success: function(result) {
+                            swal.fire({
+                                title: 'Berhasil',
+                                text: 'Data berhasil dihapus',
+                                icon: 'success',
+                            })
+                            table.ajax.reload()
+                        }
+                    })
 
-            }
+                }
 
-        })
+            })
     });
 </script>

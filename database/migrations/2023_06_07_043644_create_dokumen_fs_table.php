@@ -19,7 +19,7 @@ class CreateDokumenFsTable extends Migration
             $table->foreignId('opd_id');
             $table->string('nama_kegiatan');
             $table->string('tahun');
-            $table->string('dokumen_fs');
+            $table->string('dokumen');
             $table->timestamps();
         });
     }

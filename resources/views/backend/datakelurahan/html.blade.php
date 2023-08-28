@@ -6,7 +6,7 @@
                 Data Kelurahan
             </div>
             <div class="card-body ">
-                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Kelurahan</button>
+                {{-- <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Kelurahan</button> --}}
                 <table id="table-kelurahan" class="table table-stripped">
                     <thead>
                         <tr>

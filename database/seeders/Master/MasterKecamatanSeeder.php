@@ -30,16 +30,5 @@ class MasterKecamatanSeeder extends Seeder
             'nama'  => 'Sananwetan',
             'kode'  => '35.72.03'
         ]);
-
-    //     MasterKecamatan::create([
-    //         'nama'  => 'Sananwetan',
-    //         'kode'  => '35.72.03'
-    //     ]);
-
-    //     MasterKecamatan::create([
-    //         'nama'  => 'Sukorejo',
-    //         'kode'  => '35.72.02'
-    //     ]);
-    // }
     }
 }

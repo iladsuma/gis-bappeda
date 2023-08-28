@@ -18,7 +18,7 @@ class DokumenFs extends Model
         'opd_id',
         'nama_kegiatan',
         'tahun',
-        'dokumen_fs',
+        'dokumen',
     ];
 
     public function opd()
@@ -28,6 +28,6 @@ class DokumenFs extends Model
 
     public function lokasi()
     {
-        return $this->belongsTo(LokasiKegiatan::class, 'lokasi_kegiatan_id', 'id');
+        return $this->belongsToMany(LokasiKegiatan::class, 'lokasi_dokumen_fs');
     }
 }

@@ -36,7 +36,8 @@ class DokumenFsController extends Controller
 
     public function edit($id)
     {
-        $dokumen_fs = DokumenFs::findOrFail($id);
+        $dokumen_fs = DokumenFs::where('id', $id)->with('lokasi:id,nama')->first();
+        // dd($dokumen_fs);
         return response()->json([
             'data' => $dokumen_fs
         ], Response::HTTP_OK);
@@ -45,32 +46,46 @@ class DokumenFsController extends Controller
     public function update(Request $request, $id)
     {
         $dokumen_fs = DokumenFs::findOrFail($id);
-        $dokumen_fs->nama_kegiatan = $request->nama_kegiatan;
-        $dokumen_fs->opd_id = $request->opd_id;
-        $dokumen_fs->lokasi_kegiatan_id = $request->lokasi_id;
-        $dokumen_fs->tahun = $request->tahun;
-        if ($request->hasFile('dokumen')) {
-            File::delete(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen_fs));
-            $nama_dokumen = $request->nama_kegiatan . ".pdf";
-            $request->file('dokumen')->move(public_path('assets/dokumen_fs'), $nama_dokumen);
-            $dokumen_fs->dokumen_fs = $request->nama_kegiatan . ".pdf";
+        $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
+
+        DB::beginTransaction();
+
+        try {
+            $dokumen_fs->nama_kegiatan = $request->nama_kegiatan;
+            $dokumen_fs->opd_id = $request->opd_id;
+            $dokumen_fs->tahun = $request->tahun;
+            $dokumen_fs->lokasi()->sync($lokasi_kegiatan_ids);
+            if ($request->hasFile('dokumen')) {
+                File::delete(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen));
+                $nama_dokumen = $request->nama_kegiatan . ".pdf";
+                $request->file('dokumen')->move(public_path('assets/dokumen_fs'), $nama_dokumen);
+                $dokumen_fs->dokumen = $request->nama_kegiatan . ".pdf";
+            }
+            $dokumen_fs->save();
+            DB::commit();
+        } catch (\Throwable $error) {
+            DB::rollBack();
+            throw $error;
+            return response($error->getMessage(), 500);
         }
-        $dokumen_fs->save();
 
         return response("Data berhasil diubah");
     }
 
     public function store(Request $request)
     {
+
+        $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
+
         DB::beginTransaction();
         try {
             $dokumen_fs = DokumenFs::create([
                 'nama_kegiatan' => $request->nama_kegiatan,
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
-                'lokasi_kegiatan_id' => $request->lokasi_id,
-                'dokumen_fs' => $request->nama_kegiatan . ".pdf",
+                'dokumen' => $request->nama_kegiatan . ".pdf",
             ]);
+            $dokumen_fs->lokasi()->sync($lokasi_kegiatan_ids);
 
             if ($request->hasFile('dokumen')) {
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";

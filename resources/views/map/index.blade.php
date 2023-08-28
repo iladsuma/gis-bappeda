@@ -22,6 +22,10 @@
 
         }
 
+        #sidebar {
+            visibility: hidden;
+        }
+
         body {
             /* font-family: "Helvetica Neue", Arial, Helvetica, sans-serif !important; */
             font-size: .90rem;
@@ -101,237 +105,240 @@
 
     {{-- leaflet script --}}
     <script>
-        let map = L.map('map', {})
-        map.setView([-8.098244, 112.165077], 13);
+        $(document).ready(function() {
+            $(".sidebar").css('visibility', 'visible')
 
-        let google = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-        })
+            let map = L.map('map', {})
+            map.setView([-8.098244, 112.165077], 13);
 
-        let imagery = L.tileLayer(
-            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                maxZoom: 18,
+            let google = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+            })
+
+            let imagery = L.tileLayer(
+                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 18,
+                }).addTo(map)
+
+            let osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            });
+
+            let baseLayers = {
+                "Satelite": imagery,
+                "Google": google,
+                "OpenStreet": osm,
+            }
+
+            let style = {
+                color: "yellow",
+                opacity: .75
+            }
+
+            let styleKawasanKumuh = {
+                color: "white",
+                opacity: .50
+            }
+
+            let styleKawasanRTLH = {
+                color: "cyan",
+                opacity: .50
+            }
+
+            let styleKemiskinan = {
+                color: "red",
+                opacity: .50
+            }
+
+            let styleStunting = {
+                color: "orange",
+                opacity: .50
+            }
+
+
+            let sananwetan = new L.GeoJSON.AJAX("assets/leaflet/geojson/sananwetan.geojson", style).addTo(map)
+            let kepanjenkidul = new L.GeoJSON.AJAX("assets/leaflet/geojson/kepanjenkidul.geojson", style).addTo(map)
+            let sukorejo = new L.GeoJSON.AJAX("assets/leaflet/geojson/sukorejo.geojson", style).addTo(map)
+            let imageUrl = "{{ asset('assets/leaflet/images/rdtr.png') }}"
+            let latLngBounds = L.latLngBounds([
+                [-8.13700008392334, 112.131721496582],
+                [-8.05541801452637, 112.200820922852]
+            ]);
+            let errorOverlayUrl = "RDTR Gagal Dimuat";
+            let altText = "RDTR Gagal Dimuat";
+            let rdtr = L.imageOverlay(imageUrl, latLngBounds, {
+                opacity: .8,
+                errorOverlayUrl: errorOverlayUrl,
+                alt: altText,
+                interactive: true
+            });
+
+            let layerSpesifik = L.layerGroup();
+            let layerPerencanaan = L.featureGroup();
+            let layerMultiple = L.featureGroup();
+            let layerKawasanKumuh = L.featureGroup();
+            let layerRtlh = L.featureGroup();
+            let layerKemiskinan = L.featureGroup();
+            let layerStunting = L.featureGroup();
+            let layerSpam = L.featureGroup();
+            let layerPdam = L.featureGroup();
+
+            let groupedOverlays = {
+                "Peta Tematik ": {
+                    "Kecamatan Sananwetan": sananwetan,
+                    "Kecamatan Kepanjenkidul": kepanjenkidul,
+                    "Kecamatan Sukorejo": sukorejo,
+                    "Tata Ruang (RDTR)": rdtr,
+                },
+                "Peta Perencanaan": {
+                    "Dokumen Perencanaan": layerPerencanaan
+                },
+                "Data Pendukung": {
+                    "Kawasan Kumuh": layerKawasanKumuh,
+                    "Kawasan RTLH": layerRtlh,
+                    "Lokus Kemiskinan": layerKemiskinan,
+                    "Lokus Stunting": layerStunting,
+                    "Jaringan Spam": layerSpam,
+                    "Jaringan Pipa PDAM": layerPdam,
+                }
+            };
+
+
+            // create custom control layer
+            let controlLayer = L.control.groupedLayers(baseLayers, groupedOverlays, {
+                collapsed: false,
+                exclusiveGroups: ["Data Pendukung"],
+                groupCheckboxes: false
+            }).addTo(map);
+
+            let sidebar = L.control.sidebar('sidebar', {
+                position: 'right'
             }).addTo(map)
 
-        let osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
+            // add control layer to sidebar
+            let htmlControlLayer = controlLayer.getContainer();
+            $('#layer-data').append(htmlControlLayer);
 
-        let baseLayers = {
-            "Satelite": imagery,
-            "Google": google,
-            "OpenStreet": osm,
-        }
+            // leaflet geoman
+            map.pm.addControls({
+                position: 'topleft',
 
-        let style = {
-            color: "yellow",
-            opacity: .75
-        }
-
-        let styleKawasanKumuh = {
-            color: "white",
-            opacity: .50
-        }
-
-        let styleKawasanRTLH = {
-            color: "cyan",
-            opacity: .50
-        }
-
-        let styleKemiskinan = {
-            color: "red",
-            opacity: .50
-        }
-
-        let styleStunting = {
-            color: "orange",
-            opacity: .50
-        }
-
-
-        let sananwetan = new L.GeoJSON.AJAX("assets/leaflet/geojson/sananwetan.geojson", style).addTo(map),
-            kepanjenkidul = new L.GeoJSON.AJAX("assets/leaflet/geojson/kepanjenkidul.geojson", style).addTo(map),
-            sukorejo = new L.GeoJSON.AJAX("assets/leaflet/geojson/sukorejo.geojson", style).addTo(map)
-        let imageUrl = "{{ asset('assets/leaflet/images/rdtr.png') }}"
-        let latLngBounds = L.latLngBounds([
-            [-8.13700008392334, 112.131721496582],
-            [-8.05541801452637, 112.200820922852]
-        ]);
-        let errorOverlayUrl = "RDTR Gagal Dimuat";
-        let altText = "RDTR Gagal Dimuat";
-        let rdtr = L.imageOverlay(imageUrl, latLngBounds, {
-            opacity: .8,
-            errorOverlayUrl: errorOverlayUrl,
-            alt: altText,
-            interactive: true
-        });
-
-        let layerSpesifik = L.layerGroup();
-        let layerPerencanaan = L.featureGroup();
-        let layerMultiple = L.featureGroup();
-        let layerKawasanKumuh = L.featureGroup();
-        let layerRtlh = L.featureGroup();
-        let layerKemiskinan = L.featureGroup();
-        let layerStunting = L.featureGroup();
-        let layerSpam = L.featureGroup();
-        let layerPdam = L.featureGroup();
-
-        let groupedOverlays = {
-            "Peta Tematik ": {
-                "Kecamatan Sananwetan": sananwetan,
-                "Kecamatan Kepanjenkidul": kepanjenkidul,
-                "Kecamatan Sukorejo": sukorejo,
-                "Tata Ruang (RDTR)": rdtr,
-            },
-            "Peta Perencanaan": {
-                "Dokumen Perencanaan": layerPerencanaan
-            },
-            "Data Pendukung": {
-                "Kawasan Kumuh": layerKawasanKumuh,
-                "Kawasan RTLH": layerRtlh,
-                "Lokus Kemiskinan": layerKemiskinan,
-                "Lokus Stunting": layerStunting,
-                "Jaringan Spam": layerSpam,
-                "Jaringan Pipa PDAM": layerPdam,
-            }
-        };
-
-
-        // create custom control layer
-        let controlLayer = L.control.groupedLayers(baseLayers, groupedOverlays, {
-            collapsed: false,
-            exclusiveGroups: ["Data Pendukung"],
-            groupCheckboxes: false
-        }).addTo(map);
-
-        let sidebar = L.control.sidebar('sidebar', {
-            position: 'right'
-        }).addTo(map)
-
-        // add control layer to sidebar
-        let htmlControlLayer = controlLayer.getContainer();
-        $('#layer-data').append(htmlControlLayer);
-
-        // leaflet geoman
-        map.pm.addControls({
-            position: 'topleft',
-
-        })
+            })
 
 
 
-        map.on('overlayadd', function(event) {
-            if (event.name == "Dokumen Perencanaan") {
-                map.removeLayer(layerSpesifik);
-                map.removeLayer(layerMultiple);
-                layerPerencanaan.clearLayers()
-                let url = "{{ route('map.lokasi-all') }}"
-                getDataPerencanaan(url)
-            }
-
-            if (event.name == "Kawasan Kumuh") {
-                layerKawasanKumuh.clearLayers()
-                let url = "{{ route('map.kawasan-kumuh') }}"
-                getDataPendukung(url, styleKawasanKumuh)
-            }
-
-            if (event.name == "Kawasan RTLH") {
-                layerRtlh.clearLayers()
-                let url = "{{ route('map.kawasan-rtlh') }}"
-                getDataPendukung(url, styleKawasanRTLH);
-            }
-
-            if (event.name == "Lokus Kemiskinan") {
-                layerKemiskinan.clearLayers()
-                let url = "{{ route('map.lokus-kemiskinan') }}"
-                getDataPendukung(url, styleKemiskinan);
-            }
-
-            if (event.name == "Lokus Stunting") {
-                layerStunting.clearLayers()
-                let url = "{{ route('map.lokus-stunting') }}"
-                getDataPendukung(url, styleStunting);
-            }
-        })
-
-        // function ajax call data for any pendukung
-        function getDataPerencanaan(url) {
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                },
-                type: "GET",
-                url: url,
-                dataType: "json",
-                success: function(result) {
-                    console.log(result)
-                    $.each(result.data, function(index, data) {
-                        let geometry = JSON.parse(data.coordinate)
-                        let layer = L.geoJSON(geometry)
-                        if (result.method == 'all') {
-                            layer.addTo(layerPerencanaan);
-                            layerPerencanaan.addTo(map)
-                            center = layerPerencanaan.getBounds()
-                            map.flyToBounds(center);
-                        }
-                        if (result.method == 'spesifik') {
-                            layer.addTo(layerSpesifik);
-                            layerSpesifik.addTo(map);
-                            center = layer.getBounds()
-                            map.flyToBounds(center);
-                        }
-                        if (result.method == 'multiple') {
-                            layer.addTo(layerMultiple);
-                            layerMultiple.addTo(map)
-                            center = layerMultiple.getBounds()
-                            map.flyToBounds(center);
-                        }
-                        layerOnClick(layer, data)
-                    })
+            map.on('overlayadd', function(event) {
+                if (event.name == "Dokumen Perencanaan") {
+                    map.removeLayer(layerSpesifik);
+                    map.removeLayer(layerMultiple);
+                    layerPerencanaan.clearLayers()
+                    let url = "{{ route('map.lokasi-all') }}"
+                    getDataPerencanaan(url)
                 }
-            });
-        }
 
-        // function ajax call data for any pendukung
-        function getDataPendukung(url, style) {
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                },
-                type: "GET",
-                url: url,
-                dataType: "json",
-                success: function(result) {
-                    $.each(result.data, function(index, data) {
-                        console.log(result);
-                        let polygon = new L.GeoJSON.AJAX("assets/geometry_kelurahan/" + data
-                            .kelurahan.geometry, style)
-                        if (result.judul == "Kawasan Kumuh") {
-                            polygon.addTo(layerKawasanKumuh)
-                            layerKawasanKumuh.addTo(map)
-                        } else if (result.judul == "RTLH") {
-                            polygon.addTo(layerRtlh)
-                            layerRtlh.addTo(map)
-                        } else if (result.judul == "Lokus Kemiskinan") {
-                            polygon.addTo(layerKemiskinan)
-                            layerKemiskinan.addTo(map)
-                        } else if (result.judul == "Lokus Stunting") {
-                            polygon.addTo(layerStunting)
-                            layerStunting.addTo(map)
-                        }
-                        polygonOnClick(polygon, data, result.judul)
-                    })
+                if (event.name == "Kawasan Kumuh") {
+                    layerKawasanKumuh.clearLayers()
+                    let url = "{{ route('map.kawasan-kumuh') }}"
+                    getDataPendukung(url, styleKawasanKumuh)
                 }
-            });
-        }
 
-        // function get data for marker and set the content and bind the pop up layer on click
-        function layerOnClick(layer, data) {
-            let content = ` <img class="img-fluid" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
+                if (event.name == "Kawasan RTLH") {
+                    layerRtlh.clearLayers()
+                    let url = "{{ route('map.kawasan-rtlh') }}"
+                    getDataPendukung(url, styleKawasanRTLH);
+                }
+
+                if (event.name == "Lokus Kemiskinan") {
+                    layerKemiskinan.clearLayers()
+                    let url = "{{ route('map.lokus-kemiskinan') }}"
+                    getDataPendukung(url, styleKemiskinan);
+                }
+
+                if (event.name == "Lokus Stunting") {
+                    layerStunting.clearLayers()
+                    let url = "{{ route('map.lokus-stunting') }}"
+                    getDataPendukung(url, styleStunting);
+                }
+            })
+
+            // function ajax call data for any pendukung
+            function getDataPerencanaan(url) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                    },
+                    type: "GET",
+                    url: url,
+                    dataType: "json",
+                    success: function(result) {
+                        console.log(result)
+                        $.each(result.data, function(index, data) {
+                            let geometry = JSON.parse(data.coordinate)
+                            let layer = L.geoJSON(geometry)
+                            if (result.method == 'all') {
+                                layer.addTo(layerPerencanaan);
+                                layerPerencanaan.addTo(map)
+                                center = layerPerencanaan.getBounds()
+                                map.flyToBounds(center);
+                            }
+                            if (result.method == 'spesifik') {
+                                layer.addTo(layerSpesifik);
+                                layerSpesifik.addTo(map);
+                                center = layer.getBounds()
+                                map.flyToBounds(center);
+                            }
+                            if (result.method == 'multiple') {
+                                layer.addTo(layerMultiple);
+                                layerMultiple.addTo(map)
+                                center = layerMultiple.getBounds()
+                                map.flyToBounds(center);
+                            }
+                            layerOnClick(layer, data)
+                        })
+                    }
+                });
+            }
+
+            // function ajax call data for any pendukung
+            function getDataPendukung(url, style) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                    },
+                    type: "GET",
+                    url: url,
+                    dataType: "json",
+                    success: function(result) {
+                        $.each(result.data, function(index, data) {
+                            console.log(result);
+                            let polygon = new L.GeoJSON.AJAX("assets/geometry_kelurahan/" + data
+                                .kelurahan.geometry, style)
+                            if (result.judul == "Kawasan Kumuh") {
+                                polygon.addTo(layerKawasanKumuh)
+                                layerKawasanKumuh.addTo(map)
+                            } else if (result.judul == "RTLH") {
+                                polygon.addTo(layerRtlh)
+                                layerRtlh.addTo(map)
+                            } else if (result.judul == "Lokus Kemiskinan") {
+                                polygon.addTo(layerKemiskinan)
+                                layerKemiskinan.addTo(map)
+                            } else if (result.judul == "Lokus Stunting") {
+                                polygon.addTo(layerStunting)
+                                layerStunting.addTo(map)
+                            }
+                            polygonOnClick(polygon, data, result.judul)
+                        })
+                    }
+                });
+            }
+
+            // function get data for marker and set the content and bind the pop up layer on click
+            function layerOnClick(layer, data) {
+                let content = ` <img class="img-fluid" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
                             <table class="table table-sm table-striped">
                                 <tr>
                                     <th>Nama</th>
@@ -355,19 +362,19 @@
                                 </tr>
                             </table>`
 
-            layer.on("click", function(e) {
-                $(".detail-tab").attr("data-id", data.id)
-                if (e.target._popup == undefined) {
-                    layer.bindPopup(content).openPopup()
-                } else {
-                    layer.bindPopup()
-                }
-            })
-        }
+                layer.on("click", function(e) {
+                    $(".detail-tab").attr("data-id", data.id)
+                    if (e.target._popup == undefined) {
+                        layer.bindPopup(content).openPopup()
+                    } else {
+                        layer.bindPopup()
+                    }
+                })
+            }
 
-        // function polygon form ajax add the content and bind the pop up
-        function polygonOnClick(polygon, data, judul) {
-            let content = `<p class="text-center h7" >` + judul + `</p>
+            // function polygon form ajax add the content and bind the pop up
+            function polygonOnClick(polygon, data, judul) {
+                let content = `<p class="text-center h7" >` + judul + `</p>
                         <table class="table table-sm table-striped">
                             <tr>
                                 <th>Kelurahan</th>
@@ -380,280 +387,281 @@
                         </table>`
 
 
-            polygon.on("click", function(e) {
-                if (e.target._popup == undefined) {
-                    polygon.bindPopup(content).openPopup()
-                } else {
-                    polygon.bindPopup()
+                polygon.on("click", function(e) {
+                    if (e.target._popup == undefined) {
+                        polygon.bindPopup(content).openPopup()
+                    } else {
+                        polygon.bindPopup()
+                    }
+                })
+            }
+
+            // open the modal of detail marker
+            $(document).on("click", ".open-modal", function() {
+                let id = $(this).data("id")
+                let nama = $(this).data("nama")
+                $("#detail-title").html("").html("Detail " + nama)
+
+                //datatable fs in modal detail
+                if ($.fn.DataTable.isDataTable('#table-fs')) {
+                    $('#table-fs').DataTable().destroy()
                 }
-            })
-        }
 
-        // open the modal of detail marker
-        $(document).on("click", ".open-modal", function() {
-            let id = $(this).data("id")
-            let nama = $(this).data("nama")
-            $("#detail-title").html("").html("Detail " + nama)
-
-            //datatable fs in modal detail
-            if ($.fn.DataTable.isDataTable('#table-fs')) {
-                $('#table-fs').DataTable().destroy()
-            }
-
-            var urlFs = "{{ route('map.datatable-fs', ':id') }}"
-            urlFs = urlFs.replace(":id", id)
-            var tableFs = $('#table-fs').DataTable({
-                processing: true,
-                ajax: {
-                    url: urlFs,
-                    method: 'GET'
-                },
-                lengthChange: false,
-                searching: false,
-                responsive: true,
-                columns: [{
-                        data: 'DT_RowIndex',
+                var urlFs = "{{ route('map.datatable-fs', ':id') }}"
+                urlFs = urlFs.replace(":id", id)
+                var tableFs = $('#table-fs').DataTable({
+                    processing: true,
+                    ajax: {
+                        url: urlFs,
+                        method: 'GET'
                     },
-                    {
-                        data: 'nama_kegiatan',
-                    },
-                    {
-                        data: 'opd.nama',
-                    },
-                    {
-                        data: 'tahun',
-                    },
-                    {
-                        data: 'dokumen_fs',
-                        render: function(data) {
-                            return `<a href="assets/dokumen_fs/` + data +
-                                `" target="_blank" >` +
-                                data + `</a>`
+                    lengthChange: false,
+                    searching: false,
+                    responsive: true,
+                    columns: [{
+                            data: 'DT_RowIndex',
                         },
-                    },
-                ],
-            })
-
-            //datatable fs in modal detail
-            if ($.fn.DataTable.isDataTable('#table-mp')) {
-                $('#table-mp').DataTable().destroy()
-            }
-            var urlMp = "{{ route('map.datatable-mp', ':id') }}"
-            urlMp = urlMp.replace(":id", id)
-            var tableMp = $('#table-mp').DataTable({
-                processing: true,
-                ajax: {
-                    url: urlMp,
-                    method: 'GET'
-                },
-                lengthChange: false,
-                searching: false,
-                responsive: true,
-                columns: [{
-                        data: 'DT_RowIndex',
-                    },
-                    {
-                        data: 'nama_kegiatan',
-                    },
-                    {
-                        data: 'opd.nama',
-                    },
-                    {
-                        data: 'tahun',
-                    },
-                    {
-                        data: 'dokumen',
-                        render: function(data) {
-                            return `<a href="assets/dokumen_mp/` + data +
-                                `" target="_blank" >` +
-                                data + `</a>`
+                        {
+                            data: 'nama_kegiatan',
                         },
-                    },
-                ]
-            })
-
-            //datatable lingkungan in modal detail
-            if ($.fn.DataTable.isDataTable('#table-lingkungan')) {
-                $('#table-lingkungan').DataTable().destroy()
-            }
-            var urlLingkungan = "{{ route('map.datatable-lingkungan', ':id') }}"
-            urlLingkungan = urlLingkungan.replace(":id", id)
-            var tablelingkungan = $('#table-lingkungan').DataTable({
-                processing: true,
-                ajax: {
-                    url: urlLingkungan,
-                    method: 'GET'
-                },
-                lengthChange: false,
-                searching: false,
-                responsive: true,
-                columns: [{
-                        data: 'DT_RowIndex',
-                    },
-                    {
-                        data: 'nama_kegiatan',
-                    },
-                    {
-                        data: 'opd.nama',
-                    },
-                    {
-                        data: 'tahun',
-                    },
-                    {
-                        data: 'dokumen',
-                        render: function(data) {
-                            return `<a href="assets/dokumen_lingkungan/` + data +
-                                `" target="_blank" >` +
-                                data + `</a>`
+                        {
+                            data: 'opd.nama',
                         },
-                    },
-                ]
-            })
-
-            //datatable DED in modal detail
-            if ($.fn.DataTable.isDataTable('#table-ded')) {
-                $('#table-ded').DataTable().destroy()
-            }
-            var urlDed = "{{ route('map.datatable-ded', ':id') }}"
-            urlDed = urlDed.replace(":id", id)
-            var tablelingkungan = $('#table-ded').DataTable({
-                processing: true,
-                ajax: {
-                    url: urlDed,
-                    method: 'GET'
-                },
-                lengthChange: false,
-                searching: false,
-                responsive: true,
-                columns: [{
-                        data: 'DT_RowIndex',
-                    },
-                    {
-                        data: 'nama_kegiatan',
-                    },
-                    {
-                        data: 'opd.nama',
-                    },
-                    {
-                        data: 'tahun',
-                    },
-                    {
-                        data: 'dokumen',
-                        render: function(data) {
-                            return `<a href="assets/dokumen_ded/` + data +
-                                `" target="_blank" >` +
-                                data + `</a>`
+                        {
+                            data: 'tahun',
                         },
+                        {
+                            data: 'dokumen',
+                            render: function(data) {
+                                return `<a href="assets/dokumen_fs/` + data +
+                                    `" target="_blank" >` +
+                                    data + `</a>`
+                            },
+                        },
+                    ],
+                })
+
+                //datatable fs in modal detail
+                if ($.fn.DataTable.isDataTable('#table-mp')) {
+                    $('#table-mp').DataTable().destroy()
+                }
+                var urlMp = "{{ route('map.datatable-mp', ':id') }}"
+                urlMp = urlMp.replace(":id", id)
+                var tableMp = $('#table-mp').DataTable({
+                    processing: true,
+                    ajax: {
+                        url: urlMp,
+                        method: 'GET'
                     },
-                ]
+                    lengthChange: false,
+                    searching: false,
+                    responsive: true,
+                    columns: [{
+                            data: 'DT_RowIndex',
+                        },
+                        {
+                            data: 'nama_kegiatan',
+                        },
+                        {
+                            data: 'opd.nama',
+                        },
+                        {
+                            data: 'tahun',
+                        },
+                        {
+                            data: 'dokumen',
+                            render: function(data) {
+                                return `<a href="assets/dokumen_mp/` + data +
+                                    `" target="_blank" >` +
+                                    data + `</a>`
+                            },
+                        },
+                    ]
+                })
+
+                //datatable lingkungan in modal detail
+                if ($.fn.DataTable.isDataTable('#table-lingkungan')) {
+                    $('#table-lingkungan').DataTable().destroy()
+                }
+                var urlLingkungan = "{{ route('map.datatable-lingkungan', ':id') }}"
+                urlLingkungan = urlLingkungan.replace(":id", id)
+                var tablelingkungan = $('#table-lingkungan').DataTable({
+                    processing: true,
+                    ajax: {
+                        url: urlLingkungan,
+                        method: 'GET'
+                    },
+                    lengthChange: false,
+                    searching: false,
+                    responsive: true,
+                    columns: [{
+                            data: 'DT_RowIndex',
+                        },
+                        {
+                            data: 'nama_kegiatan',
+                        },
+                        {
+                            data: 'opd.nama',
+                        },
+                        {
+                            data: 'tahun',
+                        },
+                        {
+                            data: 'dokumen',
+                            render: function(data) {
+                                return `<a href="assets/dokumen_lingkungan/` + data +
+                                    `" target="_blank" >` +
+                                    data + `</a>`
+                            },
+                        },
+                    ]
+                })
+
+                //datatable DED in modal detail
+                if ($.fn.DataTable.isDataTable('#table-ded')) {
+                    $('#table-ded').DataTable().destroy()
+                }
+                var urlDed = "{{ route('map.datatable-ded', ':id') }}"
+                urlDed = urlDed.replace(":id", id)
+                var tablelingkungan = $('#table-ded').DataTable({
+                    processing: true,
+                    ajax: {
+                        url: urlDed,
+                        method: 'GET'
+                    },
+                    lengthChange: false,
+                    searching: false,
+                    responsive: true,
+                    columns: [{
+                            data: 'DT_RowIndex',
+                        },
+                        {
+                            data: 'nama_kegiatan',
+                        },
+                        {
+                            data: 'opd.nama',
+                        },
+                        {
+                            data: 'tahun',
+                        },
+                        {
+                            data: 'dokumen',
+                            render: function(data) {
+                                return `<a href="assets/dokumen_ded/` + data +
+                                    `" target="_blank" >` +
+                                    data + `</a>`
+                            },
+                        },
+                    ]
+                })
+
+                $("#modal-detail").modal("show")
+
             })
 
-            $("#modal-detail").modal("show")
-
-        })
-
-        $(document).on('click', '#location-modal', function() {
-            console.log($.fn.DataTable.isDataTable('#table-location'))
-            if ($.fn.DataTable.isDataTable('#table-location')) {
-                $('#table-location').DataTable().destroy()
-            }
-            var tableLocation = $('#table-location').DataTable({
-                processing: true,
-                ajax: {
-                    url: "{{ route('map.datatable-modal') }}",
-                    method: 'GET'
-                },
-                // lengthChange: false,
-                searching: false,
-                responsive: true,
-                columns: [{
-                        data: 'DT_RowIndex',
-                        render: function(data) {
-                            return `<div class='text-center'>${data}</div>`;
-                        }
+            $(document).on('click', '#location-modal', function() {
+                console.log($.fn.DataTable.isDataTable('#table-location'))
+                if ($.fn.DataTable.isDataTable('#table-location')) {
+                    $('#table-location').DataTable().destroy()
+                }
+                var tableLocation = $('#table-location').DataTable({
+                    processing: true,
+                    ajax: {
+                        url: "{{ route('map.datatable-modal') }}",
+                        method: 'GET'
                     },
-                    {
-                        data: 'nama',
-                    },
-                    {
-                        data: 'alamat',
-                    },
-                    {
-                        data: 'dokumen_fs',
-                        render: function(data) {
-                            if (data.length > 0) {
-                                return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
-                            } else {
-                                return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                    // lengthChange: false,
+                    searching: false,
+                    responsive: true,
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            render: function(data) {
+                                return `<div class='text-center'>${data}</div>`;
                             }
-                        }
-                    },
-                    {
-                        data: 'dokumen_mp',
-                        render: function(data) {
-                            if (data.length > 0) {
-                                return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
-                            } else {
-                                return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
-                            }
-                        }
-                    },
-                    {
-                        data: 'dokumen_lingkungan',
-                        render: function(data) {
-                            if (data.length > 0) {
-                                return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
-                            } else {
-                                return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
-                            }
-                        }
-                    },
-                    {
-                        data: 'dokumen_ded',
-                        render: function(data) {
-                            if (data.length > 0) {
-                                return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
-                            } else {
-                                return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
-                            }
-                        }
-                    },
-                    {
-                        data: 'id',
-                        render: function(data) {
-                            return `<div class="text-center"><button class="btn btn-light fokus" data-id="${data}"><i class="fas fa-search"></i></button></div>`;
                         },
-                    },
-                ],
-                order: [],
-                columnDefs: [{
-                    targets: 'document',
-                    orderable: false,
-                }]
+                        {
+                            data: 'nama',
+                        },
+                        {
+                            data: 'alamat',
+                        },
+                        {
+                            data: 'dokumen_fs',
+                            render: function(data) {
+                                if (data.length > 0) {
+                                    return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
+                                } else {
+                                    return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                                }
+                            }
+                        },
+                        {
+                            data: 'dokumen_mp',
+                            render: function(data) {
+                                if (data.length > 0) {
+                                    return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
+                                } else {
+                                    return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                                }
+                            }
+                        },
+                        {
+                            data: 'dokumen_lingkungan',
+                            render: function(data) {
+                                if (data.length > 0) {
+                                    return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
+                                } else {
+                                    return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                                }
+                            }
+                        },
+                        {
+                            data: 'dokumen_ded',
+                            render: function(data) {
+                                if (data.length > 0) {
+                                    return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
+                                } else {
+                                    return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                                }
+                            }
+                        },
+                        {
+                            data: 'id',
+                            render: function(data) {
+                                return `<div class="text-center"><button class="btn btn-light fokus" data-id="${data}"><i class="fas fa-search"></i></button></div>`;
+                            },
+                        },
+                    ],
+                    order: [],
+                    columnDefs: [{
+                        targets: 'document',
+                        orderable: false,
+                    }]
+                });
             });
-        });
 
-        $(document).on('click', '.fokus', function(e) {
-            layerSpesifik.clearLayers();
-            map.removeLayer(layerPerencanaan);
-            map.removeLayer(layerMultiple);
-            // console.log(layerSpesifik);
-            let url = '{{ route('map.lokasi-spesifik', ':id') }}';
-            url = url.replace(':id', $(this).data('id'));
-            getDataPerencanaan(url);
-            $('#locationModal').modal('hide');
-        });
+            $(document).on('click', '.fokus', function(e) {
+                layerSpesifik.clearLayers();
+                map.removeLayer(layerPerencanaan);
+                map.removeLayer(layerMultiple);
+                // console.log(layerSpesifik);
+                let url = '{{ route('map.lokasi-spesifik', ':id') }}';
+                url = url.replace(':id', $(this).data('id'));
+                getDataPerencanaan(url);
+                $('#locationModal').modal('hide');
+            });
 
-        $("#cari-lokasi").on('submit', function(event) {
-            event.preventDefault()
-            layerMultiple.clearLayers();
-            map.removeLayer(layerSpesifik);
-            map.removeLayer(layerPerencanaan);
-            let ids = $('#lokasi-select').val()
-            let url = "{{ route('map.lokasi-filter', ':id') }}"
-            url = url.replace(":id", ids)
-            getDataPerencanaan(url);
-        });
+            $("#cari-lokasi").on('submit', function(event) {
+                event.preventDefault()
+                layerMultiple.clearLayers();
+                map.removeLayer(layerSpesifik);
+                map.removeLayer(layerPerencanaan);
+                let ids = $('#lokasi-select').val()
+                let url = "{{ route('map.lokasi-filter', ':id') }}"
+                url = url.replace(":id", ids)
+                getDataPerencanaan(url);
+            });
+        })
     </script>
 
     {{-- search script --}}

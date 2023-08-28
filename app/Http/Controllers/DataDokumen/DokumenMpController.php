@@ -28,8 +28,8 @@ class DokumenMpController extends Controller
     public function datatable()
     {
         $datatable = DataTables::of(DokumenMp::with(['lokasi', 'opd'])->orderBy('id', 'asc'))
-        ->addIndexColumn()
-        ->make('true');
+            ->addIndexColumn()
+            ->make('true');
 
         return $datatable;
     }
@@ -44,35 +44,49 @@ class DokumenMpController extends Controller
 
     public function update(Request $request, $id)
     {
+        $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
         $dokumen_mp = DokumenMp::findOrFail($id);
-        $dokumen_mp->nama_kegiatan = $request->nama_kegiatan;
-        $dokumen_mp->opd_id = $request->opd_id;
-        $dokumen_mp->lokasi_kegiatan_id = $request->lokasi_id;
-        $dokumen_mp->tahun = $request->tahun;
-        if($request->hasFile('dokumen')) {
-            File::delete(public_path('assets/dokumen_mp/' . $dokumen_mp->dokumen));
-            $nama_dokumen = $request->nama_kegiatan . ".pdf";
-            $request->file('dokumen')->move(public_path('assets/dokumen_mp'), $nama_dokumen);
-            $dokumen_mp->dokumen = $request->nama_kegiatan . ".pdf";
+
+        DB::beginTransaction();
+        try {
+            $dokumen_mp->nama_kegiatan = $request->nama_kegiatan;
+            $dokumen_mp->opd_id = $request->opd_id;
+            // $dokumen_mp->lokasi_kegiatan_id = $request->lokasi_id;
+            $dokumen_mp->tahun = $request->tahun;
+            $dokumen_mp->lokasi()->sync($lokasi_kegiatan_ids);
+            if ($request->hasFile('dokumen')) {
+                File::delete(public_path('assets/dokumen_mp/' . $dokumen_mp->dokumen));
+                $nama_dokumen = $request->nama_kegiatan . ".pdf";
+                $request->file('dokumen')->move(public_path('assets/dokumen_mp'), $nama_dokumen);
+                $dokumen_mp->dokumen = $request->nama_kegiatan . ".pdf";
+            }
+            $dokumen_mp->save();
+        } catch (\Throwable $error) {
+            DB::rollBack();
+            throw $error;
+            return response($error->getMessage(), 500);
         }
-        $dokumen_mp->save();
+
 
         return response("Data berhasil diubah");
     }
 
     public function store(Request $request)
     {
+        $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
+
         DB::beginTransaction();
         try {
             $dokumen_mp = DokumenMp::create([
                 'nama_kegiatan' => $request->nama_kegiatan,
                 'tahun' => $request->tahun,
                 'opd_id' => $request->opd_id,
-                'lokasi_kegiatan_id' => $request->lokasi_id,
+                // 'lokasi_kegiatan_id' => $request->lokasi_id,
                 'dokumen' => $request->nama_kegiatan . ".pdf",
             ]);
+            $dokumen_mp->lokasi()->sync($lokasi_kegiatan_ids);
 
-            if($request->hasFile('dokumen')) {
+            if ($request->hasFile('dokumen')) {
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_mp'), $nama_dokumen);
             }
@@ -80,7 +94,7 @@ class DokumenMpController extends Controller
         } catch (\Throwable $error) {
             DB::rollBack();
             throw $error;
-            return response($error->getMessage(),500) ;
+            return response($error->getMessage(), 500);
         }
         return response("Data berhasil ditambahkan");
     }
@@ -88,7 +102,7 @@ class DokumenMpController extends Controller
     public function drop($id)
     {
         $dokumen_mp = DokumenMp::find($id);
-        if(file_exists(public_path('assets/dokumen_mp/' . $dokumen_mp->dokumen))) {
+        if (file_exists(public_path('assets/dokumen_mp/' . $dokumen_mp->dokumen))) {
             File::delete(public_path('assets/dokumen_mp/' . $dokumen_mp->dokumen));
         }
         $dokumen_mp->delete();

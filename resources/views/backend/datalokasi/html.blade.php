@@ -15,8 +15,6 @@
                             <th>Kelurahan</th>
                             <th>Kecamatan</th>
                             <th>Alamat</th>
-                            {{-- <th>Deskripsi</th> --}}
-                            <th>geometry</th>
                             <th>Foto Lokasi</th>
                             <th>Aksi</th>
                             <th></th>
@@ -50,11 +48,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="nama-lokasi">Nama Lokasi Kegiatan</label>
-                                    <input type="text" class="form-control" id="nama-lokasi" required>
+                                    <input type="text" class="form-control form-control-sm" id="nama-lokasi"
+                                        required>
                                 </div>
                                 <div class="form-group">
                                     <label for="kelurahan">Kelurahan</label>
-                                    <select name="" class="form-control" id="kelurahan">
+                                    <select name="" class="form-control form-control-sm" id="kelurahan">
                                         <option value="">Pilih Kelurahan ...</option>
                                         @foreach ($kelurahan as $kelurahan)
                                             <option value="{{ $kelurahan->id }}">{{ $kelurahan->nama }}</option>
@@ -63,12 +62,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
-                                    <textarea name="" class="form-control" id="alamat" cols="3" rows="2"></textarea>
+                                    <textarea name="" class="form-control form-control-sm" id="alamat" cols="3" rows="2"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="koordinat">Koordinat</label>
-                                    {{-- <input type="text" class="form-control" id="koordinat" required> --}}
-                                    <textarea class="form-control" id="koordinat" cols="3" rows="2"></textarea>
+                                    <textarea class="form-control form-control-sm" id="koordinat" cols="3" rows="2"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="foto-lokasi">Foto Lokasi</label>

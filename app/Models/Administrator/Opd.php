@@ -2,6 +2,7 @@
 
 namespace App\Models\Administrator;
 
+use App\Models\Administrator\User;
 use App\Models\Dokumen\DokumenDed;
 use App\Models\Dokumen\DokumenFs;
 use App\Models\Dokumen\DokumenLingkungan;
@@ -21,6 +22,11 @@ class Opd extends Model
         'alamat',
         'deskripsi',
     ];
+
+    public function user()
+    {
+        return $this->hasMany(User::class, 'opd_id', 'id');
+    }
 
     public function dokumenFs()
     {
