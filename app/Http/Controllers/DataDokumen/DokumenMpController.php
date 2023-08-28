@@ -60,9 +60,11 @@ class DokumenMpController extends Controller
                 $request->file('dokumen')->move(public_path('assets/dokumen_mp'), $nama_dokumen);
                 $dokumen_mp->dokumen = $request->nama_kegiatan . ".pdf";
             }
-            $dokumen_mp->save();            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
+            $dokumen_mp->save();
+        } catch (\Throwable $error) {
+            DB::rollBack();
+            throw $error;
+            return response($error->getMessage(), 500);
         }
 
 

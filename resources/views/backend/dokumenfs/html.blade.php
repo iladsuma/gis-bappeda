@@ -67,11 +67,11 @@
                     </div>
                     <div class="form-group">
                         <label for="nama_kegiatan">Nama Kegiatan</label>
-                        <input type="text" class="form-control" id="nama_kegiatan" required>
+                        <input type="text" class="form-control form-control-sm" id="nama_kegiatan" required>
                     </div>
                     <div class="form-group">
                         <label for="opd_id">OPD Pelaksana FS</label>
-                        <select class="form-control" id="opd_id" required>
+                        <select class="form-control form-control-sm" id="opd_id" required>
                             <option value="">Pilih OPD ...</option>
                             @foreach ($opd as $opd)
                                 <option value="{{ $opd->id }}">{{ $opd->nama }}</option>
@@ -81,7 +81,6 @@
                     <div class="form-group">
                         <label for="opd_id">Lokasi Kegiatan</label>
                         <select class="form-control" id="lokasi_id" multiple required>
-                            {{-- <option value="">Pilih Lokasi Kegiatan ...</option> --}}
                             @foreach ($lokasi as $lokasi)
                                 <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>
                             @endforeach
@@ -89,7 +88,7 @@
                     </div>
                     <div class="form-group">
                         <label for="tahun">Tahun</label>
-                        <select class="form-control" id="tahun" required>
+                        <select class="form-control form-control-sm" id="tahun" required>
                             <option value="">Pilih tahun ...</option>
                             <?php $tahun = date('Y'); ?>
                             @for ($i = $tahun; $i > $tahun - 10; $i--)

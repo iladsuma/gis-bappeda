@@ -38,47 +38,57 @@
             method: 'GET'
         },
         columns: [{
-            data: 'DT_RowIndex',
-        },
-        {
-            data: 'nama_kegiatan',
-        },
-        {
-            data: 'opd.nama',
-        },
-        {
-            data: 'lokasi.nama',
-        },
-        {
-            data: 'tahun',
-        },
-        {
-            data: 'dokumen',
-            render: function(data) {
-                return "<button class='btn btn-light border border-success btn-sm document-preview' data-nama='" + data + "' data-toggle='modal'>Lihat Dokumen</button>"
-            }
-        },
-        {
-            data: 'id',
-            width: '10px',
-            orderable: false,
-            render: function(data) {
-                return "<i class='fas fa-pencil edit-dokumen-ded' data-id='" + data + "'></i>"
-            }
-        },
-        {
-            data: null,
-            width: '10px',
-            orderable: false,
-            render: function(data) {
-                return "<i class='fas fa-trash hapus-dokumen-ded' data-nama='" + data.nama_kegiatan + "' data-id='" + data.id + "'></i>"
-            }
-        },
-    ]
+                data: 'DT_RowIndex',
+            },
+            {
+                data: 'nama_kegiatan',
+            },
+            {
+                data: 'opd.nama',
+            },
+            {
+                data: 'lokasi[].nama',
+            },
+            {
+                data: 'tahun',
+            },
+            {
+                data: 'dokumen',
+                render: function(data) {
+                    return "<button class='btn btn-light border border-success btn-sm document-preview' data-nama='" +
+                        data + "' data-toggle='modal'>Lihat Dokumen</button>"
+                }
+            },
+            {
+                data: 'id',
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-pencil edit-dokumen-ded' data-id='" + data + "'></i>"
+                }
+            },
+            {
+                data: null,
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-trash hapus-dokumen-ded' data-nama='" + data
+                        .nama_kegiatan + "' data-id='" + data.id + "'></i>"
+                }
+            },
+        ]
     })
 
+    $('#lokasi_id').select2({
+        placeholder: "Pilih minimal 1 atau lebih lokasi ...",
+        width: '100%',
+        theme: 'classic',
+        // dropdownParent: $("#search")
+    });
+
     $(document).on('click', '.document-preview', function() {
-        $('#iframeDocumentPreview').attr('src', '{{ asset("assets/dokumen_ded/") }}' + '/' + $(this).data('nama'))
+        $('#iframeDocumentPreview').attr('src', '{{ asset('assets/dokumen_ded/') }}' + '/' + $(this).data(
+            'nama'))
         $('#documentPreviewModalLabel').html('Dokumen ' + $(this).data('nama'))
         $('#documentPreviewModal').modal('show')
     })
@@ -183,8 +193,13 @@
                 $('#dokumen-ded-form').attr('method', 'PUT');
                 $("#nama_kegiatan").val(result.data.nama_kegiatan)
                 $("#tahun").val(result.data.tahun)
-                $("#dokumen").val(result.data.dokumen)
+                // $("#dokumen").val(result.data.dokumen)
                 $("#opd_id").val(result.data.opd_id)
+                let select2Value = []
+                $.each(result.data.lokasi, function(key, lokasi) {
+                    select2Value.push(lokasi.id)
+                })
+                $("#lokasi_id").val(select2Value).trigger('change');
             }
         })
         // console.log(id);
