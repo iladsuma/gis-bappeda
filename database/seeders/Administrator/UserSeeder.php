@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $user = User::create([
             'opd_id' => 1,
             'name' => 'Iman Ghazali',
-            'username' => 'administrator',
+            'username' => 'Administrator',
             'email' => 'administrator@test',
             'password' => bcrypt('password'),
             'avatar' => 'avatar-default.png',

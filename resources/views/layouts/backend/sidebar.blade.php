@@ -36,203 +36,217 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                <li class="nav-item">
-                    <a href="{{ route('dashboard.index') }}" class="nav-link">
-                        <i class="fas fa-tachometer-alt nav-icon"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
+                @can('Dashboard')
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard.index') }}" class="nav-link">
+                            <i class="fas fa-tachometer-alt nav-icon"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-header">Menu</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Master Data
-                            <i class="fas fa-angle-left right"></i>
-                            {{-- <span class="badge badge-info right">6</span> --}}
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview ms-5">
-                        <li class="nav-item">
-                            <a href="{{ route('data-opd.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Data OPD</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a href="{{ route('data-kelurahan.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Data Kelurahan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a href="{{ route('data-lokasi.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Data Lokasi</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    {{-- @can('Ruas Jalan.Index') --}}
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Data Dokumen
-                            <i class="fas fa-angle-left right"></i>
-                            {{-- <span class="badge badge-info right">6</span> --}}
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview ms-5">
-                        <li class="nav-item ">
-                            <a href="{{ route('data-dokumen-fs.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Dokumen FS</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview ms-5">
-                        <li class="nav-item ">
-                            <a href="{{ route('data-dokumen-mp.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Dokumen Masterplan</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview ms-5">
-                        <li class="nav-item ">
-                            <a href="{{ route('data-dokumen-lingkungan.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Dokumen Lingkungan</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview ms-5">
-                        <li class="nav-item ">
-                            <a href="{{ route('data-dokumen-ded.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Dokumen DED</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview ms-5">
-                        <li class="nav-item ">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Dokumen Fisik</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Data Infrastruktur
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview ms-5">
-                        <li class="nav-item ">
-                            <a href="{{ route('data-infrastruktur.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Infrastruktur</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
-                <li class="nav-item">
-                    {{-- @can('Data Pemeliharaan.Index') --}}
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Data Pendukung
-                            <i class="fas fa-angle-left right"></i>
-                            {{-- <span class="badge badge-info right">6</span> --}}
-                        </p>
-                    </a>
-                    {{-- @endcan --}}
-                    <ul class="nav nav-treeview ms-5">
-                        {{-- @can('Data Pemeliharaan.Penyedia Jasa') --}}
-                        <li class="nav-item">
-                            <a href="{{ route('data-kawasan-kumuh.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Kawasan Kumuh</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('data-kawasan-rtlh.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Kawasan RTLH</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('data-lokus-kemiskinan.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Lokus Kemiskinan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('data-lokus-stunting.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Lokus Stunting</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('data-jaringan-spampdam.index') }}" class="nav-link">
-                                <i class="far fa-file nav-icon ml-3"></i>
-                                <p>Jaringan SPAM/PDAM</p>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-                {{-- @endcanany --}}
-                {{-- @canany(['Administrator.Index']) --}}
-                <li class="nav-header">Administrator</li>
-                <li class="nav-item">
-                    {{-- @can('Administrator.Index') --}}
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-users-cog nav-icon "></i>
-                        <p>
-                            Administrator
-                            <i class="fas fa-angle-left right"></i>
-                            {{-- <span class="badge badge-info right">6</span> --}}
-                        </p>
-                    </a>
-                    {{-- @endcan --}}
-                    <ul class="nav nav-treeview ms-5">
-                        {{-- @can('Administrator.Hak Akses') --}}
-                        <li class="nav-item ">
-                            <a href="/admin/role" class="nav-link">
-                                <i class="fas fa-user-tag nav-icon ml-3"></i>
-                                <p>Hak Akses</p>
-                            </a>
-                        </li>
-                        {{-- @endcan --}}
-                        {{-- @can('Administrator.Data User') --}}
-                        <li class="nav-item ">
-                            <a href="/admin/user" class="nav-link">
-                                <i class="fas fa-users nav-icon ml-3"></i>
-                                <p>Data User</p>
-                            </a>
-                        </li>
-                        {{-- @endcan --}}
-                        {{-- @can('Administrator.Setting')
+                @canany(['Master Data.Data Opd', 'Master Data.Data Kelurahan', 'Master Data.Data Lokasi'])
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Master Data
+                                <i class="fas fa-angle-left right"></i>
+                                {{-- <span class="badge badge-info right">6</span> --}}
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview ms-5">
+                            @can('Master Data.Data Opd')
                                 <li class="nav-item">
-                                    <a href="admin/setting" class="nav-link">
-                                        <i class="fas fa-cog nav-icon ml-3"></i>
-                                        <p>Setting</p>
+                                    <a href="{{ route('data-opd.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Data OPD</p>
                                     </a>
                                 </li>
-                            @endcan --}}
-                    </ul>
-                </li>
-                {{-- @endcanany --}}
+                            @endcan
+                            @can('Master Data.Data Kelurahan')
+                                <li class="nav-item ">
+                                    <a href="{{ route('data-kelurahan.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Data Kelurahan</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('Master Data.Data Lokasi')
+                                <li class="nav-item ">
+                                    <a href="{{ route('data-lokasi.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Data Lokasi</p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
+                @canany([
+                    'Data Dokumen.Feasibility Study',
+                    'Data Dokumen.Master Plan',
+                    'Data Dokumen.Lingkungan',
+                    'Data
+                    Dokumen.Detail Engineering Design',
+                    'Data Dokumen.Dokumen Fisik',
+                    ])
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Data Dokumen
+                                <i class="fas fa-angle-left right"></i>
+                                {{-- <span class="badge badge-info right">6</span> --}}
+                            </p>
+                        </a>
+                        @can('Data Dokumen.Feasibility Study')
+                            <ul class="nav nav-treeview ms-5">
+                                <li class="nav-item ">
+                                    <a href="{{ route('data-dokumen-fs.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Dokumen FS</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endcan
+                        @can('Data Dokumen.Master Plan')
+                            <ul class="nav nav-treeview ms-5">
+                                <li class="nav-item ">
+                                    <a href="{{ route('data-dokumen-mp.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Dokumen Masterplan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endcan
+                        @can('Data Dokumen.Lingkungan')
+                            <ul class="nav nav-treeview ms-5">
+                                <li class="nav-item ">
+                                    <a href="{{ route('data-dokumen-lingkungan.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Dokumen Lingkungan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endcan
+                        @can('Data Dokumen.Detail Engineering Design')
+                            <ul class="nav nav-treeview ms-5">
+                                <li class="nav-item ">
+                                    <a href="{{ route('data-dokumen-ded.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Dokumen DED</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endcan
+                        @can('Data Dokumen.Dokumen Fisik')
+                            <ul class="nav nav-treeview ms-5">
+                                <li class="nav-item ">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Dokumen Fisik</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endcan
+                    </li>
+                @endcanany
+                @canany([
+                    'Data Pendukung.Kawasan Kumuh',
+                    'Data Pendukung.Kawasan RTLH',
+                    'Data Pendukung.Lokus
+                    Kemiskinan',
+                    'Data Pendukung.Lokus Stunting',
+                    'Data Pendukung.Jaringan Spam',
+                    ])
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Data Pendukung
+                                <i class="fas fa-angle-left right"></i>
+                                {{-- <span class="badge badge-info right">6</span> --}}
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview ms-5">
+                            @can('Data Pendukung.Kawasan Kumuh')
+                                <li class="nav-item">
+                                    <a href="{{ route('data-kawasan-kumuh.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Kawasan Kumuh</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('Data Pendukung.Kawasan RTLH')
+                                <li class="nav-item">
+                                    <a href="{{ route('data-kawasan-rtlh.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Kawasan RTLH</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('Data Pendukung.Lokus Kemiskinan')
+                                <li class="nav-item">
+                                    <a href="{{ route('data-lokus-kemiskinan.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Lokus Kemiskinan</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('Data Pendukung.Lokus Stunting')
+                                <li class="nav-item">
+                                    <a href="{{ route('data-lokus-stunting.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Lokus Stunting</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('Data Pendukung.Jaringan Spam')
+                                <li class="nav-item">
+                                    <a href="{{ route('data-jaringan-spampdam.index') }}" class="nav-link">
+                                        <i class="far fa-file nav-icon ml-3"></i>
+                                        <p>Jaringan SPAM/PDAM</p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
+
+                @canany(['Administrator.Hak Akses', 'Administrator.Data User'])
+                    <li class="nav-header">Administrator</li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-users-cog nav-icon "></i>
+                            <p>
+                                Administrator
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview ms-5">
+                            @can('Administrator.Hak Akses')
+                                <li class="nav-item ">
+                                    <a href="{{ route('admin-role.index') }}" class="nav-link">
+                                        <i class="fas fa-user-tag nav-icon ml-3"></i>
+                                        <p>Hak Akses</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('Administrator.Data User')
+                                <li class="nav-item ">
+                                    <a href="/admin/user" class="nav-link">
+                                        <i class="fas fa-users nav-icon ml-3"></i>
+                                        <p>Data User</p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
                 <li class="nav-header">KDR With Love</li>
             </ul>
         </nav>
-        <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
+    </div>
 </aside>

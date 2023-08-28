@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Master\MasterKelurahan;
 use Database\Seeders\Administrator\UserSeeder;
 use Database\Seeders\Master\MasterKecamatanSeeder;
 use Database\Seeders\Master\MasterKelurahanSeeder;
+use Database\Seeders\Permission\PermissionSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             MasterKecamatanSeeder::class,
             MasterKelurahanSeeder::class,
+            PermissionSeeder::class,
         ]);
     }
 }
