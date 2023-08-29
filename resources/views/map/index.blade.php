@@ -108,8 +108,11 @@
         $(document).ready(function() {
             $(".sidebar").css('visibility', 'visible')
 
-            let map = L.map('map', {})
+            let map = L.map('map', {
+                zoomControl: false
+            })
             map.setView([-8.098244, 112.165077], 13);
+
 
             let google = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
                 maxZoom: 20,
@@ -207,6 +210,33 @@
 
 
             // create custom control layer
+            L.Control.Watermark = L.Control.extend({
+                onAdd: function(map) {
+                    var img = L.DomUtil.create('img');
+
+                    img.src = '{{ asset("assets/image/logo/watermark.png") }}';
+                    img.style.height = '80px';
+
+                    return img;
+                },
+
+                onRemove: function(map) {
+                    // Nothing to do here
+                }
+            });
+
+            L.control.watermark = function(opts) {
+                return new L.Control.Watermark(opts);
+            }
+
+            L.control.watermark({
+                position: 'topleft'
+            }).addTo(map);
+
+            L.control.zoom({
+                position: 'topleft'
+            }).addTo(map);
+
             let controlLayer = L.control.groupedLayers(baseLayers, groupedOverlays, {
                 collapsed: false,
                 exclusiveGroups: ["Data Pendukung"],
@@ -217,15 +247,17 @@
                 position: 'right'
             }).addTo(map)
 
-            // add control layer to sidebar
-            let htmlControlLayer = controlLayer.getContainer();
-            $('#layer-data').append(htmlControlLayer);
-
             // leaflet geoman
             map.pm.addControls({
                 position: 'topleft',
 
             })
+
+            // add control layer to sidebar
+            let htmlControlLayer = controlLayer.getContainer();
+            $('#layer-data').append(htmlControlLayer);
+
+
 
 
 
