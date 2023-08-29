@@ -32,7 +32,7 @@
                     width: '10px',
                     orderable: false,
                     render: function(data) {
-                        return "<i class='fas fa-pencil edit-opd' data-id='" + data + "'></i>"
+                        return "<i class='fas fa-pencil edit-role' data-id='" + data + "'></i>"
                     }
                 },
                 {
@@ -40,7 +40,7 @@
                     width: '10px',
                     orderable: false,
                     render: function(data) {
-                        return "<i class='fas fa-trash hapus-opd' data-nama='" + data.nama +
+                        return "<i class='fas fa-trash hapus-role' data-nama='" + data.name +
                             "' data-id='" + data.id + "'></i>"
                     }
                 },
@@ -49,14 +49,14 @@
 
         // add role
         $(document).on("click", ".tambah-data", function() {
-            let urlStore = "/admin/role/store";
+            let urlStore = "{{ route('admin-role.store') }}";
             $('#role-form').attr('action', urlStore);
             $('#role-form').attr('method', 'POST');
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                url: '/admin/role/create',
+                url: "{{ route('admin-role.create') }}",
                 dataType: "json",
                 async: false,
                 success: function(result) {
@@ -88,6 +88,58 @@
         })
 
 
+        //edit role
+        $(document).on("click", ".edit-role", function() {
+            var id = $(this).data('id');
+            let urlUpdate = "{{ route('admin-role.update', ':id') }}";
+            urlUpdate = urlUpdate.replace(':id', id)
+            $('#role-form').attr('action', urlUpdate);
+            $('#role-form').attr('method', 'PUT');
+            let url = "{{ route('admin-role.edit', ':id') }}"
+            url = url.replace(':id', id)
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                url: '/admin/role/' + id + '/edit',
+                dataType: "json",
+                async: false,
+                success: function(result) {
+                    $('#role-name').val(result.role.name);
+                    $('#row-role').html('');
+                    let num = 1;
+                    let cbNum = 1;
+                    let cbVal = Object.values(result.rolePermissions);
+                    var centang = 'checked';
+                    $.each(result.permissionsFormatted, (i, data) => {
+                        $('#row-role').append(
+                            `<div class="col-lg-5 form-check mb-5" id="role-title-` +
+                            num + `">
+                            <span class="font-weight-bold h7">` + i.toUpperCase() +
+                            `</span><hr class="mb-2 mt-1"></div>`)
+                        $.each(data, (x, dt) => {
+                            (cbVal.includes(dt.value)) ? centang =
+                                'checked': centang = '';
+                            $('#role-title-' + num).append(
+                                `<input name="permissions" class="form-check-input" type="checkbox" id="checkbox-` +
+                                cbNum + `" value="` + dt.value + `" ` +
+                                centang + `>
+                            <label class="form-check-label" for="checkbox-` + cbNum + `">` + dt.name + `</label>
+                            <br>`);
+
+                            cbNum++
+                        })
+                        num++;
+                    })
+                    // Display Modal
+                    $('#modal-form').modal('show');
+                }
+            });
+        })
+
+        //edit role
+
+        // modal role form on submit
         $('#role-form').on('submit', (e) => {
             e.preventDefault();
             let permission = [];
@@ -159,5 +211,84 @@
             return false;
 
         });
+
+
+        // delete role
+        $(document).on("click", ".hapus-role", function() {
+            let id = $(this).data('id');
+            let nama = $(this).data('nama');
+            let urlDelete = "{{ route('admin-role.destroy', ':id') }}"
+            urlDelete = urlDelete.replace(":id", id)
+            Swal.fire({
+                title: 'HAPUS ROLE ' + '" ' +
+                    nama + ' "',
+                text: ' Apakah Anda yakin ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        type: "DELETE",
+                        url: urlDelete,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: (data) => {
+                            Swal.fire(
+                                data.status,
+                                data.message,
+                                data.icon,
+                            );
+                            table.ajax.reload();
+                        },
+                        error: (xhr, ajaxOptions,
+                            thrownError) => {
+                            console.log(xhr.responseJSON
+                                .message);
+                            if (xhr.responseJSON
+                                .hasOwnProperty(
+                                    'errors')) {
+                                for (item in xhr
+                                    .responseJSON
+                                    .errors) {
+                                    if (xhr
+                                        .responseJSON
+                                        .errors[
+                                            item]
+                                        .length) {
+                                        for (var i =
+                                                0; i <
+                                            xhr
+                                            .responseJSON
+                                            .errors[
+                                                item
+                                            ]
+                                            .length; i++
+                                        ) {
+                                            alert(xhr
+                                                .responseJSON
+                                                .errors[
+                                                    item
+                                                ]
+                                                [
+                                                    i
+                                                ]
+                                            );
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            })
+        })
     })
 </script>
