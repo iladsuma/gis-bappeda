@@ -58,10 +58,44 @@
         ]
     })
 
+    $(document).on('click', ".edit-user", function() {
+        $("#modalAdminUserLabel").html("").append("Edit Data User");
+        $("#name").val("");
+        $("#username").val("");
+        $("#opd_id").val("");
+        $("#role_id").val("");
+        $("#password").val("");
+        $('#modalAdminUser').modal('show');
+        let id = $(this).data('id')
+        let url = "{{ route('admin-user.edit', ':id') }}"
+        $("#pass-alert").show()
+        $.ajax({
+            header: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            url: url.replace(":id", id),
+            dataType: "json",
+            async: false,
+            success: function(result) {
+                console.log(result);
+                let urlUpdate = "{{ route('admin-user.update', ':id') }}"
+                urlUpdate = urlUpdate.replace(':id', id)
+                $('#admin-user-form').attr('action', urlUpdate);
+                $('#admin-user-form').attr('method', 'PUT');
+                $("#name").val(result.data.name);
+                $("#username").val(result.data.username);
+                $("#opd_id").val(result.data.opd_id);
+                $("#role_id").val(result.data.roles[0].id);
+                $("#password").val("");
+            }
+            // console.log(id);
+        });
+    });
+
     $(document).on('click', ".hapus-user", function() {
         swal.fire({
                 title: 'Hapus',
-                text: "Yakin hapus data " + $(this).data('name') + " ?",
+                text: "Yakin hapus data " + $(this).data('nama') + " ?",
                 icon: 'warning',
                 showCancelButton: true,
             })
