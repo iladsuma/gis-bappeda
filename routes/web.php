@@ -164,6 +164,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/role/datatable', [AdminRoleController::class, 'datatable'])->name('admin-role.datatable')->can('Administrator.Hak Akses');
     Route::get('/admin/role/create', [AdminRoleController::class, 'create'])->name('admin-role.create')->can('Administrator.Hak Akses');
     Route::post('/admin/role/store', [AdminRoleController::class, 'store'])->name('admin-role.store')->can('Administrator.Hak Akses');
+    Route::get('/admin/role/{id}/edit', [AdminRoleController::class, 'edit'])->name('admin-role.edit')->can('Administrator.Hak Akses');
+    Route::put('/admin/role/{id}/update', [AdminRoleController::class, 'update'])->name('admin-role.update')->can('Administrator.Hak Akses');
+    Route::delete('/admin/role/{id}/drop', [AdminRoleController::class, 'destroy'])->name('admin-role.destroy')->can('Administrator.Hak Akses');
 });
 
 require __DIR__ . '/auth.php';
