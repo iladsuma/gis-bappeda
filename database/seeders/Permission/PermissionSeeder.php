@@ -20,9 +20,9 @@ class PermissionSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // create permission
+        ###### create permission ######
         // Dashboard Akses
-        Permission::firstOrCreate(['name' => 'Dashboard']);
+        Permission::firstOrCreate(['name' => 'Dashboard.Dashboard']);
         //Master Data Akses
         Permission::firstOrCreate(['name' => 'Master Data.Data Opd']);
         Permission::firstOrCreate(['name' => 'Master Data.Data Kelurahan']);
@@ -46,7 +46,7 @@ class PermissionSeeder extends Seeder
         User::truncate();
         $superAdminRole = Role::firstOrCreate(['name' => 'Super-Admin']);
         $superAdminPermissions = [
-            'Dashboard',
+            'Dashboard.Dashboard',
             'Master Data.Data Opd',
             'Master Data.Data Kelurahan',
             'Master Data.Data Lokasi',
@@ -81,7 +81,7 @@ class PermissionSeeder extends Seeder
 
         $generalRole = Role::firstOrCreate(['name' => 'General']);
         $generalPermissions = [
-            'Dashboard',
+            'Dashboard.Dashboard',
         ];
         $generalRole->syncPermissions($generalPermissions);
     }
