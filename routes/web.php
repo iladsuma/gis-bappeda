@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Administrator\AdminRoleController;
+use App\Http\Controllers\Administrator\AdminUserController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DataDokumen\DokumenDedController;
 use App\Http\Controllers\DataDokumen\DokumenFsController;
@@ -51,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     ## --- Start of Dashboard Route --- ##
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->can('Dashboard.Dasboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->can('Dashboard.Dashboard');
     ## --- Start of Dashboard Route --- ##
 
     ## --- Start of master data --- ##
@@ -164,6 +165,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/role/datatable', [AdminRoleController::class, 'datatable'])->name('admin-role.datatable')->can('Administrator.Hak Akses');
     Route::get('/admin/role/create', [AdminRoleController::class, 'create'])->name('admin-role.create')->can('Administrator.Hak Akses');
     Route::post('/admin/role/store', [AdminRoleController::class, 'store'])->name('admin-role.store')->can('Administrator.Hak Akses');
+
+    Route::get('/admin/user', [AdminUserController::class, 'index'])->name('admin-user.index')->can('Administrator.Data User');
+    Route::get('/admin/user/datatable', [AdminUserController::class, 'datatable'])->name('admin-user.datatable')->can('Administrator.Data User');
+    Route::post('/admin/user/store', [AdminUserController::class, 'store'])->name('admin-user.store')->can('Administrator.Data User');
+    Route::delete('/admin/user/{id}/drop', [AdminUserController::class, 'drop'])->name('admin-user.drop')->can('Administrator.Data User');
 });
 
 require __DIR__ . '/auth.php';
