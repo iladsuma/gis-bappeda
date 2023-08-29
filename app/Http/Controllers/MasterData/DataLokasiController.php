@@ -97,5 +97,10 @@ class DataLokasiController extends Controller
 
     public function drop($id)
     {
+        $data_lokasi = LokasiKegiatan::find($id);
+        if (file_exists(public_path('assets/foto_lokasi/' . $data_lokasi->foto))) {
+            File::delete(public_path('assets/foto_lokasi/' . $data_lokasi->foto));
+        }
+        $data_lokasi->delete();
     }
 }

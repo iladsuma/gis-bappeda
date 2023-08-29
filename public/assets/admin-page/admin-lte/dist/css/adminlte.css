@@ -33800,7 +33800,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 }
 
 .small-box .icon > i.fa, .small-box .icon > i.fas, .small-box .icon > i.far, .small-box .icon > i.fab, .small-box .icon > i.fal, .small-box .icon > i.fad, .small-box .icon > i.ion {
-  font-size: 70px;
+  font-size: 50px;
   top: 20px;
 }
 

@@ -753,9 +753,10 @@
                 success: (data) => {
                     swal.fire({
                         title: 'Berhasil',
-                        text: data,
+                        text: data.message,
                         icon: 'success',
                     })
+                    $("#avatar-sidebar").attr("src", "assets/image/avatar/" + data.avatar);
                     $('#profileEditModal').modal('hide');
                 },
                 error: (xhr, ajaxOptions, thrownError) => {
@@ -789,6 +790,24 @@
                 }
             });
         });
+
+        // show preview foto before upload
+        $("#avatar").change(function() {
+            const file = this.files[0]
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    $("#avatar-sidebar-modal").attr("src", event.target.result)
+                }
+                reader.readAsDataURL(file)
+            }
+        })
+
+        // show preview foto before upload
+        $("#profile-edit-modal").click(function() {
+            let avatar = $("#avatar-sidebar").attr("src")
+            $("#avatar-sidebar-modal").attr("src", avatar)
+        })
     </script>
 </body>
 

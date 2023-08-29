@@ -69,7 +69,7 @@
                     orderable: false,
                     render: function(data) {
                         return "<i class='fas fa-trash hapus-data-lokasi' data-nama='" + data
-                            .nama_kegiatan + "' data-id='" + data.id + "'></i>"
+                            .nama + "' data-id='" + data.id + "'></i>"
                     }
                 },
             ]
@@ -237,6 +237,48 @@
                 }
             })
         });
+
+        $(document).on('click', ".hapus-data-lokasi", function() {
+            swal.fire({
+                    title: 'Hapus',
+                    text: "Yakin hapus data " + $(this).data('nama') + " ?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        let id = $(this).data('id')
+                        let url = "{{ route('data-lokasi.drop', ':id') }}"
+
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            url: url.replace(":id", id),
+                            type: 'delete',
+                            async: false,
+                            success: function(result) {
+                                swal.fire({
+                                    title: 'Berhasil',
+                                    text: 'Data berhasil dihapus',
+                                    icon: 'success',
+                                })
+                                table.ajax.reload()
+                            }
+                        })
+
+                    }
+
+                })
+        });
+
+        $(document).on('click', '.preview-foto', function() {
+            $('#iframeImagePreview').attr('src', '{{ asset('assets/foto_lokasi/') }}' + '/' + $(this)
+                .data(
+                    'nama'))
+            $('#imagePreviewModalLabel').html('Gambar ' + $(this).data('nama'))
+            $('#imagePreviewModal').modal('show')
+        })
 
         // submit modal form lokasi-kegiatan
         $("#lokasi-kegiatan-form").on("submit", function(e) {
