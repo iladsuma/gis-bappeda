@@ -23,9 +23,10 @@ class UserController extends Controller
             if ($user_profile->avatar != "avatar-default.png") {
                 File::delete(public_path('assets/image/avatar/' . $user_profile->avatar));
             }
+
             $nama_gambar = $request->username . "_" . time() . "." . $request->file('avatar')->getClientOriginalExtension();
             $request->file('avatar')->move(public_path('assets/image/avatar/'), $nama_gambar);
-            $user_profile->avatar = $request->username . "_" . time() . "." . $request->file('avatar')->getClientOriginalExtension();
+            $user_profile->avatar = $nama_gambar;
         }
         $user_profile->save();
 

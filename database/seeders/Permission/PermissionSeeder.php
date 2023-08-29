@@ -68,8 +68,10 @@ class PermissionSeeder extends Seeder
         $user = User::where('username', 'Administrator')->first();
         if (!$user) {
             $user = User::firstOrCreate([
-                'name' => 'Administrator',
+                'opd_id' => 1,
+                'name' => 'Iman Ghazali',
                 'username' => 'Administrator',
+                'email' => 'administrator@test',
                 'password' => bcrypt('password'),
                 'avatar' => 'avatar-default.png',
             ]);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Administrator\AdminRoleController;
+use App\Http\Controllers\Administrator\AdminUserController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DataDokumen\DokumenDedController;
 use App\Http\Controllers\DataDokumen\DokumenFsController;
@@ -51,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     ## --- Start of Dashboard Route --- ##
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->can('Dashboard.Dasboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->can('Dashboard.Dashboard');
     ## --- Start of Dashboard Route --- ##
 
     ## --- Start of master data --- ##
@@ -167,6 +168,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/role/{id}/edit', [AdminRoleController::class, 'edit'])->name('admin-role.edit')->can('Administrator.Hak Akses');
     Route::put('/admin/role/{id}/update', [AdminRoleController::class, 'update'])->name('admin-role.update')->can('Administrator.Hak Akses');
     Route::delete('/admin/role/{id}/drop', [AdminRoleController::class, 'destroy'])->name('admin-role.destroy')->can('Administrator.Hak Akses');
+
+    Route::get('/admin/user', [AdminUserController::class, 'index'])->name('admin-user.index')->can('Administrator.Data User');
+    Route::get('/admin/user/datatable', [AdminUserController::class, 'datatable'])->name('admin-user.datatable')->can('Administrator.Data User');
+    Route::post('/admin/user/store', [AdminUserController::class, 'store'])->name('admin-user.store')->can('Administrator.Data User');
+    Route::delete('/admin/user/{id}/drop', [AdminUserController::class, 'drop'])->name('admin-user.drop')->can('Administrator.Data User');
+    Route::get('/admin/user/{id}/edit', [AdminUserController::class, 'edit'])->name('admin-user.edit')->can('Administrator.Data User');
+    Route::put('/admin/user/{id}/update', [AdminUserController::class, 'update'])->name('admin-user.update')->can('Administrator.Data User');
 });
 
 require __DIR__ . '/auth.php';
