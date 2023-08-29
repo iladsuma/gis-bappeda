@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Administrator\AdminRoleController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DataDokumen\DokumenDedController;
 use App\Http\Controllers\DataDokumen\DokumenFsController;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Rou
+| Web Route
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -50,67 +51,66 @@ Route::middleware(['auth'])->group(function () {
 
 
     ## --- Start of Dashboard Route --- ##
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->can('Dashboard.Dasboard');
     ## --- Start of Dashboard Route --- ##
 
     ## --- Start of master data --- ##
     // Data OPD Route
-    Route::get('/data-opd', [DataOpdController::class, 'index'])->name('data-opd.index');
-    Route::get('/data-opd/datatable', [DataOpdController::class, 'datatable'])->name('data-opd.datatable');
-    Route::post('/data-opd/store', [DataOpdController::class, 'store'])->name('data-opd.store');
-    Route::get('/data-opd/{id}/edit', [DataOpdController::class, 'edit'])->name('data-opd.edit');
-    Route::put('/data-opd/{id}/update', [DataOpdController::class, 'update'])->name('data-opd.update');
-    Route::delete('/data-opd/{id}/drop', [DataOpdController::class, 'drop'])->name('data-opd.drop');
+    Route::get('/data-opd', [DataOpdController::class, 'index'])->name('data-opd.index')->can('Master Data.Data Opd');
+    Route::get('/data-opd/datatable', [DataOpdController::class, 'datatable'])->name('data-opd.datatable')->can('Master Data.Data Opd');
+    Route::post('/data-opd/store', [DataOpdController::class, 'store'])->name('data-opd.store')->can('data')->can('Master Data.Data Opd');
+    Route::get('/data-opd/{id}/edit', [DataOpdController::class, 'edit'])->name('data-opd.edit')->can('Master Data.Data Opd');
+    Route::put('/data-opd/{id}/update', [DataOpdController::class, 'update'])->name('data-opd.update')->can('Master Data.Data Opd');
+    Route::delete('/data-opd/{id}/drop', [DataOpdController::class, 'drop'])->name('data-opd.drop')->can('Master Data.Data Opd');
     // Data Kelurahan Route
-    Route::get('/data-kelurahan', [DataKelurahanController::class, 'index'])->name('data-kelurahan.index');
-    Route::get('/data-kelurahan/datatable', [DataKelurahanController::class, 'datatable'])->name('data-kelurahan.datatable');
-    Route::post('/data-kelurahan/store', [DataKelurahanController::class, 'store'])->name('data-kelurahan.store');
-    Route::get('/data-kelurahan/{id}/edit', [DataKelurahanController::class, 'edit'])->name('data-kelurahan.edit');
-    Route::put('/data-kelurahan/{id}/update', [DataKelurahanController::class, 'update'])->name('data-kelurahan.update');
-    Route::delete('/data-kelurahan/{id}/drop', [DataKelurahanController::class, 'drop'])->name('data-kelurahan.drop'); //  not yet work
+    Route::get('/data-kelurahan', [DataKelurahanController::class, 'index'])->name('data-kelurahan.index')->can('Master Data.Data Kelurahan');
+    Route::get('/data-kelurahan/datatable', [DataKelurahanController::class, 'datatable'])->name('data-kelurahan.datatable')->can('Master Data.Data Kelurahan');
+    Route::post('/data-kelurahan/store', [DataKelurahanController::class, 'store'])->name('data-kelurahan.store')->can('Master Data.Data Kelurahan');
+    Route::get('/data-kelurahan/{id}/edit', [DataKelurahanController::class, 'edit'])->name('data-kelurahan.edit')->can('Master Data.Data Kelurahan');
+    Route::put('/data-kelurahan/{id}/update', [DataKelurahanController::class, 'update'])->name('data-kelurahan.update')->can('Master Data.Data Kelurahan');
+    Route::delete('/data-kelurahan/{id}/drop', [DataKelurahanController::class, 'drop'])->name('data-kelurahan.drop')->can('Master Data.Data Kelurahan');
     // Data lokasi Route
-    Route::get('/data-lokasi', [DataLokasiController::class, 'index'])->name('data-lokasi.index');
-    Route::get('/data-lokasi/datatable', [DataLokasiController::class, 'datatable'])->name('data-lokasi.datatable');
-    Route::post('/data-lokasi/store', [DataLokasiController::class, 'store'])->name('data-lokasi.store');
-    Route::get('/data-lokasi/{id}/edit', [DataLokasiController::class, 'edit'])->name('data-lokasi.edit');
-    Route::put('/data-lokasi/{id}/update', [DataLokasiController::class, 'update'])->name('data-lokasi.update');
-    Route::delete('/data-lokasi/{id}/drop', [DataLokasiController::class, 'drop'])->name('data-lokasi.drop'); // not yet work
+    Route::get('/data-lokasi', [DataLokasiController::class, 'index'])->name('data-lokasi.index')->can('Master Data.Data Lokasi');
+    Route::get('/data-lokasi/datatable', [DataLokasiController::class, 'datatable'])->name('data-lokasi.datatable')->can('Master Data.Data Lokasi');
+    Route::post('/data-lokasi/store', [DataLokasiController::class, 'store'])->name('data-lokasi.store')->can('Master Data.Data Lokasi');
+    Route::get('/data-lokasi/{id}/edit', [DataLokasiController::class, 'edit'])->name('data-lokasi.edit')->can('Master Data.Data Lokasi');
+    Route::put('/data-lokasi/{id}/update', [DataLokasiController::class, 'update'])->name('data-lokasi.update')->can('Master Data.Data Lokasi');
+    Route::delete('/data-lokasi/{id}/drop', [DataLokasiController::class, 'drop'])->name('data-lokasi.drop')->can('Master Data.Data Lokasi');
     ## --- end of master data --- ##
 
 
     ## --- start of data dokumen --- ##
     // Dokumen feasibility route
-    Route::get('/data-dokumen-fs', [DokumenFsController::class, 'index'])->name('data-dokumen-fs.index');
-    Route::get('/data-dokumen-fs/datatable', [DokumenFsController::class, 'datatable'])->name('data-dokumen-fs.datatable');
-    Route::post('/data-dokumen-fs/store', [DokumenFsController::class, 'store'])->name('data-dokumen-fs.store');
-    Route::get('/data-dokumen-fs/{id}/edit', [DokumenFsController::class, 'edit'])->name('data-dokumen-fs.edit');
-    Route::delete('/data-dokumen-fs/{id}/drop', [DokumenFsController::class, 'drop'])->name('data-dokumen-fs.drop');
-    Route::put('/data-dokumen-fs/{id}/update', [DokumenFsController::class, 'update'])->name('data-dokumen-fs.update');
+    Route::get('/data-dokumen-fs', [DokumenFsController::class, 'index'])->name('data-dokumen-fs.index')->can('Data Dokumen.Feasibility Study');
+    Route::get('/data-dokumen-fs/datatable', [DokumenFsController::class, 'datatable'])->name('data-dokumen-fs.datatable')->can('Data Dokumen.Feasibility Study');
+    Route::post('/data-dokumen-fs/store', [DokumenFsController::class, 'store'])->name('data-dokumen-fs.store')->can('Data Dokumen.Feasibility Study');
+    Route::get('/data-dokumen-fs/{id}/edit', [DokumenFsController::class, 'edit'])->name('data-dokumen-fs.edit')->can('Data Dokumen.Feasibility Study');
+    Route::delete('/data-dokumen-fs/{id}/drop', [DokumenFsController::class, 'drop'])->name('data-dokumen-fs.drop')->can('Data Dokumen.Feasibility Study');
+    Route::put('/data-dokumen-fs/{id}/update', [DokumenFsController::class, 'update'])->name('data-dokumen-fs.update')->can('Data Dokumen.Feasibility Study');
 
     // Dokumen masterplan route
-    Route::get('/data-dokumen-masterplan', [DokumenMpController::class, 'index'])->name('data-dokumen-mp.index');
-    Route::post('/data-dokumen-masterplan/store', [DokumenMpController::class, 'store'])->name('data-dokumen-mp.store');
-    Route::get('/data-dokumen-masterplan/datatable', [DokumenMpController::class, 'datatable'])->name('data-dokumen-mp.datatable');
-    Route::get('/data-dokumen-masterplan/{id}/edit', [DokumenMpController::class, 'edit'])->name('data-dokumen-mp.edit');
-    Route::put('/data-dokumen-masterplan/{id}/update', [DokumenMpController::class, 'update'])->name('data-dokumen-mp.update');
-    Route::delete('/data-dokumen-masterplan/{id}/drop', [DokumenMpController::class, 'drop'])->name('data-dokumen-mp.drop');
+    Route::get('/data-dokumen-masterplan', [DokumenMpController::class, 'index'])->name('data-dokumen-mp.index')->can('Data Dokumen.Master Plan');
+    Route::post('/data-dokumen-masterplan/store', [DokumenMpController::class, 'store'])->name('data-dokumen-mp.store')->can('Data Dokumen.Master Plan');
+    Route::get('/data-dokumen-masterplan/datatable', [DokumenMpController::class, 'datatable'])->name('data-dokumen-mp.datatable')->can('Data Dokumen.Master Plan');
+    Route::get('/data-dokumen-masterplan/{id}/edit', [DokumenMpController::class, 'edit'])->name('data-dokumen-mp.edit')->can('Data Dokumen.Master Plan');
+    Route::put('/data-dokumen-masterplan/{id}/update', [DokumenMpController::class, 'update'])->name('data-dokumen-mp.update')->can('Data Dokumen.Master Plan');
+    Route::delete('/data-dokumen-masterplan/{id}/drop', [DokumenMpController::class, 'drop'])->name('data-dokumen-mp.drop')->can('Data Dokumen.Master Plan');
 
     // Dokumen lingkungan route
-    Route::get('/data-dokumen-lingkungan', [DokumenLingkunganController::class, 'index'])->name('data-dokumen-lingkungan.index');
-    Route::post('/data-dokumen-lingkungan/store', [DokumenLingkunganController::class, 'store'])->name('data-dokumen-lingkungan.store');
-    Route::get('/data-dokumen-lingkungan/datatable', [DokumenLingkunganController::class, 'datatable'])->name('data-dokumen-lingkungan.datatable');
-    Route::get('/data-dokumen-lingkungan/{id}/edit', [DokumenLingkunganController::class, 'edit'])->name('data-dokumen-lingkungan.edit');
-    Route::put('/data-dokumen-lingkungan/{id}/update', [DokumenLingkunganController::class, 'update'])->name('data-dokumen-lingkungan.update');
-    Route::delete('/data-dokumen-lingkungan/{id}/drop', [DokumenLingkunganController::class, 'drop'])->name('data-dokumen-lingkungan.drop');
+    Route::get('/data-dokumen-lingkungan', [DokumenLingkunganController::class, 'index'])->name('data-dokumen-lingkungan.index')->can('Data Dokumen.Lingkungan');
+    Route::post('/data-dokumen-lingkungan/store', [DokumenLingkunganController::class, 'store'])->name('data-dokumen-lingkungan.store')->can('Data Dokumen.Lingkungan');
+    Route::get('/data-dokumen-lingkungan/datatable', [DokumenLingkunganController::class, 'datatable'])->name('data-dokumen-lingkungan.datatable')->can('Data Dokumen.Lingkungan');
+    Route::get('/data-dokumen-lingkungan/{id}/edit', [DokumenLingkunganController::class, 'edit'])->name('data-dokumen-lingkungan.edit')->can('Data Dokumen.Lingkungan');
+    Route::put('/data-dokumen-lingkungan/{id}/update', [DokumenLingkunganController::class, 'update'])->name('data-dokumen-lingkungan.update')->can('Data Dokumen.Lingkungan');
+    Route::delete('/data-dokumen-lingkungan/{id}/drop', [DokumenLingkunganController::class, 'drop'])->name('data-dokumen-lingkungan.drop')->can('Data Dokumen.Lingkungan');
 
     // dokumen ded route
-    Route::get('/data-dokumen-ded', [DokumenDedController::class, 'index'])->name('data-dokumen-ded.index');
-    Route::post('/data-dokumen-ded/store', [DokumenDedController::class, 'store'])->name('data-dokumen-ded.store');
-    Route::get('/data-dokumen-ded/datatable', [DokumenDedController::class, 'datatable'])->name('data-dokumen-ded.datatable');
-    Route::get('/data-dokumen-ded/{id}/edit', [DokumenDedController::class, 'edit'])->name('data-dokumen-ded.edit');
-    Route::put('/data-dokumen-ded/{id}/update', [DokumenDedController::class, 'update'])->name('data-dokumen-ded.update');
-    Route::delete('/data-dokumen-ded/{id}/drop', [DokumenDedController::class, 'drop'])->name('data-dokumen-ded.drop');
-
+    Route::get('/data-dokumen-ded', [DokumenDedController::class, 'index'])->name('data-dokumen-ded.index')->can('Data Dokumen.Detail Engineering Design');
+    Route::post('/data-dokumen-ded/store', [DokumenDedController::class, 'store'])->name('data-dokumen-ded.store')->can('Data Dokumen.Detail Engineering Design');
+    Route::get('/data-dokumen-ded/datatable', [DokumenDedController::class, 'datatable'])->name('data-dokumen-ded.datatable')->can('Data Dokumen.Detail Engineering Design');
+    Route::get('/data-dokumen-ded/{id}/edit', [DokumenDedController::class, 'edit'])->name('data-dokumen-ded.edit')->can('Data Dokumen.Detail Engineering Design');
+    Route::put('/data-dokumen-ded/{id}/update', [DokumenDedController::class, 'update'])->name('data-dokumen-ded.update')->can('Data Dokumen.Detail Engineering Design');
+    Route::delete('/data-dokumen-ded/{id}/drop', [DokumenDedController::class, 'drop'])->name('data-dokumen-ded.drop')->can('Data Dokumen.Detail Engineering Design');
     ## --- end of data dokumen --- ##
 
 
@@ -123,41 +123,47 @@ Route::middleware(['auth'])->group(function () {
 
     ## --- Start of Data Pendukung --- ##
     // Data kawasan kumuh route
-    Route::get('/data-kawasan-kumuh', [DataKawasanKumuhController::class, 'index'])->name('data-kawasan-kumuh.index');
-    Route::get('/data-kawasan-kumuh/datatable', [DataKawasanKumuhController::class, 'datatable'])->name('data-kawasan-kumuh.datatable');
-    Route::post('/data-kawasan-kumuh/store', [DataKawasanKumuhController::class, 'store'])->name('data-kawasan-kumuh.store');
-    Route::get('/data-kawasan-kumuh/{id}/edit', [DataKawasanKumuhController::class, 'edit'])->name('data-kawasan-kumuh.edit');
-    Route::put('/data-kawasan-kumuh/{id}/update', [DataKawasanKumuhController::class, 'update'])->name('data-kawasan-kumuh.update');
-    Route::delete('/data-kawasan-kumuh/{id}/drop', [DataKawasanKumuhController::class, 'drop'])->name('data-kawasan-kumuh.drop');
+    Route::get('/data-kawasan-kumuh', [DataKawasanKumuhController::class, 'index'])->name('data-kawasan-kumuh.index')->can('Data Pendukung.Kawasan Kumuh');
+    Route::get('/data-kawasan-kumuh/datatable', [DataKawasanKumuhController::class, 'datatable'])->name('data-kawasan-kumuh.datatable')->can('Data Pendukung.Kawasan Kumuh');
+    Route::post('/data-kawasan-kumuh/store', [DataKawasanKumuhController::class, 'store'])->name('data-kawasan-kumuh.store')->can('Data Pendukung.Kawasan Kumuh');
+    Route::get('/data-kawasan-kumuh/{id}/edit', [DataKawasanKumuhController::class, 'edit'])->name('data-kawasan-kumuh.edit')->can('Data Pendukung.Kawasan Kumuh');
+    Route::put('/data-kawasan-kumuh/{id}/update', [DataKawasanKumuhController::class, 'update'])->name('data-kawasan-kumuh.update')->can('Data Pendukung.Kawasan Kumuh');
+    Route::delete('/data-kawasan-kumuh/{id}/drop', [DataKawasanKumuhController::class, 'drop'])->name('data-kawasan-kumuh.drop')->can('Data Pendukung.Kawasan Kumuh');
     // Data jaringan spam route
-    Route::get('/data-jaringan-spampdam', [JaringanSpamPdamController::class, 'index'])->name('data-jaringan-spampdam.index');
+    Route::get('/data-jaringan-spampdam', [JaringanSpamPdamController::class, 'index'])->name('data-jaringan-spampdam.index')->can('Data Pendukung.Jaringan Spam');
     // Data kawasan rtlh route
-    Route::get('/data-kawasan-rtlh', [KawasanRTLHController::class, 'index'])->name('data-kawasan-rtlh.index');
-    Route::get('/data-kawasan-rtlh/datatable', [KawasanRTLHController::class, 'datatable'])->name('data-kawasan-rtlh.datatable');
-    Route::post('/data-kawasan-rtlh/store', [KawasanRTLHController::class, 'store'])->name('data-kawasan-rtlh.store');
-    Route::get('/data-kawasan-rtlh/{id}/edit', [KawasanRTLHController::class, 'edit'])->name('data-kawasan-rtlh.edit');
-    Route::put('/data-kawasan-rtlh/{id}/update', [KawasanRTLHController::class, 'update'])->name('data-kawasan-rtlh.update');
-    Route::delete('/data-kawasan-rtlh/{id}/drop', [KawasanRTLHController::class, 'drop'])->name('data-kawasan-rtlh.drop');
+    Route::get('/data-kawasan-rtlh', [KawasanRTLHController::class, 'index'])->name('data-kawasan-rtlh.index')->can('Data Pendukung.Kawasan RTLH');
+    Route::get('/data-kawasan-rtlh/datatable', [KawasanRTLHController::class, 'datatable'])->name('data-kawasan-rtlh.datatable')->can('Data Pendukung.Kawasan RTLH');
+    Route::post('/data-kawasan-rtlh/store', [KawasanRTLHController::class, 'store'])->name('data-kawasan-rtlh.store')->can('Data Pendukung.Kawasan RTLH');
+    Route::get('/data-kawasan-rtlh/{id}/edit', [KawasanRTLHController::class, 'edit'])->name('data-kawasan-rtlh.edit')->can('Data Pendukung.Kawasan RTLH');
+    Route::put('/data-kawasan-rtlh/{id}/update', [KawasanRTLHController::class, 'update'])->name('data-kawasan-rtlh.update')->can('Data Pendukung.Kawasan RTLH');
+    Route::delete('/data-kawasan-rtlh/{id}/drop', [KawasanRTLHController::class, 'drop'])->name('data-kawasan-rtlh.drop')->can('Data Pendukung.Kawasan RTLH');
     // Data lokus kemiskinan route
-    Route::get('/data-lokus-kemiskinan', [LokusKemiskinanController::class, 'index'])->name('data-lokus-kemiskinan.index');
-    Route::get('/data-lokus-kemiskinan/datatable', [LokusKemiskinanController::class, 'datatable'])->name('data-lokus-kemiskinan.datatable');
-    Route::post('/data-lokus-kemiskinan/store', [LokusKemiskinanController::class, 'store'])->name('data-lokus-kemiskinan.store');
-    Route::get('/data-lokus-kemiskinan/{id}/edit', [LokusKemiskinanController::class, 'edit'])->name('data-lokus-kemiskinan.edit');
-    Route::put('/data-lokus-kemiskinan/{id}/update', [LokusKemiskinanController::class, 'update'])->name('data-lokus-kemiskinan.update');
-    Route::delete('/data-lokus-kemiskinan/{id}/drop', [LokusKemiskinanController::class, 'drop'])->name('data-lokus-kemiskinan.drop');
+    Route::get('/data-lokus-kemiskinan', [LokusKemiskinanController::class, 'index'])->name('data-lokus-kemiskinan.index')->can('Data Pendukung.Lokus Kemiskinan');
+    Route::get('/data-lokus-kemiskinan/datatable', [LokusKemiskinanController::class, 'datatable'])->name('data-lokus-kemiskinan.datatable')->can('Data Pendukung.Lokus Kemiskinan');
+    Route::post('/data-lokus-kemiskinan/store', [LokusKemiskinanController::class, 'store'])->name('data-lokus-kemiskinan.store')->can('Data Pendukung.Lokus Kemiskinan');
+    Route::get('/data-lokus-kemiskinan/{id}/edit', [LokusKemiskinanController::class, 'edit'])->name('data-lokus-kemiskinan.edit')->can('Data Pendukung.Lokus Kemiskinan');
+    Route::put('/data-lokus-kemiskinan/{id}/update', [LokusKemiskinanController::class, 'update'])->name('data-lokus-kemiskinan.update')->can('Data Pendukung.Lokus Kemiskinan');
+    Route::delete('/data-lokus-kemiskinan/{id}/drop', [LokusKemiskinanController::class, 'drop'])->name('data-lokus-kemiskinan.drop')->can('Data Pendukung.Lokus Kemiskinan');
 
     // Data lokus stunting route
-    Route::get('/data-lokus-stunting', [LokusStuntingController::class, 'index'])->name('data-lokus-stunting.index');
-    Route::get('/data-lokus-stunting/datatable', [LokusStuntingController::class, 'datatable'])->name('data-lokus-stunting.datatable');
-    Route::post('/data-lokus-stunting/store', [LokusStuntingController::class, 'store'])->name('data-lokus-stunting.store');
-    Route::get('/data-lokus-stunting/{id}/edit', [LokusStuntingController::class, 'edit'])->name('data-lokus-stunting.edit');
-    Route::put('/data-lokus-stunting/{id}/update', [LokusStuntingController::class, 'update'])->name('data-lokus-stunting.update');
-    Route::delete('/data-lokus-stunting/{id}/drop', [LokusStuntingController::class, 'drop'])->name('data-lokus-stunting.drop');
+    Route::get('/data-lokus-stunting', [LokusStuntingController::class, 'index'])->name('data-lokus-stunting.index')->can('Data Pendukung.Lokus Stunting');
+    Route::get('/data-lokus-stunting/datatable', [LokusStuntingController::class, 'datatable'])->name('data-lokus-stunting.datatable')->can('Data Pendukung.Lokus Stunting');
+    Route::post('/data-lokus-stunting/store', [LokusStuntingController::class, 'store'])->name('data-lokus-stunting.store')->can('Data Pendukung.Lokus Stunting');
+    Route::get('/data-lokus-stunting/{id}/edit', [LokusStuntingController::class, 'edit'])->name('data-lokus-stunting.edit')->can('Data Pendukung.Lokus Stunting');
+    Route::put('/data-lokus-stunting/{id}/update', [LokusStuntingController::class, 'update'])->name('data-lokus-stunting.update')->can('Data Pendukung.Lokus Stunting');
+    Route::delete('/data-lokus-stunting/{id}/drop', [LokusStuntingController::class, 'drop'])->name('data-lokus-stunting.drop')->can('Data Pendukung.Lokus Stunting');
     ## --- end of data pendukung --- ##
 
     // User
     Route::put('/user/{id}.update', [UserController::class, 'update'])->name('profile.update');
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('profile.edit');
+
+    ## administrator role, permission and add user
+    Route::get('/admin/role', [AdminRoleController::class, 'index'])->name('admin-role.index')->can('Administrator.Hak Akses');
+    Route::get('/admin/role/datatable', [AdminRoleController::class, 'datatable'])->name('admin-role.datatable')->can('Administrator.Hak Akses');
+    Route::get('/admin/role/create', [AdminRoleController::class, 'create'])->name('admin-role.create')->can('Administrator.Hak Akses');
+    Route::post('/admin/role/store', [AdminRoleController::class, 'store'])->name('admin-role.store')->can('Administrator.Hak Akses');
 });
 
 require __DIR__ . '/auth.php';
