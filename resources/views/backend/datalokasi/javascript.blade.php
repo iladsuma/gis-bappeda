@@ -263,9 +263,9 @@
                             async: false,
                             success: function(result) {
                                 swal.fire({
-                                    title: 'Berhasil',
-                                    text: 'Data berhasil dihapus',
-                                    icon: 'success',
+                                    title: result.title,
+                                    text: result.message,
+                                    icon: result.icon,
                                 })
                                 table.ajax.reload()
                             }
