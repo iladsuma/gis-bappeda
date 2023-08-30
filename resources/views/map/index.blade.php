@@ -75,6 +75,10 @@
         .modal-dialog-location {
             background-color: rgba(255, 255, 255, 0.8);
         }
+
+        .select2-results__option--selected {
+            display: none;
+        }
     </style>
 </head>
 
@@ -308,7 +312,7 @@
                             let layer = L.geoJSON(geometry, {
                                 onEachFeature: function(feature, layer) {
                                     if (feature.geometry.type == 'LineString') {
-                                        let buffering = turf.buffer(feature, 1, {
+                                        let buffering = turf.buffer(feature, 2.5, {
                                             'units': 'meters'
                                         })
                                         let bufferedLayer = L.geoJSON(buffering)

@@ -35,4 +35,8 @@
     .custom {
         width: 78px
     }
+
+    .select2-results__option--selected {
+        display: none;
+    }
 </style>
