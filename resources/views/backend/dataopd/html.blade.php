@@ -44,6 +44,9 @@
                     <div class="alert alert-danger d-none" id="opd-validation">
 
                     </div>
+                    <div id="loadingAnimation" class="loading-animation hidden">
+                        <!-- Your loading animation HTML content here -->
+                    </div>
                     <div class="form-group">
                         <label for="nama">Nama</label>
                         <input type="text" class="form-control" id="nama">

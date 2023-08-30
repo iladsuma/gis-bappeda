@@ -194,6 +194,7 @@
             contentType: false,
             processData: false,
             success: (data) => {
+                $('#modalDokumenFS').modal('hide');
                 swal.fire({
                     title: 'Berhasil',
                     text: data,
@@ -201,10 +202,11 @@
                 }).then(function() {
                     table.ajax.reload();
                 });
-                $('#modalDokumenFS').modal('hide');
+                
             },
             error: (xhr, ajaxOptions, thrownError) => {
                 console.log(xhr.responseJSON.errors)
+                console.log(thrownError)
                 if (xhr.responseJSON.hasOwnProperty('errors')) {
                     var html =
                         "<ul style=justify-content: space-between;'>";
@@ -223,14 +225,15 @@
                         }
                     }
                     html += "</ul>";
-                    // swal.fire({
-                    //     title: 'Error',
-                    //     html: html,
-                    //     icon: 'warning',
-                    // });
+                   
                     $("#dokumenFs-validation").html(html)
                     $("#dokumenFs-validation").removeClass("d-none")
                 }
+                swal.fire({
+                        title: 'Error',
+                        html: thrownError,
+                        icon: 'warning',
+                    });
             }
         });
     });

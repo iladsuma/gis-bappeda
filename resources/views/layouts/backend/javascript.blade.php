@@ -43,6 +43,20 @@
 <script src="{{ asset('assets/leaflet/js/leaflet-geoman.min.js') }}"></script>
 <script src="{{ asset('assets/dt-picker/jquery.datetimepicker.full.js') }}"></script>
 
+<script>
+    $(document).on({
+        ajaxStart: function() {
+            $("#overlay").fadeIn(300);　
+        },
+        ajaxStop: function() {
+            $("#overlay").fadeOut(300);
+        },
+        ajaxError: function() {
+            $("#overlay").fadeOut(300);
+        }
+    });
+</script>
+
 {{-- script for edit profile in navbar --}}
 
 <script>
