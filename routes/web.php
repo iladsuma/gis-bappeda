@@ -59,7 +59,7 @@ Route::middleware(['auth'])->group(function () {
     // Data OPD Route
     Route::get('/data-opd', [DataOpdController::class, 'index'])->name('data-opd.index')->can('Master Data.Data Opd');
     Route::get('/data-opd/datatable', [DataOpdController::class, 'datatable'])->name('data-opd.datatable')->can('Master Data.Data Opd');
-    Route::post('/data-opd/store', [DataOpdController::class, 'store'])->name('data-opd.store')->can('data')->can('Master Data.Data Opd');
+    Route::post('/data-opd/store', [DataOpdController::class, 'store'])->name('data-opd.store')->can('Master Data.Data Opd');
     Route::get('/data-opd/{id}/edit', [DataOpdController::class, 'edit'])->name('data-opd.edit')->can('Master Data.Data Opd');
     Route::put('/data-opd/{id}/update', [DataOpdController::class, 'update'])->name('data-opd.update')->can('Master Data.Data Opd');
     Route::delete('/data-opd/{id}/drop', [DataOpdController::class, 'drop'])->name('data-opd.drop')->can('Master Data.Data Opd');

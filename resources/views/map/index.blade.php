@@ -179,15 +179,15 @@
                 interactive: true
             });
 
-            let layerSpesifik = L.layerGroup();
+            let layerGroup = L.geoJSON();
             let layerPerencanaan = L.featureGroup();
-            let layerMultiple = L.featureGroup();
             let layerKawasanKumuh = L.featureGroup();
             let layerRtlh = L.featureGroup();
             let layerKemiskinan = L.featureGroup();
             let layerStunting = L.featureGroup();
             let layerSpam = L.featureGroup();
             let layerPdam = L.featureGroup();
+
 
             let groupedOverlays = {
                 "Peta Tematik ": {
@@ -260,8 +260,6 @@
 
             map.on('overlayadd', function(event) {
                 if (event.name == "Dokumen Perencanaan") {
-                    map.removeLayer(layerSpesifik);
-                    map.removeLayer(layerMultiple);
                     layerPerencanaan.clearLayers()
                     let url = "{{ route('map.lokasi-all') }}"
                     getDataPerencanaan(url)
@@ -303,30 +301,40 @@
                     url: url,
                     dataType: "json",
                     success: function(result) {
-                        // console.log(result)
+                        layerGroup.clearLayers()
                         $.each(result.data, function(index, data) {
                             let geometry = JSON.parse(data.coordinate)
-                            let layer = L.geoJSON(geometry)
-                            console.log(geometry.features)
-                            if (result.method == 'all') {
-                                layer.addTo(layerPerencanaan);
-                                layerPerencanaan.addTo(map)
-                                center = layerPerencanaan.getBounds()
-                                map.flyToBounds(center);
-                            }
-                            if (result.method == 'spesifik') {
-                                layer.addTo(layerSpesifik);
-                                layerSpesifik.addTo(map);
-                                center = layer.getBounds()
-                                map.flyToBounds(center);
-                            }
-                            if (result.method == 'multiple') {
-                                layer.addTo(layerMultiple);
-                                layerMultiple.addTo(map)
-                                center = layerMultiple.getBounds()
-                                map.flyToBounds(center);
-                            }
-                            layerOnClick(layer, data)
+
+                            let layer = L.geoJSON(geometry, {
+                                onEachFeature: function(feature, layer) {
+                                    if (feature.geometry.type == 'LineString') {
+                                        let buffering = turf.buffer(feature, 1, {
+                                            'units': 'meters'
+                                        })
+                                        let bufferedLayer = L.geoJSON(buffering)
+                                            .addTo(map)
+                                        layerGroup.addLayer(bufferedLayer)
+                                        layerOnClick(bufferedLayer, data)
+                                    } else {
+                                        layerGroup.addLayer(layer).addTo(map)
+                                        layerOnClick(layer, data)
+                                    }
+                                    if (result.method == 'all') {
+                                        layerGroup.addTo(layerPerencanaan)
+                                        center = layerPerencanaan.getBounds()
+                                        map.flyToBounds(center);
+                                    }
+                                    if (result.method == 'spesifik') {
+                                        center = layerGroup.getBounds()
+                                        map.flyToBounds(center);
+                                    }
+                                    if (result.method == 'multiple') {
+                                        center = layerGroup.getBounds()
+                                        map.flyToBounds(center);
+                                    }
+
+                                }
+                            })
                         })
                     }
                 });
@@ -376,11 +384,11 @@
                                 </tr>
                                 <tr>
                                     <th>Kecamatan</th>
-                                    <td>` + data.kelurahan.nama + `</td>
+                                    <td>` + data.kelurahan.kecamatan.nama + `</td>
                                 </tr>
                                 <tr>
                                     <th>Kelurahan</th>
-                                    <td>` + data.kelurahan.kecamatan.nama + `</td>
+                                    <td>` + data.kelurahan.nama + `</td>
                                 </tr>
                                 <tr>
                                     <td class="text-center" colspan="2">
@@ -600,7 +608,6 @@
                         url: "{{ route('map.datatable-modal') }}",
                         method: 'GET'
                     },
-                    // lengthChange: false,
                     searching: false,
                     responsive: true,
                     columns: [{
@@ -671,10 +678,7 @@
             });
 
             $(document).on('click', '.fokus', function(e) {
-                layerSpesifik.clearLayers();
                 map.removeLayer(layerPerencanaan);
-                map.removeLayer(layerMultiple);
-                // console.log(layerSpesifik);
                 let url = '{{ route('map.lokasi-spesifik', ':id') }}';
                 url = url.replace(':id', $(this).data('id'));
                 getDataPerencanaan(url);
@@ -683,8 +687,6 @@
 
             $("#cari-lokasi").on('submit', function(event) {
                 event.preventDefault()
-                layerMultiple.clearLayers();
-                map.removeLayer(layerSpesifik);
                 map.removeLayer(layerPerencanaan);
                 let ids = $('#lokasi-select').val()
                 let url = "{{ route('map.lokasi-filter', ':id') }}"

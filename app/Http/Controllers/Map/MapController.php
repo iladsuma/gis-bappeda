@@ -94,7 +94,7 @@ class MapController extends Controller
 
     public function datatable_mp($id)
     {
-        $datatable_mp = DataTables::of(DokumenFs::whereHas('lokasi', function ($q) use ($id) {
+        $datatable_mp = DataTables::of(DokumenMp::whereHas('lokasi', function ($q) use ($id) {
             $q->where('lokasi_kegiatan_id', $id);
         })->with('opd')->orderBy('id', 'asc'))
             ->addIndexColumn()
@@ -105,7 +105,7 @@ class MapController extends Controller
 
     public function datatable_lingkungan($id)
     {
-        $datatable_lingkungan = DataTables::of(DokumenFs::whereHas('lokasi', function ($q) use ($id) {
+        $datatable_lingkungan = DataTables::of(DokumenLingkungan::whereHas('lokasi', function ($q) use ($id) {
             $q->where('lokasi_kegiatan_id', $id);
         })->with('opd')->orderBy('id', 'asc'))
             ->addIndexColumn()
@@ -116,7 +116,7 @@ class MapController extends Controller
 
     public function datatable_ded($id)
     {
-        $datatable_ded = DataTables::of(DokumenFs::whereHas('lokasi', function ($q) use ($id) {
+        $datatable_ded = DataTables::of(DokumenDed::whereHas('lokasi', function ($q) use ($id) {
             $q->where('lokasi_kegiatan_id', $id);
         })->with('opd')->orderBy('id', 'asc'))
             ->addIndexColumn()
