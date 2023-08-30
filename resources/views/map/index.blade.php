@@ -97,8 +97,9 @@
     <script src="{{ asset('assets/leaflet/js/leaflet.groupedlayercontrol.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet.ajax.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet-geoman.min.js') }}"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+
 
     {{-- sweet alert --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -214,7 +215,7 @@
                 onAdd: function(map) {
                     var img = L.DomUtil.create('img');
 
-                    img.src = '{{ asset("assets/image/logo/watermark.png") }}';
+                    img.src = '{{ asset('assets/image/logo/watermark.png') }}';
                     img.style.height = '80px';
 
                     return img;
@@ -256,10 +257,6 @@
             // add control layer to sidebar
             let htmlControlLayer = controlLayer.getContainer();
             $('#layer-data').append(htmlControlLayer);
-
-
-
-
 
             map.on('overlayadd', function(event) {
                 if (event.name == "Dokumen Perencanaan") {
@@ -306,10 +303,11 @@
                     url: url,
                     dataType: "json",
                     success: function(result) {
-                        console.log(result)
+                        // console.log(result)
                         $.each(result.data, function(index, data) {
                             let geometry = JSON.parse(data.coordinate)
                             let layer = L.geoJSON(geometry)
+                            console.log(geometry.features)
                             if (result.method == 'all') {
                                 layer.addTo(layerPerencanaan);
                                 layerPerencanaan.addTo(map)

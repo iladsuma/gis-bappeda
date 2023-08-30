@@ -8,7 +8,7 @@
             <li><a href="{{ route('dashboard.index') }}" role="tab" title="Dashboard Admin"><i
                         class="fas fa-computer"></i></a></li>
             <li style="cursor: pointer"><a data-bs-toggle="modal" data-bs-target="#locationModal" id="location-modal"><i
-                        class="fa-solid fa-location-dot"></i></a></li>
+                        class="fa-solid fa-table-list"></i></a></li>
         </ul>
 
         <ul role="tablist">
@@ -122,19 +122,24 @@
                 <div class="card-body">
                     <div class="row d-flex justify-content-center">
                         <div class="col-lg-10 d-flex justify-content-center">
-                            <img id="avatar-sidebar" src="assets/image/avatar/{{ Auth::user()->avatar }}" class="img my-3 rounded rounded-circle" width="250" height="250" alt="">
+                            <img id="avatar-sidebar" src="assets/image/avatar/{{ Auth::user()->avatar }}"
+                                class="img my-3 rounded rounded-circle" width="250" height="250"
+                                alt="">
                         </div>
                     </div>
                     <h3 class="text-center fw-bold">{{ Auth::user()->name }}</h3>
                     <h5 class="text-center fw-bold">{{ Auth::user()->username }}</h5>
                     <div class="row mt-5 mb-5">
                         <div class="col-lg-6 px-3">
-                            <button class="btn btn-success btn-sm w-100 fw-bold" id="profile-edit-modal"><i class="fas fa-user-cog"></i> Edit Profile</button>
+                            <button class="btn btn-success btn-sm w-100 fw-bold" id="profile-edit-modal"><i
+                                    class="fas fa-user-cog"></i> Edit Profile</button>
                         </div>
                         <div class="col-lg-6 px-3">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <a href="{{ route('logout') }}" class="btn btn-danger btn-sm w-100 fw-bold" type="submit" onclick="event.preventDefault(); this.closest('form').submit();"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+                                <a href="{{ route('logout') }}" class="btn btn-danger btn-sm w-100 fw-bold"
+                                    type="submit" onclick="event.preventDefault(); this.closest('form').submit();"><i
+                                        class="fas fa-sign-out-alt"></i> Keluar</a>
                             </form>
                         </div>
                     </div>

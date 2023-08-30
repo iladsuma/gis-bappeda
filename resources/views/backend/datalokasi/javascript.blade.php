@@ -143,7 +143,7 @@
 
 
         map.pm.addControls(optionsBeforeDraw)
-        let drawnItems = L.geoJSON()
+        var drawnItems = new L.geoJSON()
 
         map.on("pm:create", (e) => {
             drawnLayer = e.layer
@@ -154,7 +154,12 @@
         map.on("pm:remove", (e) => {
             map.pm.disableGlobalDragMode()
             removedLayer = e.layer
-            drawnItems.removeLayer(removedLayer)
+            console.log(removedLayer.toGeoJSON());
+            // drawnItems.removeLayer(removedLayer)
+            removedLayer.removeFrom(drawnItems);
+            // drawnItems.clearLayers()
+
+            console.log(drawnItems.toGeoJSON());
             $("#koordinat").val(JSON.stringify(drawnItems.toGeoJSON()))
             if (drawnItems.toGeoJSON().features.length < 1) {
                 $("#koordinat").val("")
@@ -229,11 +234,10 @@
                     $("#kelurahan").val(data.kelurahan_id)
                     $("#alamat").val(data.alamat)
                     $("#koordinat").val(data.coordinate)
-                    console.log(JSON.parse(data.coordinate))
-                    let geometry = L.geoJSON(JSON.parse(result.data.coordinate)).addTo(map)
-                    drawnItems.addLayer(geometry)
+                    drawnItems = L.geoJSON(JSON.parse(result.data.coordinate))
+                    drawnItems.addTo(map)
                     $("#modal-lokasi-kegiatan").modal("show")
-                    setView(geometry.getBounds().getCenter())
+                    setView(drawnItems.getBounds().getCenter())
                 }
             })
         });
