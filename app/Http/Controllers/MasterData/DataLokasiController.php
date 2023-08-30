@@ -98,9 +98,28 @@ class DataLokasiController extends Controller
     public function drop($id)
     {
         $data_lokasi = LokasiKegiatan::find($id);
+
+        $val_fs = DB::table('lokasi_dokumen_fs')->where('lokasi_kegiatan_id', $id)->first();
+        $val_mp = DB::table('lokasi_dokumen_mp')->where('lokasi_kegiatan_id', $id)->first();
+        $val_ling = DB::table('lokasi_dokumen_lingkungan')->where('lokasi_kegiatan_id', $id)->first();
+        $val_ded = DB::table('lokasi_dokumen_ded')->where('lokasi_kegiatan_id', $id)->first();
+        if ($val_fs || $val_mp || $val_ded ||$val_ling) {
+            return response()->json([
+                'title' => 'Gagal',
+                'message' => 'Lokasi Sedang Digunakan',
+                'icon' => 'error'
+            ]);
+        }
+
         if (file_exists(public_path('assets/foto_lokasi/' . $data_lokasi->foto))) {
             File::delete(public_path('assets/foto_lokasi/' . $data_lokasi->foto));
         }
         $data_lokasi->delete();
+
+        return response()->json([
+            'title' => 'Berhasil',
+            'message' => 'Lokasi Berhasil Dihapus',
+            'icon' => 'success'
+        ]);
     }
 }
