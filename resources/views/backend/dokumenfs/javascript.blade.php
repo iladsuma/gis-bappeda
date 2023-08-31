@@ -67,6 +67,7 @@
         placeholder: "Pilih minimal 1 atau lebih lokasi ...",
         width: '100%',
         theme: 'classic',
+        initSelection: function(element, callback) {}
         // dropdownParent: $("#search")
     });
 
@@ -76,7 +77,7 @@
         $("#tahun").val("");
         $("#dokumen").val("");
         $("#opd_id").val("");
-        $("#lokasi_id").val("");
+        $("#lokasi_id").val("").trigger("change")
         $('#modalDokumenFS').modal('show');
         let url = "{{ route('data-dokumen-fs.store') }}";
         $('#dokumen-fs-form').attr('action', url);
@@ -202,7 +203,7 @@
                 }).then(function() {
                     table.ajax.reload();
                 });
-                
+
             },
             error: (xhr, ajaxOptions, thrownError) => {
                 console.log(xhr.responseJSON.errors)
@@ -225,15 +226,15 @@
                         }
                     }
                     html += "</ul>";
-                   
+
                     $("#dokumenFs-validation").html(html)
                     $("#dokumenFs-validation").removeClass("d-none")
                 }
                 swal.fire({
-                        title: 'Error',
-                        html: thrownError,
-                        icon: 'warning',
-                    });
+                    title: 'Error',
+                    html: thrownError,
+                    icon: 'warning',
+                });
             }
         });
     });

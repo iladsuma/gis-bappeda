@@ -317,11 +317,20 @@
                                         })
                                         let bufferedLayer = L.geoJSON(buffering)
                                             .addTo(map)
+                                        let latLng = bufferedLayer.getBounds()
+                                            .getCenter()
                                         layerGroup.addLayer(bufferedLayer)
-                                        layerOnClick(bufferedLayer, data)
+                                        layerOnClick(bufferedLayer, data, latLng)
                                     } else {
+                                        let latLng;
                                         layerGroup.addLayer(layer).addTo(map)
-                                        layerOnClick(layer, data)
+                                        if (feature.geometry.type == "Point") {
+                                            latLng = layer.getLatLng()
+                                        } else(
+                                            latLng = layer.getBounds()
+                                            .getCenter()
+                                        )
+                                        layerOnClick(layer, data, latLng)
                                     }
                                     if (result.method == 'all') {
                                         layerGroup.addTo(layerPerencanaan)
@@ -379,7 +388,7 @@
             }
 
             // function get data for marker and set the content and bind the pop up layer on click
-            function layerOnClick(layer, data) {
+            function layerOnClick(layer, data, latLng) {
                 let content = ` <img class="img-fluid" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
                             <table class="table table-sm table-striped">
                                 <tr>
@@ -394,11 +403,20 @@
                                     <th>Kelurahan</th>
                                     <td>` + data.kelurahan.nama + `</td>
                                 </tr>
+
+                            </table>
+                            <table class="table table-sm table-striped">
                                 <tr>
-                                    <td class="text-center" colspan="2">
-                                        <a href="#" class="open-modal" data-id="` + data.id + `"
+                                    <td class="text-center">
+                                        <a href="#" class="open-modal btn btn-light btn-sm" data-id="` + data.id + `"
                                         data-nama="` + data.nama + `">
-                                            <i class="fa fa-info-circle"></i>Detail
+                                            <i class="fa fa-info-circle"></i> Detail
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-light btn-sm open-map" data-lat="` + latLng.lat +
+                    `" data-lng="` + latLng.lng + `">
+                                            <i class="fa fa-info-circle"></i> Maps
                                         </a>
                                     </td>
                                 </tr>
@@ -413,6 +431,13 @@
                     }
                 })
             }
+
+            // open googlemaps in new window
+            $(document).on("click", ".open-map", function() {
+                let latLng = $(this).data("lat") + "," + $(this).data("lng")
+                url = "https://www.google.com/maps/search/" + latLng
+                window.open(url, '_blank');
+            })
 
             // function polygon form ajax add the content and bind the pop up
             function polygonOnClick(polygon, data, judul) {
