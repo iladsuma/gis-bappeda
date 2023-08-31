@@ -60,11 +60,11 @@
 
     $(document).on('click', ".edit-user", function() {
         $("#modalAdminUserLabel").html("").append("Edit Data User");
-        $("#name").val("");
-        $("#username").val("");
+        $("#create-name").val("");
+        $("#create-username").val("");
         $("#opd_id").val("");
         $("#role_id").val("");
-        $("#password").val("");
+        $("#create-password").val("");
         $('#modalAdminUser').modal('show');
         let id = $(this).data('id')
         let url = "{{ route('admin-user.edit', ':id') }}"
@@ -129,11 +129,11 @@
 
     $(document).on('click', "#tambah-data", function() {
         $("#modalAdminUserLabel").html("").append("Tambah Data User");
-        $("#name").val("");
-        $("#username").val("");
+        $("#create-name").val("");
+        $("#create-username").val("");
         $("#opd_id").val("");
         $("#role_id").val("");
-        $("#password").val("");
+        $("#create-password").val("");
         $('#modalAdminUser').modal('show');
         let url = "{{ route('admin-user.store') }}";
         $('#admin-user-form').attr('action', url);
@@ -145,11 +145,11 @@
         let urlSave = $("#admin-user-form").attr("action")
         let method = $("#admin-user-form").attr("method")
         let dataUser = new FormData()
-        dataUser.append("name", $("#name").val())
-        dataUser.append("username", $("#username").val())
+        dataUser.append("name", $("#create-name").val())
+        dataUser.append("username", $("#create-username").val())
         dataUser.append("opd_id", $("#opd_id").val())
         dataUser.append("role_id", $("#role_id").val())
-        dataUser.append("password", $("#password").val())
+        dataUser.append("password", $("#create-password").val())
 
         if (method == "PUT") {
             dataUser.append("_method", "PUT")

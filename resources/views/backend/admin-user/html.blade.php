@@ -44,11 +44,11 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Nama</label>
-                            <input type="text" class="form-control form-control-sm" id="name">
+                            <input type="text" class="form-control form-control-sm" id="create-name">
                         </div>
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control form-control-sm" id="username">
+                            <input type="text" class="form-control form-control-sm" id="create-username">
                         </div>
                         <div class="form-group">
                             <label for="opd_id">Pilih OPD</label>
@@ -70,7 +70,7 @@
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control form-control-sm" id="password">
+                            <input type="password" class="form-control form-control-sm" id="create-password">
                         </div>
                 </div>
                 <div class="modal-footer">

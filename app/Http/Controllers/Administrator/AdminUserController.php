@@ -25,8 +25,8 @@ class AdminUserController extends Controller
     public function datatable()
     {
         $datatable = DataTables::of(User::with(['opd', 'roles'])->orderBy('id', 'asc'))
-        ->addIndexColumn()
-        ->make('true');
+            ->addIndexColumn()
+            ->make('true');
 
         return $datatable;
     }
@@ -36,7 +36,6 @@ class AdminUserController extends Controller
         $role = Role::where('id', $request->role_id)->first();
 
         DB::beginTransaction();
-
         try {
             $user = User::create([
                 'opd_id' => $request->opd_id,
@@ -55,7 +54,6 @@ class AdminUserController extends Controller
         }
 
         return response("Data berhasil ditambahkan");
-
     }
 
     public function edit($id)
