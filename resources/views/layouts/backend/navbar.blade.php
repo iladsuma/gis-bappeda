@@ -19,7 +19,7 @@
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                 @php $avatar = Auth::user()->avatar @endphp
                 <img src="{{ asset("assets/image/avatar/$avatar") }}"
-                    class="user-image img-circle img-thumbnail elevation-2" alt="ADMIN">
+                    class="user-image img-circle img-thumbnail elevation-2 avatar-navbar" alt="ADMIN">
                 <span class="d-none d-md-inline">
                     {{-- {{ Auth::user()->name }} --}}
                 </span>
@@ -31,7 +31,7 @@
                 {{-- User menu header --}}
 
                 <li class="user-header h-auto">
-                    <img src="{{ asset("assets/image/avatar/$avatar") }}" class="img-circle img-thumbnail elevation-2"
+                    <img src="{{ asset("assets/image/avatar/$avatar") }}" class="img-circle img-thumbnail elevation-2 avatar-navbar"
                         alt="ADMIN">
 
                     <p class=" mt-0"> {{ Auth::user()->username }} <small>{{ Auth::user()->name }}</small>
@@ -48,8 +48,7 @@
 
                 {{-- User menu footer --}}
                 <li class="user-footer">
-                    <button id="edit-profile" class="btn btn-default btn-flat float-right btn-block" data-toggle="modal"
-                        data-target="#modal-profile">
+                    <button id="profile-edit-modal" class="btn btn-default btn-flat float-right btn-block">
                         <i class="fa fa-fw fa-user text-lightblue"></i>
                         Edit Profil
                     </button>
@@ -73,73 +72,54 @@
 </nav>
 <!-- /.navbar -->
 
-{{-- profile modal --}}
 
-<div class="modal fade" id="modal-profile" tabindex="-1" aria-labelledby="modal-edit" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+{{-- Profile Edit Modal --}}
+<div class="modal fade" id="profileEditModal" tabindex="-1" aria-labelledby="profileEditModalLabel"
+    aria-hidden="true" style="z-index: 2001;">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <form id="self-edit" action="" method=""
-                oninput="selfPassword2.setCustomValidity(selfPassword2.value != selfPassword.value ? 'Passwords do not match.' : '')">
-                {{ csrf_field() }}
-                <div class="modal-header">
-                    {{-- <h5 class="modal-title" id="modal-title">{{ Auth::user()->name }} - Profil</h5> --}}
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @php
-                        // $avatar = Auth::user()->avatar;
-                    @endphp
-                    <div class="mx-auto d-block">
-                        {{-- <label for="foto-user" class="col-sm-4 col-form-label">FOTO PENGGUNA</label> --}}
-                        <label for="self-image" class="mx-auto d-block">
-                            <a title="Foto Ruas">
-                                {{-- <img id="self-foto" src="{{ asset("assets/image/avatar/$avatar") }}" alt="Ruas"
-                                    class="rounded-circle img-thumbnail mx-auto d-block"
-                                    style="cursor:pointer; height: 150px; width: 150px"> --}}
-                            </a>
-                        </label>
-                        <p class="text-center" style="font-style: italic; font-size: 12px">
-                            *klik untuk merubah foto</p>
-                        <input id="self-image" type="file" style="display: none;"
-                            accept="image/png, image/jpg, image/jpeg" />
-                    </div>
-                    <div class="form-group row">
-                        <label for="self-name" class="col-sm-4 col-form-label">NAMA LENGKAP</label>
-                        <div class="col-sm-8">
-                            {{-- <input type="hidden" class="form-control" name="id-user" id="id-user"
-                                value="{{ Auth::user()->id }}" required>
-                            <input type="text" class="form-control" name="self-name" id="self-name"
-                                value="{{ Auth::user()->name }}" required> --}}
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="profileEditModalLabel">Edit Profile</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-edit-profile">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="mb-3">
+                                <label for="avatar" class="form-label" style="cursor: pointer;">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <img id="avatar-sidebar-edit" src="assets/image/avatar/{{ Auth::user()->avatar }}" class="img my-3 rounded rounded-circle" width="150" height="150" alt="">
+                                    </div>
+                                    <input type="file" id="avatar" class="form-control form-control-sm" hidden>
+                                <span style="font-size: 10px; font-style: italic;" class="d-block">*klik untuk merubah gambar</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="self-username" class="col-sm-4 col-form-label">NAMA PENGGUNA</label>
-                        <div class="col-sm-8">
-                            {{-- <input type="text" class="form-control" name="self-username" id="self-username"
-                                value="{{ Auth::user()->username }}" required> --}}
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="self-password" class="col-sm-4 col-form-label">KATA SANDI</label>
-                        <div class="col-sm-8">
-                            <input type="password" class="form-control" name="selfPassword" id="self-password-1"
-                                value="" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="self-password-2" class="col-sm-4 col-form-label">VERIFIKASI KATA SANDI</label>
-                        <div class="col-sm-8">
-                            <input type="password" class="form-control" name="selfPassword2" id="self-password-2"
-                                value="">
+                        <div class="col-lg-7">
+                            <div class="mb-1">
+                                <label for="name" class="form-label">Nama</label>
+                                <input type="text" id="name" class="form-control form-control-sm">
+                            </div>
+                            <div class="mb-1">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" id="username" class="form-control form-control-sm">
+                            </div>
+                            <div class="mb-1">
+                                <label for="password" class="form-label">Perbarui Password</label>
+                                <input type="password" id="password" class="form-control form-control-sm" placeholder="Masukkan password baru ...">
+                                <span style="font-size: 10px; font-style: italic;">*kosongkan isian jika tidak ingin merubah password</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary" id="self-simpan">Simpan</button>
-                </div>
-            </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Perubahan</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
