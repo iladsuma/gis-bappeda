@@ -46,7 +46,7 @@
 <script>
     $(document).on({
         ajaxStart: function() {
-            $("#overlay").fadeIn(300);　
+            $("#overlay").fadeIn(300);
         },
         ajaxStop: function() {
             $("#overlay").fadeOut(300);
@@ -157,5 +157,123 @@
             }
         });
         return false;
+    })
+</script>
+
+<script>
+    $(document).on('click', "#profile-edit-modal", function() {
+        $("#profileEditModalLabel").html("").append("Edit Profile");
+        $("#name").val("");
+        $("#username").val("");
+        $("#password").val();
+        $("#avatar").val();
+        $("#avatar-sidebar-edit").attr("src", $(".avatar-navbar").attr("src"))
+        $('#profileEditModal').modal('show');
+        let id = "{{ Auth::user()->id }}"
+        let url = "{{ route('profile.edit', ':id') }}"
+
+        $("#pass-alert").show()
+        $.ajax({
+            header: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            url: url.replace(":id", id),
+            dataType: "json",
+            async: false,
+            success: function(result) {
+                // console.log(result);
+                let urlUpdate = "{{ route('profile.update', ':id') }}"
+                urlUpdate = urlUpdate.replace(':id', id)
+                $('#form-edit-profile').attr('action', urlUpdate);
+                $('#form-edit-profile').attr('method', 'PUT');
+                $("#name").val(result.data.name);
+                $("#username").val(result.data.username);
+            }
+        })
+        // console.log(id);
+    });
+
+    $("#form-edit-profile").on("submit", function(e) {
+        e.preventDefault()
+        let urlSave = ($("#form-edit-profile").attr('action'))
+        let method = ($("#form-edit-profile").attr('method'))
+
+        var formData = new FormData();
+        formData.append('name', $("#name").val());
+        formData.append('username', $("#username").val());
+        formData.append('password', $("#password").val());
+        formData.append('avatar', $('#avatar:input[type=file]')[0].files[0]);
+
+        if (method == 'PUT') {
+            formData.append('_method', 'PUT');
+        }
+
+        console.log($('#avatar:input[type=file]')[0].files[0]);
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            type: 'POST',
+            url: urlSave,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: (data) => {
+                swal.fire({
+                    title: 'Berhasil',
+                    text: data.message,
+                    icon: 'success',
+                })
+                $(".avatar-navbar").attr("src", "assets/image/avatar/" + data.avatar);
+                $('#profileEditModal').modal('hide');
+            },
+            error: (xhr, ajaxOptions, thrownError) => {
+                console.log(xhr.responseJSON.errors)
+                if (xhr.responseJSON.hasOwnProperty('errors')) {
+                    var html =
+                        "<ul style=justify-content: space-between;'>";
+                    for (item in xhr.responseJSON.errors) {
+                        if (xhr.responseJSON.errors[item].length) {
+                            for (var i = 0; i < xhr.responseJSON.errors[item]
+                                .length; i++) {
+                                html += "<li class='dropdown-item'>" +
+                                    "<i class='fas fa-times' style='color: red;'></i> &nbsp&nbsp&nbsp&nbsp" +
+                                    xhr
+                                    .responseJSON
+                                    .errors[item][i] +
+                                    "</li>"
+                            }
+
+                        }
+                    }
+                    html += "</ul>";
+                    // swal.fire({
+                    //     title: 'Error',
+                    //     html: html,
+                    //     icon: 'warning',
+                    // });
+                    $("#dokumenFs-validation").html(html)
+                    $("#dokumenFs-validation").removeClass("d-none")
+                }
+            }
+        });
+    });
+
+    // show preview foto before upload
+    $("#avatar").change(function() {
+        const file = this.files[0]
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                $("#avatar-sidebar-edit").attr("src", event.target.result)
+            }
+            reader.readAsDataURL(file)
+        }
     })
 </script>

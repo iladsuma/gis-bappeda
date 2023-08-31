@@ -86,6 +86,7 @@
                                 <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>
                             @endforeach
                         </select>
+                        <span class="text-danger font-italic" style="font-size: 15px;">*Pastikan lokasi yang anda cari sudah ada, jika belum ada silahkan tambahkan <a href="{{ route('data-lokasi.index') }}">Data Lokasi</a></span>
                     </div>
                     <div class="form-group">
                         <label for="tahun">Tahun</label>
