@@ -46,18 +46,29 @@ class DokumenLingkunganController extends Controller
     {
         $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
         $dokumen_lingkungan = DokumenLingkungan::findOrFail($id);
-        $dokumen_lingkungan->nama_kegiatan = $request->nama_kegiatan;
-        $dokumen_lingkungan->opd_id = $request->opd_id;
-        // $dokumen_lingkungan->lokasi_kegiatan_id = $request->lokasi_id;
-        $dokumen_lingkungan->tahun = $request->tahun;
-        $dokumen_lingkungan->lokasi()->sync($lokasi_kegiatan_ids);
-        if ($request->hasFile('dokumen')) {
-            File::delete(public_path('assets/dokumen_lingkungan/' . $dokumen_lingkungan->dokumen));
-            $nama_dokumen = $request->nama_kegiatan . ".pdf";
-            $request->file('dokumen')->move(public_path('assets/dokumen_lingkungan'), $nama_dokumen);
-            $dokumen_lingkungan->dokumen = $request->nama_kegiatan . ".pdf";
+
+        DB::beginTransaction();
+        try {
+            $dokumen_lingkungan->nama_kegiatan = $request->nama_kegiatan;
+            $dokumen_lingkungan->opd_id = $request->opd_id;
+            // $dokumen_lingkungan->lokasi_kegiatan_id = $request->lokasi_id;
+            $dokumen_lingkungan->tahun = $request->tahun;
+            $dokumen_lingkungan->lokasi()->sync($lokasi_kegiatan_ids);
+            if ($request->hasFile('dokumen')) {
+                File::delete(public_path('assets/dokumen_lingkungan/' . $dokumen_lingkungan->dokumen));
+                $nama_dokumen = $request->nama_kegiatan . ".pdf";
+                $request->file('dokumen')->move(public_path('assets/dokumen_lingkungan'), $nama_dokumen);
+                $dokumen_lingkungan->dokumen = $request->nama_kegiatan . ".pdf";
+            }
+            $dokumen_lingkungan->save();
+            $dokumen_lingkungan->lokasi()->sync($lokasi_kegiatan_ids);
+            DB::commit();
+        } catch (\Throwable $error) {
+            DB::rollBack();
+            throw $error;
+            return response($error->getMessage(), 500);
         }
-        $dokumen_lingkungan->save();
+
 
         return response("Data berhasil diubah");
     }

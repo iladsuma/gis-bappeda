@@ -46,18 +46,27 @@ class DokumenDedController extends Controller
     {
         $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
         $dokumen_ded = DokumenDed::findOrFail($id);
-        $dokumen_ded->nama_kegiatan = $request->nama_kegiatan;
-        $dokumen_ded->opd_id = $request->opd_id;
-        // $dokumen_ded->lokasi_kegiatan_id = $request->lokasi_id;
-        $dokumen_ded->tahun = $request->tahun;
-        $dokumen_ded->lokasi()->sync($lokasi_kegiatan_ids);
-        if ($request->hasFile('dokumen')) {
-            File::delete(public_path('assets/dokumen_ded/' . $dokumen_ded->dokumen));
-            $nama_dokumen = $request->nama_kegiatan . ".pdf";
-            $request->file('dokumen')->move(public_path('assets/dokumen_ded'), $nama_dokumen);
-            $dokumen_ded->dokumen = $request->nama_kegiatan . ".pdf";
+        DB::beginTransaction();
+        try {
+            $dokumen_ded->nama_kegiatan = $request->nama_kegiatan;
+            $dokumen_ded->opd_id = $request->opd_id;
+            // $dokumen_ded->lokasi_kegiatan_id = $request->lokasi_id;
+            $dokumen_ded->tahun = $request->tahun;
+            $dokumen_ded->lokasi()->sync($lokasi_kegiatan_ids);
+            if ($request->hasFile('dokumen')) {
+                File::delete(public_path('assets/dokumen_ded/' . $dokumen_ded->dokumen));
+                $nama_dokumen = $request->nama_kegiatan . ".pdf";
+                $request->file('dokumen')->move(public_path('assets/dokumen_ded'), $nama_dokumen);
+                $dokumen_ded->dokumen = $request->nama_kegiatan . ".pdf";
+            }
+            $dokumen_ded->save();
+            $dokumen_ded->lokasi()->sync($lokasi_kegiatan_ids);
+            DB::commit();
+        } catch (\Throwable $error) {
+            DB::rollBack();
+            throw $error;
+            return response($error->getMessage(), 500);
         }
-        $dokumen_ded->save();
 
         return response("Data berhasil diubah");
     }

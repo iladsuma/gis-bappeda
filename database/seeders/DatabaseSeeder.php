@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Administrator\OpdSeeder;
 use Database\Seeders\Administrator\UserSeeder;
+use Database\Seeders\Dokumen\LokasiKegiatanSeeder;
 use Database\Seeders\Master\MasterKecamatanSeeder;
 use Database\Seeders\Master\MasterKelurahanSeeder;
 use Database\Seeders\Permission\PermissionSeeder;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
             MasterKelurahanSeeder::class,
             PermissionSeeder::class,
             OpdSeeder::class,
+            LokasiKegiatanSeeder::class,
         ]);
     }
 }

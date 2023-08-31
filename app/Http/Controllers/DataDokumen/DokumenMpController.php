@@ -61,6 +61,8 @@ class DokumenMpController extends Controller
                 $dokumen_mp->dokumen = $request->nama_kegiatan . ".pdf";
             }
             $dokumen_mp->save();
+            $dokumen_mp->lokasi()->sync($lokasi_kegiatan_ids);
+            DB::commit();
         } catch (\Throwable $error) {
             DB::rollBack();
             throw $error;

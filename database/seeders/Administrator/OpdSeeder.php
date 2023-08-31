@@ -15,10 +15,20 @@ class OpdSeeder extends Seeder
     public function run()
     {
         Opd::truncate();
-        $opd = Opd::create([
-            'nama' => 'Bappeda',
-            'alamat' => 'Jl. Merdeka No.105, Kepanjen Kidul, Kec. Kepanjenkidul, Kota Blitar',
-            'deskripsi' => 'Badan Perencanaan dan Pembangunan Daerah',
-        ]);
+
+        $csvFile = fopen(base_path("database/data-seeder/master_opd.csv"), "r");
+
+        $firstline = true;
+        while (($data = fgetcsv($csvFile, 2000, ",")) !== FALSE) {
+            if (!$firstline) {
+                Opd::create([
+                    "nama" => $data["1"],
+                    "alamat" => $data["2"],
+                    "deskripsi" => $data["3"],
+                ]);
+            }
+            $firstline = false;
+        }
+        fclose($csvFile);
     }
 }

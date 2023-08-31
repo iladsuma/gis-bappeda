@@ -62,6 +62,7 @@ class DokumenFsController extends Controller
                 $dokumen_fs->dokumen = $request->nama_kegiatan . ".pdf";
             }
             $dokumen_fs->save();
+            $dokumen_fs->lokasi()->sync($lokasi_kegiatan_ids);
             DB::commit();
         } catch (\Throwable $error) {
             DB::rollBack();
