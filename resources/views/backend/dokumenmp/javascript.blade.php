@@ -24,11 +24,13 @@
         $("#tahun").val("");
         $("#dokumen").val("");
         $("#opd_id").val("");
-        $("#lokasi_id").val("");
+        $("#lokasi_id").val();
         $('#modalDokumenMP').modal('show');
         let url = "{{ route('data-dokumen-mp.store') }}";
         $('#dokumen-mp-form').attr('action', url);
         $('#dokumen-mp-form').attr('method', 'POST');
+        $('#dokumen').attr("required", "on");
+        $('#dokumen-message').html("");
     });
 
     var table = $('#table-dokumen-mp').DataTable({
@@ -171,9 +173,9 @@
         $("#modalDokumenMPLabel").html("").append("Edit Data Dokumen MasterPlan");
         $("#nama_kegiatan").val("");
         $("#tahun").val("");
-        $("#dokumen").val("");
-        $("#opd_id").val("");
-        $("#lokasi_id").val("");
+        $("#dokumen").val();
+        $("#lokasi_id").val();
+        $("#opd_id").val();
         $('#modalDokumenMP').modal('show');
         let id = $(this).data('id')
         let url = "{{ route('data-dokumen-mp.edit', ':id') }}"
@@ -200,7 +202,8 @@
                     select2Value.push(lokasi.id)
                 })
                 $("#lokasi_id").val(select2Value).trigger('change');
-
+                $('#dokumen').removeAttr("required");
+                $('#dokumen-message').html("*kosongkan jika tidak ingin merubah dokumen");
             }
         })
         // console.log(id);

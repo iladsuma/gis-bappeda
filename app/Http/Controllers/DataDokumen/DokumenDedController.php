@@ -36,7 +36,7 @@ class DokumenDedController extends Controller
 
     public function edit($id)
     {
-        $dokumen_ded = DokumenDed::findOrFail($id);
+        $dokumen_ded = DokumenDed::where('id', $id)->with('lokasi:id,nama')->first();
         return response()->json([
             'data' => $dokumen_ded
         ], Response::HTTP_OK);

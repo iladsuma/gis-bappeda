@@ -36,7 +36,7 @@ class DokumenMpController extends Controller
 
     public function edit($id)
     {
-        $dokumen_mp = DokumenMp::findOrFail($id);
+        $dokumen_mp = DokumenMp::where('id', $id)->with('lokasi:id,nama')->first();
         return response()->json([
             'data' => $dokumen_mp
         ], Response::HTTP_OK);

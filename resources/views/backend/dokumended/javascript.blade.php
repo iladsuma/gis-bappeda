@@ -29,6 +29,8 @@
         let url = "{{ route('data-dokumen-ded.store') }}";
         $('#dokumen-ded-form').attr('action', url);
         $('#dokumen-ded-form').attr('method', 'POST');
+        $('#dokumen').attr("required", "on");
+        $('#dokumen-message').html("");
     });
 
     var table = $('#table-dokumen-ded').DataTable({
@@ -200,6 +202,8 @@
                     select2Value.push(lokasi.id)
                 })
                 $("#lokasi_id").val(select2Value).trigger('change');
+                $('#dokumen').removeAttr("required");
+                $('#dokumen-message').html("*kosongkan jika tidak ingin merubah dokumen");
             }
         })
         // console.log(id);

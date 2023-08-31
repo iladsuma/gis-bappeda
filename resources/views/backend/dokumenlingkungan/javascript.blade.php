@@ -29,6 +29,8 @@
         let url = "{{ route('data-dokumen-lingkungan.store') }}";
         $('#dokumen-lingkungan-form').attr('action', url);
         $('#dokumen-lingkungan-form').attr('method', 'POST');
+        $('#dokumen').attr("required", "on");
+        $('#dokumen-message').html("");
     });
 
     var table = $('#table-dokumen-lingkungan').DataTable({
@@ -201,6 +203,8 @@
                     select2Value.push(lokasi.id)
                 })
                 $("#lokasi_id").val(select2Value).trigger('change');
+                $('#dokumen').removeAttr("required");
+                $('#dokumen-message').html("*kosongkan jika tidak ingin merubah dokumen");
             }
         })
         // console.log(id);

@@ -103,8 +103,8 @@ class DokumenFsController extends Controller
     public function drop($id)
     {
         $dokumen_fs = DokumenFs::find($id);
-        if (file_exists(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen_fs))) {
-            File::delete(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen_fs));
+        if (file_exists(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen))) {
+            File::delete(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen));
         }
         $dokumen_fs->delete();
     }

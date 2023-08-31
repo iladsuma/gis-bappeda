@@ -36,7 +36,7 @@ class DokumenLingkunganController extends Controller
 
     public function edit($id)
     {
-        $dokumen_lingkungan = DokumenLingkungan::findOrFail($id);
+        $dokumen_lingkungan = DokumenLingkungan::where('id', $id)->with('lokasi:id,nama')->first();
         return response()->json([
             'data' => $dokumen_lingkungan
         ], Response::HTTP_OK);

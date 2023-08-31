@@ -101,7 +101,8 @@
                     <div class="form-group">
                         <label for="tahun">Dokumen</label>
                         <div class="custom-file">
-                            <input type="file" id="dokumen" accept="application/pdf" required>
+                            <input type="file" id="dokumen" accept="application/pdf">
+                            <span class="text-danger font-italic d-block" id="dokumen-message" style="font-size: 15px;"></span>
                         </div>
                     </div>
             </div>

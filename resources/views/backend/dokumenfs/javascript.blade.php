@@ -82,6 +82,8 @@
         let url = "{{ route('data-dokumen-fs.store') }}";
         $('#dokumen-fs-form').attr('action', url);
         $('#dokumen-fs-form').attr('method', 'POST');
+        $('#dokumen').attr("required", "on");
+        $('#dokumen-message').html("");
     });
 
     $(document).on('click', '.document-preview', function() {
@@ -144,6 +146,7 @@
             dataType: "json",
             async: false,
             success: function(result) {
+                console.log(result);
                 let urlUpdate = "{{ route('data-dokumen-fs.update', ':id') }}"
                 urlUpdate = urlUpdate.replace(':id', id)
                 $('#dokumen-fs-form').attr('action', urlUpdate);
@@ -157,6 +160,8 @@
                     select2Value.push(lokasi.id)
                 })
                 $("#lokasi_id").val(select2Value).trigger('change');
+                $('#dokumen').removeAttr("required");
+                $('#dokumen-message').html("*kosongkan jika tidak ingin merubah dokumen");
             }
         })
         // console.log(id);
