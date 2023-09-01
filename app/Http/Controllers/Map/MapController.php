@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Map;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dokumen\DokumenDed;
+use App\Models\Dokumen\DokumenFisik;
 use App\Models\Dokumen\DokumenFs;
 use App\Models\Dokumen\DokumenLingkungan;
 use App\Models\Dokumen\DokumenMp;
@@ -44,7 +45,7 @@ class MapController extends Controller
 
     public function datatable_modal()
     {
-        $datatable = DataTables::of(LokasiKegiatan::with(['dokumen_fs', 'dokumen_mp', 'dokumen_lingkungan', 'dokumen_ded'])->orderBy('id', 'asc'))
+        $datatable = DataTables::of(LokasiKegiatan::with(['dokumen_fs', 'dokumen_mp', 'dokumen_lingkungan', 'dokumen_ded', 'dokumen_fisik'])->orderBy('id', 'asc'))
             ->addIndexColumn()
             ->make('true');
         return $datatable;
@@ -123,6 +124,17 @@ class MapController extends Controller
             ->make('true');
 
         return $datatable_ded;
+    }
+
+    public function datatable_fisik($id)
+    {
+        $datatable_fisik = DataTables::of(DokumenFisik::whereHas('lokasi', function ($q) use ($id) {
+            $q->where('lokasi_kegiatan_id', $id);
+        })->with('opd')->orderBy('id', 'asc'))
+            ->addIndexColumn()
+            ->make('true');
+
+        return $datatable_fisik;
     }
 
     public function kawasan_kumuh()

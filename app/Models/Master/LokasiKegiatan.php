@@ -3,6 +3,7 @@
 namespace App\Models\Master;
 
 use App\Models\Dokumen\DokumenDed;
+use App\Models\Dokumen\DokumenFisik;
 use App\Models\Dokumen\DokumenFs;
 use App\Models\Dokumen\DokumenLingkungan;
 use App\Models\Dokumen\DokumenMp;
@@ -46,5 +47,10 @@ class LokasiKegiatan extends Model
     public function dokumen_lingkungan()
     {
         return $this->belongsToMany(DokumenLingkungan::class, 'lokasi_dokumen_lingkungan');
+    }
+
+    public function dokumen_fisik()
+    {
+        return $this->belongsToMany(DokumenFisik::class, 'lokasi_dokumen_fisik');
     }
 }

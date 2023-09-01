@@ -316,10 +316,10 @@
                                             'units': 'meters'
                                         })
                                         let bufferedLayer = L.geoJSON(buffering)
-                                            .addTo(map)
                                         let latLng = bufferedLayer.getBounds()
                                             .getCenter()
-                                        layerGroup.addLayer(bufferedLayer)
+                                        layerGroup.addLayer(bufferedLayer).addTo(
+                                            map)
                                         layerOnClick(bufferedLayer, data, latLng)
                                     } else {
                                         let latLng;
@@ -402,6 +402,10 @@
                                 <tr>
                                     <th>Kelurahan</th>
                                     <td>` + data.kelurahan.nama + `</td>
+                                </tr>
+                                <tr>
+                                    <th>Alamat</th>
+                                    <td>` + data.alamat + `</td>
                                 </tr>
 
                             </table>
@@ -622,6 +626,52 @@
                     ]
                 })
 
+                //datatable dokumen FISIK in modal detail
+                if ($.fn.DataTable.isDataTable('#table-fisik')) {
+                    $('#table-fisik').DataTable().destroy()
+                }
+                var urlFisik = "{{ route('map.datatable-fisik', ':id') }}"
+                urlFisik = urlFisik.replace(":id", id)
+                var tablelingkungan = $('#table-fisik').DataTable({
+                    processing: true,
+                    ajax: {
+                        url: urlFisik,
+                        method: 'GET'
+                    },
+                    lengthChange: false,
+                    searching: false,
+                    responsive: true,
+                    columns: [{
+                            data: 'DT_RowIndex',
+                        },
+                        {
+                            data: 'nama_kegiatan',
+                        },
+                        {
+                            data: 'opd.nama',
+                        },
+                        {
+                            data: 'tahun',
+                        },
+                        {
+                            data: 'dokumen',
+                            render: function(data) {
+                                return `<a href="assets/dokumen_fisik/` + data +
+                                    `" target="_blank" >` +
+                                    data + `</a>`
+                            },
+                        },
+                        {
+                            data: 'foto',
+                            render: function(data) {
+                                return `<a href="assets/dokumen_fisik/foto/` + data +
+                                    `" target="_blank" >` +
+                                    data + `</a>`
+                            },
+                        },
+                    ]
+                })
+
                 $("#modal-detail").modal("show")
 
             })
@@ -683,6 +733,16 @@
                         },
                         {
                             data: 'dokumen_ded',
+                            render: function(data) {
+                                if (data.length > 0) {
+                                    return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';
+                                } else {
+                                    return '<div class="text-center"><i class="fas fa-times-circle" style="color: #f03d3d;"></i></div>';
+                                }
+                            }
+                        },
+                        {
+                            data: 'dokumen_fisik',
                             render: function(data) {
                                 if (data.length > 0) {
                                     return '<div class="text-center"><i class="fas fa-check-circle" style="color: #0dba21;"></i></div>';

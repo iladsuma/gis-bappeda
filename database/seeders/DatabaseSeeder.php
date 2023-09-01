@@ -7,6 +7,10 @@ use Database\Seeders\Administrator\UserSeeder;
 use Database\Seeders\Dokumen\LokasiKegiatanSeeder;
 use Database\Seeders\Master\MasterKecamatanSeeder;
 use Database\Seeders\Master\MasterKelurahanSeeder;
+use Database\Seeders\Pendukung\KawasanKumuhSeeder;
+use Database\Seeders\Pendukung\KawasanRtlhSeeder;
+use Database\Seeders\Pendukung\LokusKemiskinanSeeder;
+use Database\Seeders\Pendukung\LokusStuntingSeeder;
 use Database\Seeders\Permission\PermissionSeeder;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +31,10 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             OpdSeeder::class,
             LokasiKegiatanSeeder::class,
+            KawasanKumuhSeeder::class,
+            KawasanRtlhSeeder::class,
+            LokusKemiskinanSeeder::class,
+            LokusStuntingSeeder::class,
         ]);
     }
 }

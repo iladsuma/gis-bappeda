@@ -24,7 +24,7 @@
         $("#tahun").val("");
         $("#dokumen").val("");
         $("#opd_id").val("");
-        $("#lokasi_id").val("");
+        $("#lokasi_id").val("").trigger("change");
         $('#modalDokumenDed').modal('show');
         let url = "{{ route('data-dokumen-ded.store') }}";
         $('#dokumen-ded-form').attr('action', url);
@@ -175,7 +175,7 @@
         $("#tahun").val("");
         $("#dokumen").val("");
         $("#opd_id").val("");
-        $("#lokasi_id").val("");
+        $("#lokasi_id").val("").trigger("change");
         $('#modalDokumenDed').modal('show');
         let id = $(this).data('id')
         let url = "{{ route('data-dokumen-ded.edit', ':id') }}"

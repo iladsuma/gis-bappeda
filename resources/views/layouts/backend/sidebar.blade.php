@@ -143,7 +143,7 @@
                         @can('Data Dokumen.Dokumen Fisik')
                             <ul class="nav nav-treeview ms-5">
                                 <li class="nav-item ">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('data-dokumen-fisik.index') }}" class="nav-link">
                                         <i class="far fa-file nav-icon ml-3"></i>
                                         <p>Dokumen Fisik</p>
                                     </a>

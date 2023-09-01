@@ -102,19 +102,12 @@
         </div>
     </div>
 
-    {{-- Dokumen Preview Modal --}}
+    {{-- Foto Preview Modal --}}
     <div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
-                {{-- <div class="modal-header">
-                    <h5 class="modal-title" id="imagePreviewModalLabel"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div> --}}
                 <div class="modal-body d-flex justify-content-center">
-                    {{-- <iframe src="" id="iframeImagePreview" height="500" width="100%" title="Iframe Example"></iframe> --}}
                     <img src="" id="iframeImagePreview" class="img img-fluid">
                 </div>
             </div>

@@ -99,13 +99,21 @@
                             </div>
                         </div>
                         <div class="tab-pane" role='tab-panel' id="fisik">
-                            <br>
-                            <br>
-                            <br>
-                            Realisasi Fisik
-                            <br>
-                            <br>
-                            <br>
+                            <hr>
+                            <div class="mt-3">
+                                <table class="table table-stripped" id="table-fisik" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 2%">#</th>
+                                            <th>Judul Kegiatan</th>
+                                            <th>Pelaksana Kegiatan</th>
+                                            <th>Tahun Kegiatan</th>
+                                            <th>Dokumen Kegiatan</th>
+                                            <th>Foto Kegiatan</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -156,6 +164,7 @@
                             <th class="text-center document">MP</th>
                             <th class="text-center document">Lingkungan</th>
                             <th class="text-center document">DED</th>
+                            <th class="text-center document">Fisik</th>
                             <th class="text-center document">Aksi</th>
                         </tr>
                     </thead>
@@ -181,10 +190,14 @@
                             <div class="mb-3">
                                 <label for="avatar" class="form-label" style="cursor: pointer;">
                                     <div class="d-flex justify-content-center align-items-center">
-                                        <img id="avatar-sidebar-modal" src="assets/image/avatar/{{ Auth::user()->avatar }}" class="img my-3 rounded rounded-circle" width="150" height="150" alt="">
+                                        <img id="avatar-sidebar-modal"
+                                            src="assets/image/avatar/{{ Auth::user()->avatar }}"
+                                            class="img my-3 rounded rounded-circle" width="150" height="150"
+                                            alt="">
                                     </div>
                                     <input type="file" id="avatar" class="form-control form-control-sm" hidden>
-                                <span style="font-size: 10px; font-style: italic;" class="d-block">*klik untuk merubah gambar</span>
+                                    <span style="font-size: 10px; font-style: italic;" class="d-block">*klik untuk
+                                        merubah gambar</span>
                                 </label>
                             </div>
                         </div>
@@ -199,15 +212,17 @@
                             </div>
                             <div class="mb-1">
                                 <label for="password" class="form-label">Perbarui Password</label>
-                                <input type="password" id="password" class="form-control form-control-sm" placeholder="Masukkan password baru ...">
-                                <span style="font-size: 10px; font-style: italic;">*kosongkan isian jika tidak ingin merubah password</span>
+                                <input type="password" id="password" class="form-control form-control-sm"
+                                    placeholder="Masukkan password baru ...">
+                                <span style="font-size: 10px; font-style: italic;">*kosongkan isian jika tidak ingin
+                                    merubah password</span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Perubahan</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Perubahan</button>
                 </form>
             </div>
         </div>

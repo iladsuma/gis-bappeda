@@ -4,6 +4,7 @@ use App\Http\Controllers\Administrator\AdminRoleController;
 use App\Http\Controllers\Administrator\AdminUserController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DataDokumen\DokumenDedController;
+use App\Http\Controllers\DataDokumen\DokumenFisikController;
 use App\Http\Controllers\DataDokumen\DokumenFsController;
 use App\Http\Controllers\DataDokumen\DokumenLingkunganController;
 use App\Http\Controllers\DataDokumen\DokumenMpController;
@@ -47,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/map/{id}/datatable-mp', [MapController::class, 'datatable_mp'])->name('map.datatable-mp');
     Route::get('/map/{id}/datatable-lingkungan', [MapController::class, 'datatable_lingkungan'])->name('map.datatable-lingkungan');
     Route::get('/map/{id}/datatable-ded', [MapController::class, 'datatable_ded'])->name('map.datatable-ded');
+    Route::get('/map/{id}/datatable-fisik', [MapController::class, 'datatable_fisik'])->name('map.datatable-fisik');
     Route::get('/map/{ids}/lokasi-filter', [MapController::class, 'lokasi_filter'])->name('map.lokasi-filter');
     ## --- End of Map Route --- ##
 
@@ -112,6 +114,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-dokumen-ded/{id}/edit', [DokumenDedController::class, 'edit'])->name('data-dokumen-ded.edit')->can('Data Dokumen.Detail Engineering Design');
     Route::put('/data-dokumen-ded/{id}/update', [DokumenDedController::class, 'update'])->name('data-dokumen-ded.update')->can('Data Dokumen.Detail Engineering Design');
     Route::delete('/data-dokumen-ded/{id}/drop', [DokumenDedController::class, 'drop'])->name('data-dokumen-ded.drop')->can('Data Dokumen.Detail Engineering Design');
+
+    // dokumen fisik route
+    Route::get('/data-dokumen-fisik', [DokumenFisikController::class, 'index'])->name('data-dokumen-fisik.index')->can('Data Dokumen.Dokumen Fisik');
+    Route::post('/data-dokumen-fisik/store', [DokumenFisikController::class, 'store'])->name('data-dokumen-fisik.store')->can('Data Dokumen.Dokumen Fisik');
+    Route::get('/data-dokumen-fisik/datatable', [DokumenFisikController::class, 'datatable'])->name('data-dokumen-fisik.datatable')->can('Data Dokumen.Dokumen Fisik');
+    Route::get('/data-dokumen-fisik/{id}/edit', [DokumenFisikController::class, 'edit'])->name('data-dokumen-fisik.edit')->can('Data Dokumen.Dokumen Fisik');
+    Route::put('/data-dokumen-fisik/{id}/update', [DokumenFisikController::class, 'update'])->name('data-dokumen-fisik.update')->can('Data Dokumen.Dokumen Fisik');
+    Route::delete('/data-dokumen-fisik/{id}/drop', [DokumenFisikController::class, 'drop'])->name('data-dokumen-fisik.drop')->can('Data Dokumen.Dokumen Fisik');
     ## --- end of data dokumen --- ##
 
 

@@ -24,7 +24,7 @@
         $("#tahun").val("");
         $("#dokumen").val("");
         $("#opd_id").val("");
-        $("#lokasi_id").val();
+        $("#lokasi_id").val().trigger("change");
         $('#modalDokumenMP').modal('show');
         let url = "{{ route('data-dokumen-mp.store') }}";
         $('#dokumen-mp-form').attr('action', url);

@@ -19,24 +19,24 @@
 
 <script>
     $(document).on('click', "#tambah-data", function() {
-        $("#modalDokumenLingkunganLabel").html("").append("Tambah Data Dokumen Lingkungan");
+        $("#modalDokumenFisikLabel").html("").append("Tambah Data Dokumen Fisik");
         $("#nama_kegiatan").val("");
         $("#tahun").val("");
         $("#dokumen").val("");
         $("#opd_id").val("");
         $("#lokasi_id").val("").trigger("change");
-        $('#modalDokumenLingkungan').modal('show');
-        let url = "{{ route('data-dokumen-lingkungan.store') }}";
-        $('#dokumen-lingkungan-form').attr('action', url);
-        $('#dokumen-lingkungan-form').attr('method', 'POST');
+        $('#modalDokumenFisik').modal('show');
+        let url = "{{ route('data-dokumen-fisik.store') }}";
+        $('#dokumen-fisik-form').attr('action', url);
+        $('#dokumen-fisik-form').attr('method', 'POST');
         $('#dokumen').attr("required", "on");
         $('#dokumen-message').html("");
     });
 
-    var table = $('#table-dokumen-lingkungan').DataTable({
+    var table = $('#table-dokumen-fisik').DataTable({
         processing: true,
         ajax: {
-            url: "{{ route('data-dokumen-lingkungan.datatable') }}",
+            url: "{{ route('data-dokumen-fisik.datatable') }}",
             method: 'GET'
         },
         columns: [{
@@ -62,12 +62,18 @@
                 }
             },
             {
+                data: 'foto',
+                render: function(data) {
+                    return "<button class='btn btn-light border border-success btn-sm foto-preview' data-nama='" +
+                        data + "' data-toggle='modal'>Lihat Foto</button>"
+                }
+            },
+            {
                 data: 'id',
                 width: '10px',
                 orderable: false,
                 render: function(data) {
-                    return "<i class='fas fa-pencil edit-dokumen-lingkungan' data-id='" + data +
-                        "'></i>"
+                    return "<i class='fas fa-pencil edit-dokumen-fisik' data-id='" + data + "'></i>"
                 }
             },
             {
@@ -75,7 +81,7 @@
                 width: '10px',
                 orderable: false,
                 render: function(data) {
-                    return "<i class='fas fa-trash hapus-dokumen-lingkungan' data-nama='" + data
+                    return "<i class='fas fa-trash hapus-dokumen-fisik' data-nama='" + data
                         .nama_kegiatan + "' data-id='" + data.id + "'></i>"
                 }
             },
@@ -90,16 +96,23 @@
     });
 
     $(document).on('click', '.document-preview', function() {
-        $('#iframeDocumentPreview').attr('src', '{{ asset('assets/dokumen_lingkungan/') }}' + '/' + $(this)
-            .data('nama'))
+        $('#iframeDocumentPreview').attr('src', '{{ asset('assets/dokumen_fisik/') }}' + '/' + $(this).data(
+            'nama'))
         $('#documentPreviewModalLabel').html('Dokumen ' + $(this).data('nama'))
         $('#documentPreviewModal').modal('show')
     })
 
-    $("#dokumen-lingkungan-form").on("submit", function(e) {
+    $(document).on('click', '.foto-preview', function() {
+        $('#iframeImagePreview').attr('src', '{{ asset('assets/dokumen_fisik/foto') }}' + '/' + $(this).data(
+            'nama'))
+        $('#imagePreviewModalLabel').html('Dokumen ' + $(this).data('nama'))
+        $('#imagePreviewModal').modal('show')
+    })
+
+    $("#dokumen-fisik-form").on("submit", function(e) {
         e.preventDefault()
-        let urlSave = ($("#dokumen-lingkungan-form").attr('action'))
-        let method = ($("#dokumen-lingkungan-form").attr('method'))
+        let urlSave = ($("#dokumen-fisik-form").attr('action'))
+        let method = ($("#dokumen-fisik-form").attr('method'))
 
         var formData = new FormData();
         formData.append('nama_kegiatan', $("#nama_kegiatan").val());
@@ -107,6 +120,7 @@
         formData.append('opd_id', $("#opd_id").val());
         formData.append('lokasi_id', $("#lokasi_id").val());
         formData.append('dokumen', $('#dokumen:input[type=file]')[0].files[0]);
+        formData.append('foto', $('#foto:input[type=file]')[0].files[0]);
 
         if (method == 'PUT') {
             formData.append('_method', 'PUT');
@@ -136,7 +150,7 @@
                 }).then(function() {
                     table.ajax.reload();
                 });
-                $('#modalDokumenLingkungan').modal('hide');
+                $('#modalDokumenFisik').modal('hide');
             },
             error: (xhr, ajaxOptions, thrownError) => {
                 console.log(xhr.responseJSON.errors)
@@ -163,23 +177,24 @@
                     //     html: html,
                     //     icon: 'warning',
                     // });
-                    $("#dokumenLingkungan-validation").html(html)
-                    $("#dokumenLingkungan-validation").removeClass("d-none")
+                    $("#dokumenFisik-validation").html(html)
+                    $("#dokumenFisik-validation").removeClass("d-none")
                 }
             }
         });
     });
 
-    $(document).on('click', ".edit-dokumen-lingkungan", function() {
-        $("#modalDokumenLingkunganLabel").html("").append("Edit Data Dokumen Lingkungan");
+    $(document).on('click', ".edit-dokumen-fisik", function() {
+        $("#modalDokumenFisikLabel").html("").append("Edit Data Dokumen Fisik");
         $("#nama_kegiatan").val("");
         $("#tahun").val("");
         $("#dokumen").val("");
+        $("#foto").val("");
         $("#opd_id").val("");
-        $("#lokasi_id").val("");
-        $('#modalDokumenLingkungan').modal('show');
+        $("#lokasi_id").val("").trigger("change");
+        $('#modalDokumenFisik').modal('show');
         let id = $(this).data('id')
-        let url = "{{ route('data-dokumen-lingkungan.edit', ':id') }}"
+        let url = "{{ route('data-dokumen-fisik.edit', ':id') }}"
         $("#pass-alert").show()
         $.ajax({
             header: {
@@ -190,10 +205,10 @@
             async: false,
             success: function(result) {
                 console.log(result);
-                let urlUpdate = "{{ route('data-dokumen-lingkungan.update', ':id') }}"
+                let urlUpdate = "{{ route('data-dokumen-fisik.update', ':id') }}"
                 urlUpdate = urlUpdate.replace(':id', id)
-                $('#dokumen-lingkungan-form').attr('action', urlUpdate);
-                $('#dokumen-lingkungan-form').attr('method', 'PUT');
+                $('#dokumen-fisik-form').attr('action', urlUpdate);
+                $('#dokumen-fisik-form').attr('method', 'PUT');
                 $("#nama_kegiatan").val(result.data.nama_kegiatan)
                 $("#tahun").val(result.data.tahun)
                 // $("#dokumen").val(result.data.dokumen)
@@ -210,7 +225,7 @@
         // console.log(id);
     });
 
-    $(document).on('click', ".hapus-dokumen-lingkungan", function() {
+    $(document).on('click', ".hapus-dokumen-fisik", function() {
         swal.fire({
                 title: 'Hapus',
                 text: "Yakin hapus data " + $(this).data('nama') + " ?",
@@ -220,7 +235,7 @@
             .then((result) => {
                 if (result.isConfirmed) {
                     let id = $(this).data('id')
-                    let url = "{{ route('data-dokumen-lingkungan.drop', ':id') }}"
+                    let url = "{{ route('data-dokumen-fisik.drop', ':id') }}"
 
                     $.ajax({
                         headers: {
