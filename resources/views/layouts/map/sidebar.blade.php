@@ -65,6 +65,9 @@
                             </label>
                             <select name="kecamatan-select" class="kecamatan" id="kecamatan">
                                 <option value="0">--- Pilih Kecamatan ---</option>
+                                @foreach ($kecamatan as $kec)
+                                    <option value="{{ $kec->id }}">{{ $kec->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mt-2">
@@ -75,7 +78,7 @@
                                 <option value="0">--- Pilih Kelurahan ---</option>
                             </select>
                         </div>
-                        <div class="mt-4">
+                        {{-- <div class="mt-4">
                             <label for="kecamatan-select">
                                 Kondisi Jalan
                             </label>
@@ -97,7 +100,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="mt-3">
                             <div class="row">
                                 <div class="col-4">
@@ -105,7 +108,7 @@
                                 </div>
                                 <div
                                     class="col-7 border rounded rounded-2 d-flex align-items-center justify-content-center bg-light">
-                                    <div id="jumlah-ruas" class="h7 fst-italic">Jumlah Ruas : 1507</div>
+                                    <div id="jumlah-ruas" class="h7 fst-italic">Jumlah Lokasi : 0</div>
                                 </div>
                             </div>
                         </div>
@@ -115,16 +118,14 @@
         </div>
 
         <div class="sidebar-pane" id="user">
-            <h1 class="sidebar-header">Profile User<span class="sidebar-close"><i
-                        class="fa fa-caret-left"></i></span>
+            <h1 class="sidebar-header">Profile User<span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
             </h1>
             <div class="card mt-3">
                 <div class="card-body">
                     <div class="row d-flex justify-content-center">
                         <div class="col-lg-10 d-flex justify-content-center">
                             <img id="avatar-sidebar" src="assets/image/avatar/{{ Auth::user()->avatar }}"
-                                class="img my-3 rounded rounded-circle" width="250" height="250"
-                                alt="">
+                                class="img my-3 rounded rounded-circle" width="250" height="250" alt="">
                         </div>
                     </div>
                     <h3 class="text-center fw-bold">{{ Auth::user()->name }}</h3>

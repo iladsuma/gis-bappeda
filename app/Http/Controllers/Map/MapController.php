@@ -9,6 +9,8 @@ use App\Models\Dokumen\DokumenFs;
 use App\Models\Dokumen\DokumenLingkungan;
 use App\Models\Dokumen\DokumenMp;
 use App\Models\Master\LokasiKegiatan;
+use App\Models\Master\MasterKecamatan;
+use App\Models\Master\MasterKelurahan;
 use App\Models\Pendukung\KawasanKumuh;
 use App\Models\Pendukung\KawasanRtlh;
 use App\Models\Pendukung\LokusKemiskinan;
@@ -23,8 +25,19 @@ class MapController extends Controller
     public function index()
     {
         $data_lokasi = LokasiKegiatan::select('id', 'nama')->get();
+        $kecamatan = MasterKecamatan::select('id', 'nama')->get();
         return view('map.index', [
             'data_lokasi' => $data_lokasi,
+            'kecamatan' => $kecamatan
+        ]);
+    }
+
+    public function get_kelurahan($id)
+    {
+        $kelurahan = MasterKelurahan::select('id', 'nama')->where('kecamatan_id', $id)->get();
+
+        return response()->json([
+            'kelurahan' => $kelurahan
         ]);
     }
 

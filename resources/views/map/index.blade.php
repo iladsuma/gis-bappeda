@@ -255,7 +255,15 @@
             // leaflet geoman
             map.pm.addControls({
                 position: 'topleft',
-
+                drawMarker: false,
+                drawRectangle: false,
+                drawCircleMarker: false,
+                drawText: false,
+                editMode: false,
+                dragMode: false,
+                cutPolygon: false,
+                removalMode: false,
+                rotateMode: false
             })
 
             // add control layer to sidebar
@@ -291,6 +299,16 @@
                     layerStunting.clearLayers()
                     let url = "{{ route('map.lokus-stunting') }}"
                     getDataPendukung(url, styleStunting);
+                }
+
+                if (event.name == "Jaringan Pipa PDAM") {
+                    layerPdam.clearLayers()
+                    let jaringanPdam = new L.GeoJSON.AJAX("assets/jaringan_pdam/jaringan_pdam.geojson", {
+                        color: "#51dce0",
+                        opacity: 2,
+                        weight: 1.5
+                    })
+                    layerPdam.addLayer(jaringanPdam).addTo(map)
                 }
             })
 
@@ -687,7 +705,8 @@
                         url: "{{ route('map.datatable-modal') }}",
                         method: 'GET'
                     },
-                    searching: false,
+                    lengthChange: false,
+                    searching: true,
                     responsive: true,
                     columns: [{
                             data: 'DT_RowIndex',
@@ -787,6 +806,24 @@
 
     {{-- search script --}}
     <script>
+        $(document).on("change", "#kecamatan", function() {
+            $("#kelurahan").html("<option value=0>--- Pilih Kelurahan ---</option>");
+            ($(this).val() == 0) ? $("#kelurahan").prop({
+                "disabled": true
+            }): $("#kelurahan").prop({
+                "disabled": false
+            })
+            url = "{{ route('map.get-kelurahan', ':id') }}";
+            url = url.replace(':id', $(this).val())
+            $.get(url, function(data, status) {
+                optionItem = ""
+                $.each(data.kelurahan, (key, val) => {
+                    console.log(val)
+                    $("#kelurahan").append(`<option value="` + val.id + `">` + val.nama +
+                        `</option>`)
+                })
+            });
+        })
         $(document).ready(function() {
             $('.perencanaan').select2({
                 placeholder: "Masukkan lokasi perencanaan..",
