@@ -323,7 +323,6 @@
                     url: url,
                     dataType: "json",
                     success: function(result) {
-                        console.log(result)
                         if (result.jumlah == 0) {
                             swal.fire({
                                 title: "Maaf",
