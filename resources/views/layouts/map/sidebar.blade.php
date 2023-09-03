@@ -38,7 +38,7 @@
         </div>
 
         <div class="sidebar-pane" id="search">
-            <h1 class="sidebar-header">Pencarian Dokumen<span class="sidebar-close"><i
+            <h1 class="sidebar-header">Pencarian Lokasi<span class="sidebar-close"><i
                         class="fa fa-caret-left"></i></span>
             </h1>
             <div class="card mt-2">
