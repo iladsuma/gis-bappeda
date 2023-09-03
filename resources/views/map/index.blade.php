@@ -268,7 +268,7 @@
 
             // add control layer to sidebar
             let htmlControlLayer = controlLayer.getContainer();
-            $('#layer-data').append(htmlControlLayer);
+            $('#control-layer-container').append(htmlControlLayer);
 
             map.on('overlayadd', function(event) {
                 if (event.name == "Dokumen Perencanaan") {
@@ -323,22 +323,33 @@
                     url: url,
                     dataType: "json",
                     success: function(result) {
+                        console.log(result)
+                        if (result.jumlah == 0) {
+                            swal.fire({
+                                title: "Maaf",
+                                text: "Lokasi tidak ditemukan",
+                                icon: "warning"
+                            })
+                        }
+                        $(".jumlah-lokasi").html("Jumlah Lokasi : " + result.jumlah)
                         layerGroup.clearLayers()
                         $.each(result.data, function(index, data) {
                             let geometry = JSON.parse(data.coordinate)
-
                             let layer = L.geoJSON(geometry, {
                                 onEachFeature: function(feature, layer) {
                                     if (feature.geometry.type == 'LineString') {
-                                        let buffering = turf.buffer(feature, 2.5, {
-                                            'units': 'meters'
-                                        })
+                                        let buffering = turf.buffer(feature,
+                                            2.5, {
+                                                'units': 'meters'
+                                            })
                                         let bufferedLayer = L.geoJSON(buffering)
                                         let latLng = bufferedLayer.getBounds()
                                             .getCenter()
-                                        layerGroup.addLayer(bufferedLayer).addTo(
-                                            map)
-                                        layerOnClick(bufferedLayer, data, latLng)
+                                        layerGroup.addLayer(bufferedLayer)
+                                            .addTo(
+                                                map)
+                                        layerOnClick(bufferedLayer, data,
+                                            latLng)
                                     } else {
                                         let latLng;
                                         layerGroup.addLayer(layer).addTo(map)
@@ -387,7 +398,6 @@
                     dataType: "json",
                     success: function(result) {
                         $.each(result.data, function(index, data) {
-                            // console.log(result);
                             let polygon = new L.GeoJSON.AJAX("assets/geometry_kelurahan/" + data
                                 .kelurahan.geometry, style)
                             if (result.judul == "Kawasan Kumuh") {
@@ -695,7 +705,6 @@
             })
 
             $(document).on('click', '#location-modal', function() {
-                console.log($.fn.DataTable.isDataTable('#table-location'))
                 if ($.fn.DataTable.isDataTable('#table-location')) {
                     $('#table-location').DataTable().destroy()
                 }
@@ -829,7 +838,6 @@
             $.get(url, function(data, status) {
                 optionItem = ""
                 $.each(data.kelurahan, (key, val) => {
-                    console.log(val)
                     $("#kelurahan").append(`<option value="` + val.id + `">` + val.nama +
                         `</option>`)
                 })
@@ -876,7 +884,6 @@
                 dataType: "json",
                 async: false,
                 success: function(result) {
-                    console.log(result);
                     let urlUpdate = "{{ route('profile.update', ':id') }}"
                     urlUpdate = urlUpdate.replace(':id', id)
                     $('#form-edit-profile').attr('action', urlUpdate);
@@ -885,7 +892,6 @@
                     $("#username").val(result.data.username);
                 }
             })
-            // console.log(id);
         });
 
         $("#form-edit-profile").on("submit", function(e) {
@@ -901,12 +907,6 @@
 
             if (method == 'PUT') {
                 formData.append('_method', 'PUT');
-            }
-
-            console.log($('#avatar:input[type=file]')[0].files[0]);
-
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
             }
 
             $.ajax({
@@ -929,7 +929,6 @@
                     $('#profileEditModal').modal('hide');
                 },
                 error: (xhr, ajaxOptions, thrownError) => {
-                    console.log(xhr.responseJSON.errors)
                     if (xhr.responseJSON.hasOwnProperty('errors')) {
                         var html =
                             "<ul style=justify-content: space-between;'>";
