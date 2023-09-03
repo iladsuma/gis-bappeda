@@ -106,10 +106,10 @@
                                 <div class="col-4">
                                     <button type="submit" class="btn btn-primary btn-sm custom">Cari</button>
                                 </div>
-                                <div
+                                {{-- <div
                                     class="col-7 border rounded rounded-2 d-flex align-items-center justify-content-center bg-light">
                                     <div id="jumlah-ruas" class="h7 fst-italic">Jumlah Lokasi : 0</div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </form>
