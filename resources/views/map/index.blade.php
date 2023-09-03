@@ -363,6 +363,10 @@
                                         center = layerGroup.getBounds()
                                         map.flyToBounds(center);
                                     }
+                                    if (result.method == 'wilayah') {
+                                        center = layerGroup.getBounds()
+                                        map.flyToBounds(center);
+                                    }
 
                                 }
                             })
@@ -383,21 +387,17 @@
                     dataType: "json",
                     success: function(result) {
                         $.each(result.data, function(index, data) {
-                            console.log(result);
+                            // console.log(result);
                             let polygon = new L.GeoJSON.AJAX("assets/geometry_kelurahan/" + data
                                 .kelurahan.geometry, style)
                             if (result.judul == "Kawasan Kumuh") {
                                 polygon.addTo(layerKawasanKumuh)
-                                layerKawasanKumuh.addTo(map)
                             } else if (result.judul == "RTLH") {
                                 polygon.addTo(layerRtlh)
-                                layerRtlh.addTo(map)
                             } else if (result.judul == "Lokus Kemiskinan") {
                                 polygon.addTo(layerKemiskinan)
-                                layerKemiskinan.addTo(map)
                             } else if (result.judul == "Lokus Stunting") {
                                 polygon.addTo(layerStunting)
-                                layerStunting.addTo(map)
                             }
                             polygonOnClick(polygon, data, result.judul)
                         })
@@ -799,6 +799,17 @@
                 let ids = $('#lokasi-select').val()
                 let url = "{{ route('map.lokasi-filter', ':id') }}"
                 url = url.replace(":id", ids)
+                getDataPerencanaan(url);
+            });
+
+            $("#lokasi-administrasi").on('submit', function(event) {
+                event.preventDefault()
+                map.removeLayer(layerPerencanaan);
+                let kecamatan = $('#kecamatan').val()
+                let kelurahan = $('#kelurahan').val()
+                let url = "{{ route('map.lokasi-administrasi', [':kec', ':kel']) }}"
+                url = url.replace(":kec", kecamatan)
+                url = url.replace(":kel", kelurahan)
                 getDataPerencanaan(url);
             });
         })

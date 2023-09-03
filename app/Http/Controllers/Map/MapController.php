@@ -81,6 +81,32 @@ class MapController extends Controller
         return response()->json($response, Response::HTTP_OK);
     }
 
+    public function lokasi_administrasi($kecamatan, $kelurahan)
+    {
+        if ($kecamatan == 0) {
+            $lokasi = LokasiKegiatan::with('kelurahan:id,nama,kecamatan_id', 'kelurahan.kecamatan:id,nama')
+                ->get();
+        }
+
+        if ($kecamatan != 0 && $kelurahan == 0) {
+            $lokasi = LokasiKegiatan::whereHas('kelurahan', function ($q) use ($kecamatan) {
+                $q->where('kecamatan_id', $kecamatan);
+            })->with('kelurahan:id,nama,kecamatan_id', 'kelurahan.kecamatan:id,nama')->get();
+        }
+
+        if ($kecamatan != 0 && $kelurahan != 0) {
+            $lokasi = LokasiKegiatan::with('kelurahan:id,nama,kecamatan_id', 'kelurahan.kecamatan:id,nama')->where('kelurahan_id', $kelurahan)->get();
+        }
+
+        $response = [
+            'jumlah' => count($lokasi),
+            'data' => $lokasi,
+            'method' => 'wilayah',
+        ];
+
+        return response()->json($response, Response::HTTP_OK);
+    }
+
     public function lokasi()
     {
         $lokasi = LokasiKegiatan::with('kelurahan', 'kelurahan.kecamatan')

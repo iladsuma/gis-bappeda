@@ -54,10 +54,10 @@
             </div>
             <div class="card mt-2">
                 <div class="card-body">
-                    <form method="" class="" id="filter-ruas">
+                    <form method="" class="" id="lokasi-administrasi">
                         {{ csrf_field() }}
                         <label for="">
-                            <h6> Pencarian Berdasarkan Realisasi Kegiatan</h6>
+                            <h6> Pencarian Berdasarkan Wilayah Administrasi</h6>
                         </label>
                         <div class="">
                             <label for="kecamatan-select">
