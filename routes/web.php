@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/map/{id}/datatable-fisik', [MapController::class, 'datatable_fisik'])->name('map.datatable-fisik');
     Route::get('/map/{ids}/lokasi-filter', [MapController::class, 'lokasi_filter'])->name('map.lokasi-filter');
     Route::get('/map/{id}/get-kelurahan', [MapController::class, 'get_kelurahan'])->name('map.get-kelurahan');
+    Route::get('/map/{kec}/{kel}/lokasi-administrasi', [MapController::class, 'lokasi_administrasi'])->name('map.lokasi-administrasi');
     ## --- End of Map Route --- ##
 
 

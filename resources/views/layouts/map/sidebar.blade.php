@@ -26,11 +26,21 @@
             <div class="leaflet-control-layers">
                 <label class="leaflet-control-layers-group-name ml-2 mb-0">Peta Dasar</label>
             </div>
+            <div class="card border-0" id="control-layer-container">
+
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="h6 fw-bold fst-italic d-flex align-items-center justify-content-center jumlah-lokasi">
+                        Jumlah Lokasi : 0</div>
+                </div>
+            </div>
         </div>
 
         <div class="sidebar-pane" id="search">
-            <h1 class="sidebar-header">Pencarian Dokumen<span class="sidebar-close"><i
-                        class="fa fa-caret-left"></i></span></h1>
+            <h1 class="sidebar-header">Pencarian Lokasi<span class="sidebar-close"><i
+                        class="fa fa-caret-left"></i></span>
+            </h1>
             <div class="card mt-2">
                 <div class="card-body">
                     <form id="cari-lokasi" method="" class="">
@@ -54,10 +64,10 @@
             </div>
             <div class="card mt-2">
                 <div class="card-body">
-                    <form method="" class="" id="filter-ruas">
+                    <form method="" class="" id="lokasi-administrasi">
                         {{ csrf_field() }}
                         <label for="">
-                            <h6> Pencarian Berdasarkan Realisasi Kegiatan</h6>
+                            <h6> Pencarian Berdasarkan Wilayah Administrasi</h6>
                         </label>
                         <div class="">
                             <label for="kecamatan-select">
@@ -106,13 +116,22 @@
                                 <div class="col-4">
                                     <button type="submit" class="btn btn-primary btn-sm custom">Cari</button>
                                 </div>
-                                <div
+                                {{-- <div
                                     class="col-7 border rounded rounded-2 d-flex align-items-center justify-content-center bg-light">
-                                    <div id="jumlah-ruas" class="h7 fst-italic">Jumlah Lokasi : 0</div>
-                                </div>
+                                    <div id="jumlah-lokasi" class="h7 fst-italic">Jumlah Lokasi : 0</div>
+                                </div> --}}
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-body">
+                    {{-- <div
+                        class="col-7 border rounded rounded-2 d-flex align-items-center justify-content-center bg-light"> --}}
+                    <div class="h6 fw-bold fst-italic d-flex align-items-center justify-content-center jumlah-lokasi">
+                        Jumlah Lokasi : 0</div>
+                    {{-- </div> --}}
                 </div>
             </div>
         </div>
@@ -125,7 +144,8 @@
                     <div class="row d-flex justify-content-center">
                         <div class="col-lg-10 d-flex justify-content-center">
                             <img id="avatar-sidebar" src="assets/image/avatar/{{ Auth::user()->avatar }}"
-                                class="img my-3 rounded rounded-circle" width="250" height="250" alt="">
+                                class="img my-3 rounded rounded-circle" width="250" height="250"
+                                alt="">
                         </div>
                     </div>
                     <h3 class="text-center fw-bold">{{ Auth::user()->name }}</h3>
