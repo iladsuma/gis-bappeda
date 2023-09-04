@@ -182,7 +182,8 @@ class MapController extends Controller
 
         $response = [
             'judul' => "Kawasan Kumuh",
-            'data' => $kawasan_kumuh
+            'data' => $kawasan_kumuh,
+            'max_value' => $kawasan_kumuh->max('jumlah')
         ];
         return response()->json($response, Response::HTTP_OK);
     }
@@ -193,7 +194,8 @@ class MapController extends Controller
 
         $response = [
             'judul' => "RTLH",
-            'data' => $kawasan_rtlh
+            'data' => $kawasan_rtlh,
+            'max_value' => $kawasan_rtlh->max('jumlah')
         ];
         return response()->json($response, Response::HTTP_OK);
     }
@@ -204,7 +206,8 @@ class MapController extends Controller
 
         $response = [
             'judul' => "Lokus Kemiskinan",
-            'data' => $lokus_kemiskinan
+            'data' => $lokus_kemiskinan,
+            'max_value' => $lokus_kemiskinan->max('jumlah')
         ];
         return response()->json($response, Response::HTTP_OK);
     }
@@ -215,7 +218,8 @@ class MapController extends Controller
 
         $response = [
             'judul' => "Lokus Stunting",
-            'data' => $lokus_stunting
+            'data' => $lokus_stunting,
+            'max_value' => $lokus_stunting->max('jumlah')
         ];
         return response()->json($response, Response::HTTP_OK);
     }

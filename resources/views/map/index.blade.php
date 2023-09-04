@@ -148,26 +148,30 @@
 
             let styleKawasanKumuh = {
                 pmIgnore: true,
-                color: "white",
-                opacity: .50
+                color: "red",
+                fillColor: "white",
+                weight: 1,
             }
 
             let styleKawasanRTLH = {
                 pmIgnore: true,
                 color: "cyan",
-                opacity: .50
+                fillColor: "white",
+                weight: 1,
             }
 
             let styleKemiskinan = {
                 pmIgnore: true,
                 color: "red",
-                opacity: .50
+                fillColor: "white",
+                weight: 1,
             }
 
             let styleStunting = {
                 pmIgnore: true,
                 color: "orange",
-                opacity: .50
+                fillColor: "white",
+                weight: 1,
             }
 
 
@@ -452,8 +456,11 @@
                     dataType: "json",
                     success: function(result) {
                         $.each(result.data, function(index, data) {
+                            // console.log(result)
                             let polygon = new L.GeoJSON.AJAX("assets/geometry_kelurahan/" + data
                                 .kelurahan.geometry, style)
+                            polygon.options.fillOpacity = (data.jumlah / result.max_value) * 1
+                            // polygon.options.color = "red"
                             if (result.judul == "Kawasan Kumuh") {
                                 polygon.addTo(layerKawasanKumuh)
                             } else if (result.judul == "RTLH") {
