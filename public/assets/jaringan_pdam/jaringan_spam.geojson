@@ -1,0 +1,384 @@
+{
+    "type": "FeatureCollection",
+    "name": "jaringan_spam",
+    "crs": {
+        "type": "name",
+        "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Yayasan Walisongo",
+                "image": "SPAM Yayasan Walisongo.jpg",
+                "alamat": "Jl. Kaliporong",
+                "kecamatan": "Sukorejo",
+                "kelurahan": "Pakunden",
+                "tahun": "2012",
+                "terpasang": "16",
+                "aktif": "1"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.152568859000098, -8.097693312999979, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Pondok Al Iksan",
+                "image": "SPAM Pondok Al Iksan.jpg",
+                "alamat": "Jl. Jati",
+                "kecamatan": "Sukorejo",
+                "kelurahan": "Sukorejo",
+                "tahun": "2012",
+                "terpasang": "10",
+                "aktif": "1"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.149122939000108, -8.108602808999933, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Ngrebo1 Majapahit",
+                "image": "SPAM Ngrebo1 majapahit.jpg",
+                "alamat": "Jl. Majapahit",
+                "kecamatan": "Sananwetan",
+                "kelurahan": "Gedog",
+                "tahun": "2012",
+                "terpasang": "49",
+                "aktif": "47"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.190115938000076, -8.099616305999973, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Baitul Mu'min Tanggung",
+                "image": "SPAM Baitul Mu'min Tanggung.jpg",
+                "alamat": "Jl. Sawunggaling Gang 3",
+                "kecamatan": "Kepanjenkidul",
+                "kelurahan": "Tanggung",
+                "tahun": "2021",
+                "terpasang": "48",
+                "aktif": "48"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.177784833000032, -8.076403206999942, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Sawunggaling Tanggung",
+                "image": "SPAM Sawunggaling Tanggung.jpg",
+                "alamat": "Jl. Sawunggaling",
+                "kecamatan": "Kepanjenkidul",
+                "kelurahan": "Tanggung",
+                "tahun": "2012",
+                "terpasang": "65",
+                "aktif": "65"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.179008749000104, -8.075642843999958, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Tarbiyatul Fallah",
+                "image": "SPAM Tarbiyatul Fallah.jpg",
+                "alamat": "Jl. Kaliporong",
+                "kecamatan": "Sukorejo",
+                "kelurahan": "Pakunden",
+                "tahun": "2013",
+                "terpasang": "5",
+                "aktif": "2"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.151111213000036, -8.098103464999951, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Lingkungan Masjid Nurul Huda Gedog",
+                "image": "SPAM lingkungan Masjid Nurul Huda.jpg",
+                "alamat": "Jl. Kolonel Sugiono",
+                "kecamatan": "Sananwetan",
+                "kelurahan": "Gedog",
+                "tahun": "2013",
+                "terpasang": "17",
+                "aktif": "10"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.19057607100001, -8.088076821999948, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Tirto Aren",
+                "image": "SPAM Tirto Aren.jpg",
+                "alamat": "Jl. Aren",
+                "kecamatan": "Sananwetan",
+                "kelurahan": "Plosokerep",
+                "tahun": "2015",
+                "terpasang": "127",
+                "aktif": "125"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.160967310000046, -8.117292158999931, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Tirto Berkah",
+                "image": "SPAM Tirto Berkah.jpg",
+                "alamat": "Jl. Pakubuwono",
+                "kecamatan": "Kepanjenkidul",
+                "kelurahan": "Tanggung",
+                "tahun": "2015",
+                "terpasang": "67",
+                "aktif": "50"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.178885132, -8.077900992999957, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Sumber Barokah",
+                "image": "SPAM Sumber Barokah.jpg",
+                "alamat": "Jl. Ciliwung",
+                "kecamatan": "Kepanjenkidul",
+                "kelurahan": "Tanggung",
+                "tahun": "2015",
+                "terpasang": "30",
+                "aktif": "1"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.175573405000023, -8.067257271999949, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Bendo Cimalaya",
+                "image": "SPAM Bendo Cimalaya.jpg",
+                "alamat": "Jl. Cimalaya",
+                "kecamatan": "Kepanjenkidul",
+                "kelurahan": "Bendo",
+                "tahun": "2015",
+                "terpasang": "25",
+                "aktif": "2"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.167855227000018, -8.082910180999932, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Tirta Sari Karangsari",
+                "image": "SPAM Tirta Sari Karangsari.jpg",
+                "alamat": "Jl. Jeruk",
+                "kecamatan": "Sukorejo",
+                "kelurahan": "Karangsari",
+                "tahun": "2016",
+                "terpasang": "50",
+                "aktif": "50"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.157745161000094, -8.11258004299998, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Tirto Langgeng Plosokerep",
+                "image": "SPAM Tirto Langgeng Plosokerep.jpg",
+                "alamat": "Jl. Sermata",
+                "kecamatan": "Sananwetan",
+                "kelurahan": "Plosokerep",
+                "tahun": "2016",
+                "terpasang": "99",
+                "aktif": "99"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.159897365, -8.123925553999925, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Ngrebo 2",
+                "image": "SPAM Ngrebo 2.jpg",
+                "alamat": "Jl. Suryat",
+                "kecamatan": "Sananwetan",
+                "kelurahan": "Gedog",
+                "tahun": "2016",
+                "terpasang": "42",
+                "aktif": "35"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.185750615000075, -8.100687554999979, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Tirto Rahayu Tanggung",
+                "image": "SPAM Tirto Rahayu Tanggung.jpg",
+                "alamat": "Jl. Antasari",
+                "kecamatan": "Kepanjenkidul",
+                "kelurahan": "Tanggung",
+                "tahun": "2016",
+                "terpasang": "33",
+                "aktif": "33"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.17861192700002, -8.07901469899997, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Tirta Maratol",
+                "image": "SPAM Tirta Maratol.jpg",
+                "alamat": "Jl. Yapen",
+                "kecamatan": "Sananwetan",
+                "kelurahan": "Plosokerep",
+                "tahun": "2017",
+                "terpasang": "32",
+                "aktif": "32"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.165457389000039, -8.116662990999941, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Nurul Huda Bendogerit",
+                "image": "SPAM Nurul Huda Bendogerit.jpg",
+                "alamat": "Jl. Brau",
+                "kecamatan": "Sananwetan",
+                "kelurahan": "Bendogerit",
+                "tahun": "2017",
+                "terpasang": "60",
+                "aktif": "60"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.179899056000068, -8.083109302999958, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Tirto Langgeng Karangtengah",
+                "image": "SPAM Tirto Langgeng Karangtengah.jpg",
+                "alamat": "Jl. Bunaken",
+                "kecamatan": "Sananwetan",
+                "kelurahan": "Karangtengah",
+                "tahun": "2018",
+                "terpasang": "42",
+                "aktif": "41"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.175327853000113, -8.111306257999956, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Tirta Kencana Klampok",
+                "image": "SPAM Tirta Kencana Klampok.jpg",
+                "alamat": "Jl. Masalembu",
+                "kecamatan": "Sananwetan",
+                "kelurahan": "Klampok",
+                "tahun": "2021",
+                "terpasang": "30",
+                "aktif": "30"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.165857230000029, -8.120931791999965, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Ngadirejo 1",
+                "image": "SPAM Ngadirejo 1.jpg",
+                "alamat": "Jl. Cipemali Gang 2",
+                "kecamatan": "Kepanjenkidul",
+                "kelurahan": "Ngadirejo",
+                "tahun": "2012",
+                "terpasang": "15",
+                "aktif": "9"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.17752426100003, -8.061196507999966, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Ngadirejo 2",
+                "image": "SPAM Ngadirejo 2.jpg",
+                "alamat": "Jl. CIpemali Gang 8",
+                "kecamatan": "Kepanjenkidul",
+                "kelurahan": "Ngadirejo",
+                "tahun": "2013",
+                "terpasang": "20",
+                "aktif": "0"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.175358107000079, -8.06107022599997, 0.0]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "SPAM Ar Rohmah (Sumber Wayuh) Pakunden",
+                "image": "SPAM Ar Rohmah (Sumber Wayuh) Pakunden.jpg",
+                "alamat": "Jl. Bengawan Solo",
+                "kecamatan": "Sukorejo",
+                "kelurahan": "Pakunden",
+                "tahun": "2009",
+                "terpasang": "57",
+                "aktif": "57"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [112.145757954000032, -8.094411049999962, 0.0]
+            }
+        }
+    ]
+}

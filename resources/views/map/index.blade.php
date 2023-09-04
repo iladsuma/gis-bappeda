@@ -256,7 +256,7 @@
 
             let controlLayer = L.control.groupedLayers(baseLayers, groupedOverlays, {
                 collapsed: false,
-                exclusiveGroups: ["Data Pendukung"],
+                // exclusiveGroups: ["Data Pendukung"],
                 groupCheckboxes: false
             }).addTo(map);
 
@@ -367,6 +367,15 @@
                     })
                     layerPdam.addLayer(jaringanPdam).addTo(map)
                 }
+                if (event.name == "Jaringan Spam") {
+                    layerSpam.clearLayers()
+                    let jaringanSpam = new L.GeoJSON.AJAX("assets/jaringan_pdam/jaringan_spam.geojson", {
+                        onEachFeature: function(feature, layer) {
+                            layerSpam.addLayer(layer).addTo(map)
+                            spamOnClick(layer, feature.properties)
+                        }
+                    })
+                }
             })
 
             // function ajax call data for any pendukung
@@ -456,11 +465,9 @@
                     dataType: "json",
                     success: function(result) {
                         $.each(result.data, function(index, data) {
-                            // console.log(result)
                             let polygon = new L.GeoJSON.AJAX("assets/geometry_kelurahan/" + data
                                 .kelurahan.geometry, style)
                             polygon.options.fillOpacity = (data.jumlah / result.max_value) * 1
-                            // polygon.options.color = "red"
                             if (result.judul == "Kawasan Kumuh") {
                                 polygon.addTo(layerKawasanKumuh)
                             } else if (result.judul == "RTLH") {
@@ -476,9 +483,54 @@
                 });
             }
 
+            function spamOnClick(layer, data) {
+                let content = `<img class="img-fluid rounded " src="{{ asset('assets/jaringan_pdam/foto_spam/`+data.image+`') }}"></img>
+                            <table class="table table-sm table-striped" style="max-width=250px">
+                                <tr>
+                                    <th>Nama</th>
+                                    <td>` + data.Name + `</td>
+                                </tr>
+                                <tr>
+                                    <th>Kecamatan</th>
+                                    <td>` + data.kecamatan + `</td>
+                                </tr>
+                                <tr>
+                                    <th>Kelurahan</th>
+                                    <td>` + data.kelurahan + `</td>
+                                </tr>
+                                <tr>
+                                    <th>Alamat</th>
+                                    <td>` + data.alamat + `</td>
+                                </tr>
+                                <tr>
+                                    <th>Tahun</th>
+                                    <td>` + data.tahun + `</td>
+                                </tr>
+                                <tr>
+                                    <th>Terpasang</th>
+                                    <td>` + data.terpasang + `</td>
+                                </tr>
+                                <tr>
+                                    <th>Aktif</th>
+                                    <td>` + data.aktif + `</td>
+                                </tr>
+                            </table>`
+                layer.on("click", function(e) {
+                    console.log(e)
+                    if (e.target._popup == undefined) {
+                        layer.bindPopup(content, {
+                            maxWidth: 200,
+                            closeButton: false
+                        }).openPopup()
+                    } else {
+                        layer.bindPopup()
+                    }
+                })
+            }
+
             // function get data for marker and set the content and bind the pop up layer on click
             function layerOnClick(layer, data, latLng) {
-                let content = ` <img class="img-fluid" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
+                let content = ` <img class="img-fluid rounded" src="{{ asset('assets/foto_lokasi/`+data.foto+`') }}"></img>
                             <table class="table table-sm table-striped">
                                 <tr>
                                     <th>Nama</th>
@@ -518,7 +570,10 @@
                 layer.on("click", function(e) {
                     $(".detail-tab").attr("data-id", data.id)
                     if (e.target._popup == undefined) {
-                        layer.bindPopup(content).openPopup()
+                        layer.bindPopup(content, {
+                            maxWidth: 250,
+                            closeButton: false
+                        }).openPopup()
                     } else {
                         layer.bindPopup()
                     }
