@@ -437,7 +437,6 @@
                                         layer.options.pmIgnore = true
                                         if (feature.geometry.type == "Point") {
                                             latLng = layer.getLatLng()
-                                            console.log(latLng)
                                             let marker = L.marker([latLng.lat,
                                                 latLng.lng
                                             ], {
@@ -540,7 +539,6 @@
                                 </tr>
                             </table>`
                 layer.on("click", function(e) {
-                    console.log(e)
                     if (e.target._popup == undefined) {
                         layer.bindPopup(content, {
                             maxWidth: 200,
