@@ -271,6 +271,51 @@
                 rotateMode: false
             })
 
+            // perhitungan sederhana
+            map.on("pm:create", (e) => {
+                var ukur = (e) => {
+                    var layer = e.layer,
+                        shape = e.shape,
+                        nf = Intl.NumberFormat();
+                    if (shape === 'Polygon') {
+                        var seeArea = turf.area(layer.toGeoJSON());
+                        var ha = seeArea / 10000;
+                        var mPersegi = seeArea;
+                        if (mPersegi > 10000) {
+                            layer.bindPopup("Luas " + nf.format(ha.toFixed(2)) + " Ha");
+                        } else {
+                            layer.bindPopup("Luas " + nf.format(mPersegi.toFixed(2)) + " Meter²");
+                        }
+                    }
+
+                    if (shape === 'Line') {
+
+                        var seeArea = turf.length(layer.toGeoJSON());
+                        var meter = seeArea * 1000;
+                        var kilometer = seeArea;
+                        if (meter < 1000) {
+                            layer.bindPopup("Jarak " + nf.format(meter.toFixed(2)) + " Meter");
+                        } else {
+                            layer.bindPopup("Jarak " + nf.format(kilometer.toFixed(2)) + " Kilometer");
+                        }
+                    }
+
+                    if (shape === 'Circle') {
+                        if (layer._mRadius < 1000) {
+                            layer.bindPopup("Radius " + nf.format(layer._mRadius.toFixed(2)) +
+                                " Meter");
+                        } else {
+                            layer.bindPopup("Radius " + nf.format((layer._mRadius / 1000).toFixed(2)) +
+                                " Kilometer");
+                        }
+                    }
+                }
+                ukur(e);
+                e.layer.on("pm:edit", (e) => {
+                    ukur(e);
+                })
+            })
+
             // add control layer to sidebar
             let htmlControlLayer = controlLayer.getContainer();
             $('#control-layer-container').append(htmlControlLayer);
