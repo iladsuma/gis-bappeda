@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dokumen\DokumenDed;
+use App\Models\Dokumen\DokumenFisik;
 use App\Models\Dokumen\DokumenFs;
 use App\Models\Dokumen\DokumenLingkungan;
 use App\Models\Dokumen\DokumenMp;
@@ -21,6 +22,7 @@ class DashboardController extends Controller
             "jumlah_dokumen_mp" => count(DokumenMp::all()),
             "jumlah_dokumen_lingkungan" => count(DokumenLingkungan::all()),
             "jumlah_dokumen_ded" => count(DokumenDed::all()),
+            "jumlah_dokumen_fisik" => count(DokumenFisik::all()),
         ]);
     }
 }

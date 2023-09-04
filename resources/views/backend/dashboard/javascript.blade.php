@@ -100,19 +100,21 @@
     var dokumenMp = '{{ json_encode($jumlah_dokumen_mp) }}';
     var dokumenLingkungan = '{{ json_encode($jumlah_dokumen_lingkungan) }}';
     var dokumenDed = '{{ json_encode($jumlah_dokumen_ded) }}';
+    var dokumenFisik = '{{ json_encode($jumlah_dokumen_fisik) }}';
     myChart = new Chart(canvas, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
-            labels: ['Dokumen FS', 'Dokumen MP', 'Dokumen Lingkungan', 'Dokumen DED'],
+            labels: ['Dokumen FS', 'Dokumen MP', 'Dokumen Lingkungan', 'Dokumen DED', 'Dokumen Fisik'],
             datasets: [{
                 label: 'My First Dataset',
-                data: [dokumenFs, dokumenMp, dokumenLingkungan, dokumenDed],
+                data: [dokumenFs, dokumenMp, dokumenLingkungan, dokumenDed, dokumenFisik],
                 // data: [1, 6, 2, 9],
                 backgroundColor: [
-                    '#fff000',
-                    '#185678',
-                    '#ACCE53',
-                    '#5e3e4e',
+                    '#00529B',
+                    '#007CC3',
+                    '#7AC142',
+                    '#377B2B',
+                    '#F47A1F',
                 ],
                 hoverOffset: 4
             }]
@@ -125,7 +127,7 @@
                     fontSize: 14
                 },
                 legend: {
-                    position: 'bottom',
+                    position: 'right',
                     // align: 'start',
                     labels: {
                         font: {
@@ -139,9 +141,8 @@
         }
 
     });
-    var containerChart = document.getElementById('container-chart').offsetHeight;
-    $('#container-box').css('height', containerChart + 'px')
-
+    // var containerChart = document.getElementById('container-chart').offsetHeight;
+    // $('#container-box').css('height', containerChart + 'px')
 </script>
 
 {{-- get data for kecamatan and kelurahan select2  --}}
