@@ -204,6 +204,16 @@
             let layerSpam = L.featureGroup();
             let layerPdam = L.featureGroup();
 
+            let locationIcon = L.icon({
+                iconUrl: 'assets/icon/location-icon.png',
+                iconSize: [27, 30], // size of the icon
+            });
+
+            let waterIcon = L.icon({
+                iconUrl: 'assets/icon/water-icon.png',
+                iconSize: [27, 30], // size of the icon
+            });
+
 
             let groupedOverlays = {
                 "Peta Tematik ": {
@@ -371,8 +381,14 @@
                     layerSpam.clearLayers()
                     let jaringanSpam = new L.GeoJSON.AJAX("assets/jaringan_pdam/jaringan_spam.geojson", {
                         onEachFeature: function(feature, layer) {
-                            layerSpam.addLayer(layer).addTo(map)
-                            spamOnClick(layer, feature.properties)
+                            let latLng = layer.getLatLng()
+                            let marker = L.marker([latLng.lat,
+                                latLng.lng
+                            ], {
+                                icon: waterIcon
+                            })
+                            layerSpam.addLayer(marker).addTo(map)
+                            spamOnClick(marker, feature.properties)
                         }
                     })
                 }
@@ -419,14 +435,22 @@
                                     } else {
                                         let latLng;
                                         layer.options.pmIgnore = true
-                                        layerGroup.addLayer(layer).addTo(map)
                                         if (feature.geometry.type == "Point") {
                                             latLng = layer.getLatLng()
-                                        } else(
+                                            console.log(latLng)
+                                            let marker = L.marker([latLng.lat,
+                                                latLng.lng
+                                            ], {
+                                                icon: locationIcon
+                                            })
+                                            layerGroup.addLayer(marker).addTo(map)
+                                            layerOnClick(marker, data, latLng)
+                                        } else {
+                                            layerGroup.addLayer(layer).addTo(map)
                                             latLng = layer.getBounds()
-                                            .getCenter()
-                                        )
-                                        layerOnClick(layer, data, latLng)
+                                                .getCenter()
+                                            layerOnClick(layer, data, latLng)
+                                        }
                                     }
                                     if (result.method == 'all') {
                                         layerGroup.addTo(layerPerencanaan)
