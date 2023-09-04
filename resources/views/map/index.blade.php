@@ -141,26 +141,31 @@
             }
 
             let style = {
+                pmIgnore: true,
                 color: "yellow",
                 opacity: .75
             }
 
             let styleKawasanKumuh = {
+                pmIgnore: true,
                 color: "white",
                 opacity: .50
             }
 
             let styleKawasanRTLH = {
+                pmIgnore: true,
                 color: "cyan",
                 opacity: .50
             }
 
             let styleKemiskinan = {
+                pmIgnore: true,
                 color: "red",
                 opacity: .50
             }
 
             let styleStunting = {
+                pmIgnore: true,
                 color: "orange",
                 opacity: .50
             }
@@ -259,10 +264,10 @@
                 drawRectangle: false,
                 drawCircleMarker: false,
                 drawText: false,
-                editMode: false,
+                editMode: true,
                 dragMode: false,
                 cutPolygon: false,
-                removalMode: false,
+                removalMode: true,
                 rotateMode: false
             })
 
@@ -333,7 +338,9 @@
                                         let buffering = turf.buffer(feature, 2.5, {
                                             'units': 'meters'
                                         })
-                                        let bufferedLayer = L.geoJSON(buffering)
+                                        let bufferedLayer = L.geoJSON(buffering, {
+                                            pmIgnore: true,
+                                        })
                                         let latLng = bufferedLayer.getBounds()
                                             .getCenter()
                                         layerGroup.addLayer(bufferedLayer).addTo(
@@ -341,6 +348,7 @@
                                         layerOnClick(bufferedLayer, data, latLng)
                                     } else {
                                         let latLng;
+                                        layer.options.pmIgnore = true
                                         layerGroup.addLayer(layer).addTo(map)
                                         if (feature.geometry.type == "Point") {
                                             latLng = layer.getLatLng()
@@ -364,7 +372,7 @@
                                         map.flyToBounds(center);
                                     }
 
-                                }
+                                },
                             })
                         })
                     }
