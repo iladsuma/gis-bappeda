@@ -74,7 +74,7 @@
         }
 
         .modal-dialog-location {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 1);
         }
 
         .select2-results__option--selected {
@@ -204,7 +204,9 @@
             let layerKemiskinan = L.featureGroup();
             let layerStunting = L.featureGroup();
             let layerSpam = L.featureGroup();
+            let layerIpal = L.featureGroup();
             let layerPdam = L.featureGroup();
+            let layerSumurPdam = L.featureGroup();
 
             let locationIcon = L.icon({
                 iconUrl: 'assets/icon/location-icon.png',
@@ -228,12 +230,14 @@
                     "Dokumen Perencanaan Bidang Infrastruktur": layerPerencanaan
                 },
                 "Data Pendukung": {
-                    "Kawasan Kumuh": layerKawasanKumuh,
-                    "Kawasan RTLH": layerRtlh,
-                    "Lokus Kemiskinan": layerKemiskinan,
+                    "Data Kawasan Permukiman Kumuh": layerKawasanKumuh,
+                    "Kawasan RTLH (Rumah TIdak Layak Huni)": layerRtlh,
+                    "Data Kemiskinan": layerKemiskinan,
                     "Lokus Stunting": layerStunting,
-                    "Jaringan Spam": layerSpam,
+                    "Lokasi Spam": layerSpam,
+                    "Lokasi Ipal": layerIpal,
                     "Jaringan Pipa PDAM": layerPdam,
+                    "Lokasi Sumur PDAM": layerSumurPdam,
                 }
             };
 

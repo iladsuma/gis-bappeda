@@ -59,6 +59,16 @@
                 1px 1px 0 #fff;
         }
 
+        .hero-image h4 {
+            font-weight: 600;
+            text-shadow:
+                3px 3px 0 #fff,
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff;
+        }
+
         .card-login h1 {
             color: #0095D6;
         }
@@ -69,6 +79,11 @@
             left: 50%;
             transform: translate(-50%, -50%);
             opacity: .8;
+        }
+
+        input,
+        label {
+            font-weight: 700 !important;
         }
     </style>
 
@@ -86,13 +101,14 @@
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Lambang_Kota_Blitar.png"
                                     alt="" class="col-lg-3">
                             </span>
-                            <h3 class="text-center text-dark">
+                            {{-- <h3 class="text-center text-dark">
                                 ( BAPPEDA )
-                                <br>
-                                Badan Perencanaan dan Pembangunan Daerah
+                            </h3> --}}
+                            <h4 class="text-center text-dark">
+                                WebGIS Dokumen Perencanaan Bidang Infrastruktur BAPPEDA
                                 <br>
                                 Kota Blitar
-                            </h3>
+                            </h4>
                         </div>
                     </div>
                     <div class="col-lg-6 p-5">
@@ -105,12 +121,18 @@
                                 <input type="text" name="login" placeholder="Masukkan username ..."
                                     class="form-control" autofocus required>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" name="password" placeholder="Masukkan password ..."
-                                    class="form-control" autofocus required>
+                                <input type="password" name="password" id="password"
+                                    placeholder="Masukkan password ..." class="form-control" autofocus required>
                             </div>
-                            <div class="mb-5 mt-5 d-flex justify-content-center">
+                            <div class="mb-3 ml-4">
+                                <input type="checkbox" class="form-check-input" name="" id="show-pass">
+                                <label class="form-check-label" for="show-pass" style="font-size: 12px;">Tampilkan
+                                    Password</label>
+                            </div>
+                            <div class="mb-5
+                                    d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary w-100 font-weight-bold">Masuk Akun <i
                                         class="fa fa-sign-in" aria-hidden="true"></i></button>
                             </div>
@@ -132,6 +154,18 @@
 
     {{-- font awesome  --}}
     <script src="https://kit.fontawesome.com/e4d20a5f83.js" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#show-pass").change(function() {
+                if ($("#show-pass").is(':checked')) {
+                    $("#password").prop("type", "text")
+                } else {
+                    $("#password").prop("type", "password")
+                }
+            })
+        })
+    </script>
 
 </body>
 
