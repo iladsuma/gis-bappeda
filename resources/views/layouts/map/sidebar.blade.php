@@ -8,12 +8,13 @@
             <li><a href="{{ route('dashboard.index') }}" role="tab" title="Dashboard Admin"><i
                         class="fas fa-computer"></i></a></li>
             <li style="cursor: pointer"><a data-bs-toggle="modal" data-bs-target="#locationModal" id="location-modal"><i
-                        class="fa-solid fa-table-list"></i></a></li>
+                        class="fa-solid fa-table-list" title="Tabel Lokasi"></i></a></li>
         </ul>
 
-        <ul role="tablist">
-            <li><a href="http://blitarkota.go.id" role="tab"><i class="fa fa-gear"></i></a></li>
-        </ul>
+        {{-- <ul role="tablist">
+            <li><a href="http://bappeda.blitarkota.go.id/" target="_blank" role="tab" title="Bappeda Blitar"><img
+                        src="{{ asset('assets/image/logo/favicon.ico') }}" alt=""></li>
+        </ul> --}}
     </div>
 
     <!-- Tab panes -->
@@ -32,7 +33,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="h6 fw-bold fst-italic d-flex align-items-center justify-content-center jumlah-lokasi">
-                        Jumlah Lokasi : 0</div>
+                        Jumlah Lokasi Perencanaan: 0</div>
                 </div>
             </div>
         </div>

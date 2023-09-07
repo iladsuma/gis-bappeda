@@ -23,34 +23,35 @@
             method: 'GET'
         },
         columns: [{
-            data: 'DT_RowIndex',
-        },
-        {
-            data: 'nama',
-        },
-        {
-            data: 'alamat',
-        },
-        {
-            data: 'deskripsi',
-        },
-        {
-            data: 'id',
-            width: '10px',
-            orderable: false,
-            render: function(data) {
-                return "<i class='fas fa-pencil edit-opd' data-id='" + data + "'></i>"
-            }
-        },
-        {
-            data: null,
-            width: '10px',
-            orderable: false,
-            render: function(data) {
-                return "<i class='fas fa-trash hapus-opd' data-nama='" + data.nama + "' data-id='" + data.id + "'></i>"
-            }
-        },
-    ]
+                data: 'DT_RowIndex',
+            },
+            {
+                data: 'nama',
+            },
+            {
+                data: 'alamat',
+            },
+            {
+                data: 'deskripsi',
+            },
+            {
+                data: 'id',
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-pencil edit-opd' data-id='" + data + "'></i>"
+                }
+            },
+            {
+                data: null,
+                width: '10px',
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fas fa-trash hapus-opd' data-nama='" + data.nama + "' data-id='" +
+                        data.id + "'></i>"
+                }
+            },
+        ]
     })
 
     $(document).on('click', "#tambah-data", function() {
@@ -66,36 +67,36 @@
 
     $(document).on('click', ".hapus-opd", function() {
         swal.fire({
-            title: 'Hapus',
-            text: "Yakin hapus data" + $(this).data('nama') + " ?",
-            icon: 'warning',
-            showCancelButton: true,
-        })
-        .then((result) => {
-            if(result.isConfirmed) {
-            let id = $(this).data('id')
-            let url = "{{ route('data-opd.drop', ':id') }}"
+                title: 'Hapus',
+                text: "Yakin hapus data" + $(this).data('nama') + " ?",
+                icon: 'warning',
+                showCancelButton: true,
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let id = $(this).data('id')
+                    let url = "{{ route('data-opd.drop', ':id') }}"
 
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    url: url.replace(":id", id),
-                    type: 'delete',
-                    async: false,
-                    success: function(result) {
-                        swal.fire({
-                            title: 'Berhasil',
-                            text: 'Data berhasil dihapus',
-                            icon: 'success',
-                        })
-                        table.ajax.reload()
-                    }
-                })
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        url: url.replace(":id", id),
+                        type: 'delete',
+                        async: false,
+                        success: function(result) {
+                            swal.fire({
+                                title: 'Berhasil',
+                                text: 'Data berhasil dihapus',
+                                icon: 'success',
+                            })
+                            table.ajax.reload()
+                        }
+                    })
 
-            }
+                }
 
-        })
+            })
     });
 
     $(document).on('click', ".edit-opd", function() {
@@ -125,7 +126,7 @@
                 $("#deskripsi").val(result.data.deskripsi)
             }
         })
-        $('.modal-title').html('').append('Edit Data Perpustakaan')
+        $('.modal-title').html('').append('Edit Data OPD')
         $('#modal-perpus').modal('show');
         // console.log(id);
     });

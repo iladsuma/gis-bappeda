@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet-sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet.groupedlayercontrol.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet-geoman.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/leaflet/css/leaflet.zoomhome.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
@@ -101,6 +102,7 @@
     <script src="{{ asset('assets/leaflet/js/leaflet.groupedlayercontrol.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet.ajax.js') }}"></script>
     <script src="{{ asset('assets/leaflet/js/leaflet-geoman.min.js') }}"></script>
+    <script src="{{ asset('assets/leaflet/js/leaflet.zoomhome.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 
@@ -222,8 +224,8 @@
                     "Kecamatan Sukorejo": sukorejo,
                     "Tata Ruang (RDTR)": rdtr,
                 },
-                "Peta Perencanaan": {
-                    "Dokumen Perencanaan": layerPerencanaan
+                "Peta Perencanaan Bidang Infrastruktur": {
+                    "Dokumen Perencanaan Bidang Infrastruktur": layerPerencanaan
                 },
                 "Data Pendukung": {
                     "Kawasan Kumuh": layerKawasanKumuh,
@@ -260,8 +262,8 @@
                 position: 'topleft'
             }).addTo(map);
 
-            L.control.zoom({
-                position: 'topleft'
+            L.Control.zoomHome({
+                zoomHomeIcon: 'compress'
             }).addTo(map);
 
             let controlLayer = L.control.groupedLayers(baseLayers, groupedOverlays, {
