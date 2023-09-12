@@ -12,7 +12,7 @@ use App\Http\Controllers\DataInfrastruktur\DataInfrastrukturController;
 use App\Http\Controllers\DataPendukung\DataKawasanKumuhController;
 use App\Http\Controllers\MasterData\DataKelurahanController;
 use App\Http\Controllers\MasterData\DataLokasiController;
-use App\Http\Controllers\DataPendukung\JaringanSpamPdamController;
+use App\Http\Controllers\DataPendukung\LokasiSpamController;
 use App\Http\Controllers\DataPendukung\KawasanRTLHController;
 use App\Http\Controllers\DataPendukung\LokusKemiskinanController;
 use App\Http\Controllers\DataPendukung\LokusStuntingController;
@@ -142,8 +142,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-kawasan-kumuh/{id}/edit', [DataKawasanKumuhController::class, 'edit'])->name('data-kawasan-kumuh.edit')->can('Data Pendukung.Kawasan Kumuh');
     Route::put('/data-kawasan-kumuh/{id}/update', [DataKawasanKumuhController::class, 'update'])->name('data-kawasan-kumuh.update')->can('Data Pendukung.Kawasan Kumuh');
     Route::delete('/data-kawasan-kumuh/{id}/drop', [DataKawasanKumuhController::class, 'drop'])->name('data-kawasan-kumuh.drop')->can('Data Pendukung.Kawasan Kumuh');
-    // Data jaringan spam route
-    Route::get('/data-jaringan-spampdam', [JaringanSpamPdamController::class, 'index'])->name('data-jaringan-spampdam.index')->can('Data Pendukung.Jaringan Spam');
+    // Data lokasi spam route
+    Route::get('/data-lokasi-spam', [LokasiSpamController::class, 'index'])->name('data-lokasi-spam.index')->can('Data Pendukung.Jaringan Spam');
     // Data kawasan rtlh route
     Route::get('/data-kawasan-rtlh', [KawasanRTLHController::class, 'index'])->name('data-kawasan-rtlh.index')->can('Data Pendukung.Kawasan RTLH');
     Route::get('/data-kawasan-rtlh/datatable', [KawasanRTLHController::class, 'datatable'])->name('data-kawasan-rtlh.datatable')->can('Data Pendukung.Kawasan RTLH');

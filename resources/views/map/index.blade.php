@@ -231,11 +231,11 @@
                 },
                 "Data Pendukung": {
                     "Data Kawasan Permukiman Kumuh": layerKawasanKumuh,
-                    "Kawasan RTLH (Rumah TIdak Layak Huni)": layerRtlh,
+                    "Data RTLH (Rumah Tidak Layak Huni)": layerRtlh,
                     "Data Kemiskinan": layerKemiskinan,
                     "Lokus Stunting": layerStunting,
-                    "Lokasi Spam": layerSpam,
-                    "Lokasi Ipal": layerIpal,
+                    "Lokasi SPAM": layerSpam,
+                    "Lokasi IPAL": layerIpal,
                     "Jaringan Pipa PDAM": layerPdam,
                     "Lokasi Sumur PDAM": layerSumurPdam,
                 }
@@ -344,25 +344,25 @@
             $('#control-layer-container').append(htmlControlLayer);
 
             map.on('overlayadd', function(event) {
-                if (event.name == "Dokumen Perencanaan") {
+                if (event.name == "Dokumen Perencanaan Bidang Infrastruktur") {
                     layerPerencanaan.clearLayers()
                     let url = "{{ route('map.lokasi-all') }}"
                     getDataPerencanaan(url)
                 }
 
-                if (event.name == "Kawasan Kumuh") {
+                if (event.name == "Data Kawasan Permukiman Kumuh") {
                     layerKawasanKumuh.clearLayers()
                     let url = "{{ route('map.kawasan-kumuh') }}"
                     getDataPendukung(url, styleKawasanKumuh)
                 }
 
-                if (event.name == "Kawasan RTLH") {
+                if (event.name == "Data RTLH (Rumah Tidak Layak Huni)") {
                     layerRtlh.clearLayers()
                     let url = "{{ route('map.kawasan-rtlh') }}"
                     getDataPendukung(url, styleKawasanRTLH);
                 }
 
-                if (event.name == "Lokus Kemiskinan") {
+                if (event.name == "Data Kemiskinan") {
                     layerKemiskinan.clearLayers()
                     let url = "{{ route('map.lokus-kemiskinan') }}"
                     getDataPendukung(url, styleKemiskinan);
@@ -383,7 +383,7 @@
                     })
                     layerPdam.addLayer(jaringanPdam).addTo(map)
                 }
-                if (event.name == "Jaringan Spam") {
+                if (event.name == "Lokasi SPAM") {
                     layerSpam.clearLayers()
                     let jaringanSpam = new L.GeoJSON.AJAX("assets/jaringan_pdam/jaringan_spam.geojson", {
                         onEachFeature: function(feature, layer) {
@@ -394,7 +394,22 @@
                                 icon: waterIcon
                             })
                             layerSpam.addLayer(marker).addTo(map)
-                            spamOnClick(marker, feature.properties)
+                            spamOnClick(marker, feature.properties, "spam")
+                        }
+                    })
+                }
+                if (event.name == "Lokasi Sumur PDAM") {
+                    layerSumurPdam.clearLayers()
+                    let sumurPdam = new L.GeoJSON.AJAX("assets/jaringan_pdam/sumur_pdam.geojson", {
+                        onEachFeature: function(feature, layer) {
+                            let latLng = layer.getLatLng()
+                            let marker = L.marker([latLng.lat,
+                                latLng.lng
+                            ], {
+                                icon: waterIcon
+                            })
+                            layerSumurPdam.addLayer(marker).addTo(map)
+                            spamOnClick(marker, feature.properties, "sumurPdam")
                         }
                     })
                 }
@@ -512,8 +527,29 @@
                 });
             }
 
-            function spamOnClick(layer, data) {
-                let content = `<img class="img-fluid rounded " src="{{ asset('assets/jaringan_pdam/foto_spam/`+data.image+`') }}"></img>
+            function spamOnClick(layer, data, type) {
+                let image, misc
+                if (type == 'spam') {
+                    image =
+                        `<img class="img-fluid rounded " src="{{ asset('assets/jaringan_pdam/foto_spam/`+data.image+`') }}"></img>`
+                    misc = `<tr>
+                                <th>Tahun</th>
+                                <td>` + data.tahun + `</td>
+                            </tr>
+                            <tr>
+                                <th>Terpasang</th>
+                                <td>` + data.terpasang + `</td>
+                            </tr>
+                            <tr>
+                                <th>Aktif</th>
+                                <td>` + data.aktif + `</td>
+                            </tr>`
+                }
+                if (type == 'sumurPdam') {
+                    image = ''
+                    misc = ''
+                }
+                let content = image + `
                             <table class="table table-sm table-striped" style="max-width=250px">
                                 <tr>
                                     <th>Nama</th>
@@ -531,18 +567,7 @@
                                     <th>Alamat</th>
                                     <td>` + data.alamat + `</td>
                                 </tr>
-                                <tr>
-                                    <th>Tahun</th>
-                                    <td>` + data.tahun + `</td>
-                                </tr>
-                                <tr>
-                                    <th>Terpasang</th>
-                                    <td>` + data.terpasang + `</td>
-                                </tr>
-                                <tr>
-                                    <th>Aktif</th>
-                                    <td>` + data.aktif + `</td>
-                                </tr>
+                                ` + misc + `
                             </table>`
                 layer.on("click", function(e) {
                     if (e.target._popup == undefined) {

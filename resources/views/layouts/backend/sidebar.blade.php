@@ -182,7 +182,7 @@
                                 <li class="nav-item">
                                     <a href="{{ route('data-kawasan-rtlh.index') }}" class="nav-link">
                                         <i class="far fa-file nav-icon ml-3"></i>
-                                        <p>Kawasan RTLH</p>
+                                        <p>Data RTLH</p>
                                     </a>
                                 </li>
                             @endcan
@@ -190,7 +190,7 @@
                                 <li class="nav-item">
                                     <a href="{{ route('data-lokus-kemiskinan.index') }}" class="nav-link">
                                         <i class="far fa-file nav-icon ml-3"></i>
-                                        <p>Lokus Kemiskinan</p>
+                                        <p>Data Kemiskinan</p>
                                     </a>
                                 </li>
                             @endcan
@@ -204,12 +204,30 @@
                             @endcan
                             @can('Data Pendukung.Jaringan Spam')
                                 <li class="nav-item">
-                                    <a href="{{ route('data-jaringan-spampdam.index') }}" class="nav-link">
+                                    <a href="{{ route('data-lokasi-spam.index') }}" class="nav-link">
                                         <i class="far fa-file nav-icon ml-3"></i>
-                                        <p>Jaringan SPAM/PDAM</p>
+                                        <p>Lokasi SPAM</p>
                                     </a>
                                 </li>
                             @endcan
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-file nav-icon ml-3"></i>
+                                    <p>Lokasi IPAL</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-file nav-icon ml-3"></i>
+                                    <p>Jaringan Pipa PDAM</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-file nav-icon ml-3"></i>
+                                    <p>Lokasi Sumur PDAM</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endcanany

@@ -15,6 +15,7 @@ class LokusStunting extends Model
     protected $fillable = [
         'kelurahan_id',
         'jumlah',
+        'tahun',
     ];
 
     public function kelurahan()

@@ -24,17 +24,27 @@
             url: "{{ route('data-kawasan-kumuh.datatable') }}",
             method: 'GET'
         },
+        responsive: true,
         columns: [{
                 data: 'DT_RowIndex',
-            },
-            {
-                data: 'kelurahan.kecamatan.nama',
             },
             {
                 data: 'kelurahan.nama',
             },
             {
+                data: 'kelurahan.kecamatan.nama',
+            },
+            {
                 data: 'jumlah'
+            },
+            {
+                data: 'tingkat_kumuh'
+            },
+            {
+                data: 'luas'
+            },
+            {
+                data: 'tahun'
             },
             {
                 data: 'id',
@@ -59,6 +69,7 @@
     $(document).on('click', "#tambah-data", function() {
         $("#modalKawasanKumuhLabel").html("").append("Tambah Data Kawasan Kumuh");
         $("#jumlah").val("");
+        $("#luas").val("");
         $('#modalKawasanKumuh').modal('show');
         let url = "{{ route('data-kawasan-kumuh.store') }}";
         $('#kawasankumuh-form').attr('action', url);
@@ -123,6 +134,9 @@
                 $('#kawasankumuh-form').attr('method', 'PUT');
                 $("#kelurahan").val(result.data.kelurahan_id);
                 $("#jumlah").val(result.data.jumlah);
+                $("#tingkat-kumuh").val(result.data.tingkat_kumuh);
+                $("#luas").val(result.data.luas);
+                $("#tahun").val(result.data.tahun);
             }
         })
         // $('.modal-title').html('').append('Edit Data Perpustakaan')
@@ -139,6 +153,9 @@
         let kawasankumuhSave = {
             kelurahan_id: $("#kelurahan").val(),
             jumlah: $("#jumlah").val(),
+            tingkat_kumuh: $("#tingkat-kumuh").val(),
+            luas: $("#luas").val(),
+            tahun: $("#tahun").val(),
         }
         $.ajax({
             headers: {

@@ -52,6 +52,7 @@
             let urlStore = "{{ route('admin-role.store') }}";
             $('#role-form').attr('action', urlStore);
             $('#role-form').attr('method', 'POST');
+            $('#modal-title').html('Tambah Role/Hak Akses');
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -95,6 +96,7 @@
             urlUpdate = urlUpdate.replace(':id', id)
             $('#role-form').attr('action', urlUpdate);
             $('#role-form').attr('method', 'PUT');
+            $('#modal-title').html('Edit Role/Hak Akses');
             let url = "{{ route('admin-role.edit', ':id') }}"
             url = url.replace(':id', id)
             $.ajax({

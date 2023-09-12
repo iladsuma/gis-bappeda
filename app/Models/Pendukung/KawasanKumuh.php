@@ -16,12 +16,13 @@ class KawasanKumuh extends Model
     protected $fillable = [
         'kelurahan_id',
         'jumlah',
+        'tingkat_kumuh',
+        'luas',
+        'tahun',
     ];
 
     public function kelurahan()
     {
         return $this->belongsTo(MasterKelurahan::class, 'kelurahan_id', 'id');
     }
-
-
 }

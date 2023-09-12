@@ -15,6 +15,8 @@ class KawasanRtlh extends Model
     protected $fillable = [
         'kelurahan_id',
         'jumlah',
+        'penanganan',
+        'tahun',
     ];
 
     public function kelurahan()

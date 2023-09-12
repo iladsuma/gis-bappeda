@@ -1,0 +1,18 @@
+{
+"type": "FeatureCollection",
+"name": "sumur_pdam",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Name": "Sumur Ground I Soekarno Bawah", "nama": "Sumur Ground I Soekarno Bawah", "alamat": "Jl. Ir. Soekarno", "kelurahan": "Sentul", "kecamatan": "Kepanjenkidul" }, "geometry": { "type": "Point", "coordinates": [ 112.186674532000097, -8.070527674999937, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Ground II Soekarno Atas", "nama": "Sumur Ground II Soekarno Atas", "alamat": "Jl. Ir. Soekarno", "kelurahan": "Sentul", "kecamatan": "Kepanjenkidul" }, "geometry": { "type": "Point", "coordinates": [ 112.191993445000094, -8.06523707499997, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Ground III Katamso", "nama": "Sumur Ground III Katamso", "alamat": "Jl. Irogati", "kelurahan": "Gedog", "kecamatan": "Sananwetan" }, "geometry": { "type": "Point", "coordinates": [ 112.189919901000053, -8.077092440999934, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Ground IV Panjaitan", "nama": "Sumur Ground IV Panjaitan", "alamat": "Jl. D.I. Panjaitan", "kelurahan": "Ngadirejo", "kecamatan": "Kepanjenkidul" }, "geometry": { "type": "Point", "coordinates": [ 112.179213686000026, -8.062511337999979, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Ground V Pattimura", "nama": "Sumur Ground V Pattimura", "alamat": "Jl. Pattimura", "kelurahan": "Bendogerit", "kecamatan": "Sananwetan" }, "geometry": { "type": "Point", "coordinates": [ 112.183651041000076, -8.083030641999926, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Ground VI Kalimantan", "nama": "Sumur Ground VI Kalimantan", "alamat": "Jl. Kalimantan", "kelurahan": "Sananwetan", "kecamatan": "Sananwetan" }, "geometry": { "type": "Point", "coordinates": [ 112.179660951000074, -8.106831424999939, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Ground VII Kampar", "nama": "Sumur Ground VII Kampar", "alamat": "Jl. Kampar", "kelurahan": "Tanjungsari", "kecamatan": "Sukorejo" }, "geometry": { "type": "Point", "coordinates": [ 112.153272665000031, -8.082591522999962, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Ground VIII Cut Nyak Dien", "nama": "Sumur Ground VIII Cut Nyak Dien", "alamat": "Jl. Bung Tomo", "kelurahan": "Sentul", "kecamatan": "Kepanjenkidul" }, "geometry": { "type": "Point", "coordinates": [ 112.19633744500004, -8.066671607999979, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Ground Citarum", "nama": "Sumur Ground Citarum", "alamat": "Jl. Ciliwung", "kelurahan": "Ngadirejo", "kecamatan": "Kepanjenkidul" }, "geometry": { "type": "Point", "coordinates": [ 112.179565122000099, -8.060571677999974, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Menara Kendang", "nama": "Sumur Menara Kendang", "alamat": "Jl. Serayu", "kelurahan": "Bendo", "kecamatan": "Kepanjenkidul" }, "geometry": { "type": "Point", "coordinates": [ 112.170086512000012, -8.086208391999946, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Sumur Menara Pakunden", "nama": "Sumur Menara Pakunden", "alamat": "Jl. Bengawan Solo", "kelurahan": "Pakunden", "kecamatan": "Sukorejo" }, "geometry": { "type": "Point", "coordinates": [ 112.14793221900004, -8.092799010999954, 0.0 ] } }
+]
+}

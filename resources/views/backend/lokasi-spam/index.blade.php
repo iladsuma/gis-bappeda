@@ -2,8 +2,8 @@
 @section('title', 'Data Opd')
 <!-- @section('breadcrumb', 'Dashboard') -->
 @section('content')
-    @include('backend.jaringanspampdam.html')
+    @include('backend.lokasi-spam.html')
 @endsection
 @section('extra_javascript')
-    @include('backend.jaringanspampdam.javascript')
+    @include('backend.lokasi-spam.javascript')
 @endsection

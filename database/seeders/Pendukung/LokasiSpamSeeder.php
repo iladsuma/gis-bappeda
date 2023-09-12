@@ -4,7 +4,7 @@ namespace Database\Seeders\Pendukung;
 
 use Illuminate\Database\Seeder;
 
-class JaringanSpamPdamSeeder extends Seeder
+class LokasiSpamSeeder extends Seeder
 {
     /**
      * Run the database seeds.

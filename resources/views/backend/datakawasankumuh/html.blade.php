@@ -10,10 +10,13 @@
                 <table id="table-kawasankumuh" class="table table-stripped">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Nama Kecamatan</th>
+                            <th style="width:2%;">#</th>
                             <th>Nama Kelurahan</th>
-                            <th>Jumlah</th>
+                            <th>Nama Kecamatan</th>
+                            <th style="width: 5%;">Skoring</th>
+                            <th>Tingkat Kekumuhan</th>
+                            <th>Luas (Ha)</th>
+                            <th>Tahun</th>
                             <th>Aksi</th>
                             <th></th>
                         </tr>
@@ -50,8 +53,27 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="jumlah">Jumlah</label>
+                            <label for="jumlah">Skoring</label>
                             <input type="number" class="form-control" id="jumlah">
+                        </div>
+                        <div class="form-group">
+                            <label for="tingkat-kumuh">Tingkat Kekumuhan</label>
+                            <select name="" class="form-control" id="tingkat-kumuh">
+                                <option>Kumuh Ringan</option>
+                                <option>Kumuh Berat</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="luas">Luasan</label>
+                            <input type="number" step="0.01" class="form-control" id="luas">
+                        </div>
+                        <div class="form-group">
+                            <label for="tahun">Tahun</label>
+                            <select name="" class="form-control" id="tahun">
+                                @for ($year = date('Y') - 5; $year <= date('Y') + 5; $year++)
+                                    <option>{{ $year }}</option>
+                                @endfor
+                            </select>
                         </div>
                 </div>
                 <div class="modal-footer">

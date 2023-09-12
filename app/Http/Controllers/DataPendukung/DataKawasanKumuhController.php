@@ -40,11 +40,13 @@ class DataKawasanKumuhController extends Controller
     public function update(Request $request, $id)
     {
         $kawasan_kumuh = KawasanKumuh::findOrFail($id);
-
         DB::beginTransaction();
         try {
             $kawasan_kumuh->kelurahan_id = $request->kelurahan_id;
             $kawasan_kumuh->jumlah = $request->jumlah;
+            $kawasan_kumuh->tingkat_kumuh = $request->tingkat_kumuh;
+            $kawasan_kumuh->luas = $request->luas;
+            $kawasan_kumuh->tahun = $request->tahun;
             $kawasan_kumuh->save();
             DB::commit();
         } catch (\Throwable $th) {
@@ -63,6 +65,9 @@ class DataKawasanKumuhController extends Controller
             $kawasan_kumuh = KawasanKumuh::create([
                 'kelurahan_id'  => $request->kelurahan_id,
                 'jumlah'        => $request->jumlah,
+                'tingkat_kumuh' => $request->tingkat_kumuh,
+                'luas' => $request->luas,
+                'tahun' => $request->tahun,
             ]);
             DB::commit();
         } catch (\Throwable $th) {
