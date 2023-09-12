@@ -12,9 +12,9 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nama Kecamatan</th>
                             <th>Nama Kelurahan</th>
-                            <th>Jumlah Lokus Kemiskinan</th>
+                            <th>Nama Kecamatan</th>
+                            <th>Jumlah Kemiskinan</th>
                             <th>Aksi</th>
                             <th></th>
                         </tr>

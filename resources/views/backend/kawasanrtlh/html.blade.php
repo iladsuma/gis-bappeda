@@ -12,9 +12,11 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nama Kecamatan</th>
                             <th>Nama Kelurahan</th>
+                            <th>Nama Kecamatan</th>
                             <th>Jumlah RTLH</th>
+                            <th>Jumlah Penanganan</th>
+                            <th>Tahun</th>
                             <th>Aksi</th>
                             <th></th>
                         </tr>
@@ -51,8 +53,20 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="jumlah">Jumlah</label>
+                            <label for="jumlah">Jumlah RTLH</label>
                             <input type="number" class="form-control" id="jumlah">
+                        </div>
+                        <div class="form-group">
+                            <label for="penanganan">Jumlah Penanganan</label>
+                            <input type="number" class="form-control" id="penanganan">
+                        </div>
+                        <div class="form-group">
+                            <label for="tahun">Tahun</label>
+                            <select name="" class="form-control" id="tahun">
+                                @for ($year = date('Y') - 5; $year <= date('Y') + 5; $year++)
+                                    <option>{{ $year }}</option>
+                                @endfor
+                            </select>
                         </div>
                 </div>
                 <div class="modal-footer">

@@ -1,5 +1,5 @@
 @extends('layouts.backend.app')
-@section('title', 'Data Opd')
+@section('title', 'Data RTLH')
 <!-- @section('breadcrumb', 'Dashboard') -->
 @section('content')
     @include('backend.kawasanrtlh.html')

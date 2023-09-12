@@ -393,33 +393,38 @@
                 }
                 if (event.name == "Lokasi SPAM") {
                     layerSpam.clearLayers()
-                    let jaringanSpam = new L.GeoJSON.AJAX("assets/jaringan_pdam/jaringan_spam.geojson", {
-                        onEachFeature: function(feature, layer) {
-                            let latLng = layer.getLatLng()
-                            let marker = L.marker([latLng.lat,
-                                latLng.lng
-                            ], {
-                                icon: spamIcon
-                            })
-                            layerSpam.addLayer(marker).addTo(map)
-                            spamOnClick(marker, feature.properties, "spam")
-                        }
-                    })
+                    let url = "{{ route('map.lokasi-spam') }}"
+                    getDataPendukung(url, null);
+                    // let jaringanSpam = new L.GeoJSON.AJAX("assets/jaringan_pdam/jaringan_spam.geojson", {
+                    //     onEachFeature: function(feature, layer) {
+                    //         let latLng = layer.getLatLng()
+                    //         let marker = L.marker([latLng.lat,
+                    //             latLng.lng
+                    //         ], {
+                    //             icon: spamIcon
+                    //         })
+                    //         layerSpam.addLayer(marker).addTo(map)
+                    //         spamOnClick(marker, feature.properties, "spam")
+                    //     }
+                    // })
                 }
                 if (event.name == "Lokasi Sumur PDAM") {
                     layerSumurPdam.clearLayers()
-                    let sumurPdam = new L.GeoJSON.AJAX("assets/jaringan_pdam/sumur_pdam.geojson", {
-                        onEachFeature: function(feature, layer) {
-                            let latLng = layer.getLatLng()
-                            let marker = L.marker([latLng.lat,
-                                latLng.lng
-                            ], {
-                                icon: pdamIcon
-                            })
-                            layerSumurPdam.addLayer(marker).addTo(map)
-                            spamOnClick(marker, feature.properties, "sumurPdam")
-                        }
-                    })
+                    let url = "{{ route('map.lokasi-sumur-pdam') }}"
+                    getDataPendukung(url, null);
+                    // let sumurPdam = new L.GeoJSON.AJAX("assets/jaringan_pdam/sumur_pdam.geojson", {
+                    //     onEachFeature: function(feature, layer) {
+                    //         let latLng = layer.getLatLng()
+                    //         console.log(latLng)
+                    //         let marker = L.marker([latLng.lat,
+                    //             latLng.lng
+                    //         ], {
+                    //             icon: pdamIcon
+                    //         })
+                    //         layerSumurPdam.addLayer(marker).addTo(map)
+                    //         spamOnClick(marker, feature.properties, "sumurPdam")
+                    //     }
+                    // })
                 }
             })
 
@@ -516,26 +521,53 @@
                     url: url,
                     dataType: "json",
                     success: function(result) {
-                        $.each(result.data, function(index, data) {
-                            let polygon = new L.GeoJSON.AJAX("assets/geometry_kelurahan/" + data
-                                .kelurahan.geometry, style)
-                            polygon.options.fillOpacity = (data.jumlah / result.max_value) * 1
-                            if (result.judul == "Kawasan Kumuh") {
-                                polygon.addTo(layerKawasanKumuh)
-                            } else if (result.judul == "RTLH") {
-                                polygon.addTo(layerRtlh)
-                            } else if (result.judul == "Lokus Kemiskinan") {
-                                polygon.addTo(layerKemiskinan)
-                            } else if (result.judul == "Lokus Stunting") {
-                                polygon.addTo(layerStunting)
-                            }
-                            polygonOnClick(polygon, data, result.judul)
-                        })
+                        if (result.judul == "Lokasi SPAM") {
+                            $.each(result.data, function(index, data) {
+                                let marker = L.marker([data.lat,
+                                    data.lng
+                                ], {
+                                    icon: spamIcon
+                                })
+                                layerSpam.addLayer(marker).addTo(map)
+                                spamOnClick(marker, data, "spam")
+                            })
+                        } else if (result.judul == "Lokasi Sumur PDAM") {
+                            $.each(result.data, function(index, data) {
+                                let marker = L.marker([data.lat,
+                                    data.lng
+                                ], {
+                                    icon: pdamIcon
+                                })
+                                layerSumurPdam.addLayer(marker).addTo(map)
+                                spamOnClick(marker, data, "sumurPdam")
+                            })
+                        } else {
+                            $.each(result.data, function(index, data) {
+                                console.log(data)
+                                let polygon = new L.GeoJSON.AJAX("assets/geometry_kelurahan/" +
+                                    data
+                                    .kelurahan.geometry, style)
+                                polygon.options.fillOpacity = (data.jumlah / result.max_value) *
+                                    1
+                                if (result.judul == "Kawasan Kumuh") {
+                                    polygon.addTo(layerKawasanKumuh)
+                                } else if (result.judul == "Data RTLH") {
+                                    polygon.addTo(layerRtlh)
+                                } else if (result.judul == "Lokus Kemiskinan") {
+                                    polygon.addTo(layerKemiskinan)
+                                } else if (result.judul == "Lokus Stunting") {
+                                    polygon.options.fillOpacity = 1
+                                    polygon.addTo(layerStunting)
+                                }
+                                polygonOnClick(polygon, data, result.judul)
+                            })
+                        }
                     }
                 });
             }
 
             function spamOnClick(layer, data, type) {
+                console.log(data)
                 let image, misc
                 if (type == 'spam') {
                     image =
@@ -561,15 +593,15 @@
                             <table class="table table-sm table-striped" style="max-width=250px">
                                 <tr>
                                     <th>Nama</th>
-                                    <td>` + data.Name + `</td>
+                                    <td>` + data.nama + `</td>
                                 </tr>
                                 <tr>
                                     <th>Kecamatan</th>
-                                    <td>` + data.kecamatan + `</td>
+                                    <td>` + data.kelurahan.kecamatan.nama + `</td>
                                 </tr>
                                 <tr>
                                     <th>Kelurahan</th>
-                                    <td>` + data.kelurahan + `</td>
+                                    <td>` + data.kelurahan.nama + `</td>
                                 </tr>
                                 <tr>
                                     <th>Alamat</th>
@@ -662,6 +694,65 @@
                             </tr>
                         </table>`
 
+                if (judul == "Lokus Stunting") {
+                    content = `<p class="text-center h7" >` + judul + `</p>
+                        <table class="table table-sm table-striped">
+                            <tr>
+                                <th>Kelurahan</th>
+                                <td>` + data.kelurahan.nama + `</td>
+                            </tr>
+                        </table>`
+                }
+
+                if (judul == "Kawasan Kumuh") {
+                    content = `<p class="text-center fw-bold h7" >` + judul + `</p>
+                        <table class="table table-sm table-striped">
+                            <tr>
+                                <th>Tahun</th>
+                                <td>` + data.tahun + `</td>
+                            </tr>
+                            <tr>
+                                <th>Kelurahan</th>
+                                <td>` + data.kelurahan.nama + `</td>
+                            </tr>
+                            <tr>
+                                <th>Skoring</th>
+                                <td>` + data.jumlah + `</td>
+                            </tr>
+                            <tr>
+                                <th>Luasan</th>
+                                <td>` + data.luas + `</td>
+                            </tr>
+                            <tr>
+                                <th>Tingkat Kumuh</th>
+                                <td>` + data.tingkat_kumuh + `</td>
+                            </tr>
+                        </table>`
+                }
+
+                if (judul == "Data RTLH") {
+                    let sisa = data.jumlah - data.penanganan
+
+                    content = `<p class="text-center fw-bold h7" >` + judul + `</p>
+                        <table class="table table-sm table-striped">
+                            <tr>
+                                <th>Tahun</th>
+                                <td>` + data.tahun + `</td>
+                            </tr>
+                            <tr>
+                                <th>Kelurahan</th>
+                                <td>` + data.kelurahan.nama + `</td>
+                            </tr>
+                            <tr>
+                                <th>Penanganan</th>
+                                <td>` + data.penanganan + `</td>
+                            </tr>
+                            <tr>
+                                <th>Jumlah RTLH</th>
+                                <td>` + sisa + `</td>
+                            </tr>
+                        </table>`
+                }
 
                 polygon.on("click", function(e) {
                     if (e.target._popup == undefined) {

@@ -20,10 +20,10 @@
 <script>
     $(document).ready(function() {
         // show data
-        var table = $('#table-lokasi-spam').DataTable({
+        var table = $('#table-sumur-pdam').DataTable({
             processing: true,
             ajax: {
-                url: "{{ route('data-lokasi-spam.datatable') }}",
+                url: "{{ route('data-lokasi-sumur-pdam.datatable') }}",
                 method: 'GET'
             },
             columns: [{
@@ -42,20 +42,11 @@
                     data: 'kelurahan.kecamatan.nama'
                 },
                 {
-                    data: 'tahun'
-                },
-                {
-                    data: 'terpasang'
-                },
-                {
-                    data: 'aktif'
-                },
-                {
                     data: 'id',
                     width: '10px',
                     orderable: false,
                     render: function(data) {
-                        return "<i class='fas fa-pencil edit-lokasi-spam' data-id='" + data +
+                        return "<i class='fas fa-pencil edit-sumur-pdam' data-id='" + data +
                             "'></i>"
                     }
                 },
@@ -64,7 +55,7 @@
                     width: '10px',
                     orderable: false,
                     render: function(data) {
-                        return "<i class='fas fa-trash hapus-lokasi-spam' data-id='" + data.id +
+                        return "<i class='fas fa-trash hapus-sumur-pdam' data-id='" + data.id +
                             "'></i>"
                     }
                 },

@@ -1,5 +1,5 @@
 @extends('layouts.backend.app')
-@section('title', 'Data Opd')
+@section('title', 'Lokus Stunting')
 <!-- @section('breadcrumb', 'Dashboard') -->
 @section('content')
     @include('backend.lokusstunting.html')

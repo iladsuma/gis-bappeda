@@ -10,6 +10,8 @@ use App\Http\Controllers\DataDokumen\DokumenLingkunganController;
 use App\Http\Controllers\DataDokumen\DokumenMpController;
 use App\Http\Controllers\DataInfrastruktur\DataInfrastrukturController;
 use App\Http\Controllers\DataPendukung\DataKawasanKumuhController;
+use App\Http\Controllers\DataPendukung\DataLokasiSpamController;
+use App\Http\Controllers\DataPendukung\DataLokasiSumurPdamController;
 use App\Http\Controllers\MasterData\DataKelurahanController;
 use App\Http\Controllers\MasterData\DataLokasiController;
 use App\Http\Controllers\DataPendukung\LokasiSpamController;
@@ -44,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/map/kawasan-rtlh', [MapController::class, 'kawasan_rtlh'])->name('map.kawasan-rtlh');
     Route::get('/map/lokus-kemiskinan', [MapController::class, 'lokus_kemiskinan'])->name('map.lokus-kemiskinan');
     Route::get('/map/lokus-stunting', [MapController::class, 'lokus_stunting'])->name('map.lokus-stunting');
+    Route::get('/map/lokasi-spam', [MapController::class, 'lokasi_spam'])->name('map.lokasi-spam');
+    Route::get('/map/lokasi-sumur-pdam', [MapController::class, 'lokasi_sumur_pdam'])->name('map.lokasi-sumur-pdam');
     Route::get('/map/{id}/datatable-fs', [MapController::class, 'datatable_fs'])->name('map.datatable-fs');
     Route::get('/map/{id}/datatable-mp', [MapController::class, 'datatable_mp'])->name('map.datatable-mp');
     Route::get('/map/{id}/datatable-lingkungan', [MapController::class, 'datatable_lingkungan'])->name('map.datatable-lingkungan');
@@ -143,7 +147,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/data-kawasan-kumuh/{id}/update', [DataKawasanKumuhController::class, 'update'])->name('data-kawasan-kumuh.update')->can('Data Pendukung.Kawasan Kumuh');
     Route::delete('/data-kawasan-kumuh/{id}/drop', [DataKawasanKumuhController::class, 'drop'])->name('data-kawasan-kumuh.drop')->can('Data Pendukung.Kawasan Kumuh');
     // Data lokasi spam route
-    Route::get('/data-lokasi-spam', [LokasiSpamController::class, 'index'])->name('data-lokasi-spam.index')->can('Data Pendukung.Jaringan Spam');
+    // Route::get('/data-lokasi-spam', [LokasiSpamController::class, 'index'])->name('data-lokasi-spam.index')->can('Data Pendukung.Jaringan Spam');
     // Data kawasan rtlh route
     Route::get('/data-kawasan-rtlh', [KawasanRTLHController::class, 'index'])->name('data-kawasan-rtlh.index')->can('Data Pendukung.Kawasan RTLH');
     Route::get('/data-kawasan-rtlh/datatable', [KawasanRTLHController::class, 'datatable'])->name('data-kawasan-rtlh.datatable')->can('Data Pendukung.Kawasan RTLH');
@@ -166,6 +170,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-lokus-stunting/{id}/edit', [LokusStuntingController::class, 'edit'])->name('data-lokus-stunting.edit')->can('Data Pendukung.Lokus Stunting');
     Route::put('/data-lokus-stunting/{id}/update', [LokusStuntingController::class, 'update'])->name('data-lokus-stunting.update')->can('Data Pendukung.Lokus Stunting');
     Route::delete('/data-lokus-stunting/{id}/drop', [LokusStuntingController::class, 'drop'])->name('data-lokus-stunting.drop')->can('Data Pendukung.Lokus Stunting');
+
+    // Data Lokasi SPAM
+    Route::get('/data-lokasi-spam', [DataLokasiSpamController::class, 'index'])->name('data-lokasi-spam.index'); //->can('Data Pendukung.Lokasi Spam');
+    Route::get('/data-lokasi-spam/datatable', [DataLokasiSpamController::class, 'datatable'])->name('data-lokasi-spam.datatable'); //->can('Data Pendukung.Lokasi Spam');
+    Route::post('/data-lokasi-spam/store', [DataLokasiSpamController::class, 'store'])->name('data-lokasi-spam.store'); //->can('Data Pendukung.Lokasi Spam');
+    Route::get('/data-lokasi-spam/{id}/edit', [DataLokasiSpamController::class, 'edit'])->name('data-lokasi-spam.edit'); //->can('Data Pendukung.Lokasi Spam');
+    Route::put('/data-lokasi-spam/{id}/update', [DataLokasiSpamController::class, 'update'])->name('data-lokasi-spam.update'); //->can('Data Pendukung.Lokasi Spam');
+    Route::put('/data-lokasi-spam/{id}/drop', [DataLokasiSpamController::class, 'drop'])->name('data-lokasi-spam.drop'); //->can('Data Pendukung.Lokasi Spam');
+
+    // Data Lokasi Sumur PDAM
+    Route::get('/data-lokasi-sumur-pdam', [DataLokasiSumurPdamController::class, 'index'])->name('data-lokasi-sumur-pdam.index'); //->can('Data Pendukung.Lokasi Spam');
+    Route::get('/data-lokasi-sumur-pdam/datatable', [DataLokasiSumurPdamController::class, 'datatable'])->name('data-lokasi-sumur-pdam.datatable'); //->can('Data Pendukung.Lokasi Spam');
+    Route::post('/data-lokasi-sumur-pdam/store', [DataLokasiSumurPdamController::class, 'store'])->name('data-lokasi-sumur-pdam.store'); //->can('Data Pendukung.Lokasi Spam');
+    Route::get('/data-lokasi-sumur-pdam/{id}/edit', [DataLokasiSumurPdamController::class, 'edit'])->name('data-lokasi-sumur-pdam.edit'); //->can('Data Pendukung.Lokasi Spam');
+    Route::put('/data-lokasi-sumur-pdam/{id}/update', [DataLokasiSumurPdamController::class, 'update'])->name('data-lokasi-sumur-pdam.update'); //->can('Data Pendukung.Lokasi Spam');
+    Route::put('/data-lokasi-sumur-pdam/{id}/drop', [DataLokasiSumurPdamController::class, 'drop'])->name('data-lokasi-sumur-pdam.drop'); //->can('Data Pendukung.Lokasi Spam');
     ## --- end of data pendukung --- ##
 
     // User

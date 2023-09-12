@@ -4,11 +4,11 @@
         <!-- Small boxes (Stat box) -->
         <div class="card">
             <div class="card-header bold font-weight-bold h4" id="title-dataspampdam">
-                Data Lokai SPAM
+                Data Lokasi Sumur PDAM
             </div>
             <div class="card-body ">
                 <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Spam</button>
-                <table id="table-lokasi-spam" class="table table-stripped">
+                <table id="table-sumur-pdam" class="table table-stripped">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -16,9 +16,6 @@
                             <th>Alamat</th>
                             <th>Kelurahan</th>
                             <th>Kecamatan</th>
-                            <th>Tahun Pembuatan</th>
-                            <th>Terpasang</th>
-                            <th>Aktif</th>
                             <th>aksi</th>
                             <th></th>
                         </tr>

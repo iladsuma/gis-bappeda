@@ -223,7 +223,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('data-lokasi-sumur-pdam.index') }}" class="nav-link">
                                     <i class="far fa-file nav-icon ml-3"></i>
                                     <p>Lokasi Sumur PDAM</p>
                                 </a>

@@ -28,13 +28,13 @@
                 data: 'DT_RowIndex',
             },
             {
-                data: 'kelurahan.kecamatan.nama',
-            },
-            {
                 data: 'kelurahan.nama',
             },
             {
-                data: 'jumlah'
+                data: 'kelurahan.kecamatan.nama',
+            },
+            {
+                data: 'tahun'
             },
             {
                 data: 'id',
@@ -59,7 +59,7 @@
     // show modal create
     $(document).on('click', "#tambah-data", function() {
         $("#modalLokusStuntingLabel").html("").append("Tambah Data Lokus Stunting");
-        $("#jumlah").val("");
+        // $("#jumlah").val("");
         $('#modalLokusStunting').modal('show');
         let url = "{{ route('data-lokus-stunting.store') }}";
         $('#lokus-stunting-form').attr('action', url);
@@ -104,7 +104,7 @@
     $(document).on('click', ".edit-lokus-stunting", function() {
         $("#modalLokusStuntingLabel").html("").append("Edit Data Lokus Stunting");
         $("#kelurahan_id").val("");
-        $("#jumlah").val("");
+        // $("#jumlah").val("");
         $('#modalLokusStunting').modal('show');
         let id = $(this).data('id')
         let url = "{{ route('data-lokus-stunting.edit', ':id') }}"
@@ -123,7 +123,7 @@
                 $('#lokus-stunting-form').attr('action', urlUpdate);
                 $('#lokus-stunting-form').attr('method', 'PUT');
                 $("#kelurahan").val(result.data.kelurahan_id);
-                $("#jumlah").val(result.data.jumlah);
+                $("#tahun").val(result.data.tahun);
             }
         })
 
@@ -137,7 +137,7 @@
 
         let lokusStuntingSave = {
             kelurahan_id: $("#kelurahan").val(),
-            jumlah: $("#jumlah").val(),
+            tahun: $("#tahun").val(),
         }
         $.ajax({
             headers: {

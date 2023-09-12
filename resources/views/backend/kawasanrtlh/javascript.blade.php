@@ -28,13 +28,19 @@
                 data: 'DT_RowIndex',
             },
             {
-                data: 'kelurahan.kecamatan.nama',
-            },
-            {
                 data: 'kelurahan.nama',
             },
             {
+                data: 'kelurahan.kecamatan.nama',
+            },
+            {
                 data: 'jumlah'
+            },
+            {
+                data: 'penanganan'
+            },
+            {
+                data: 'tahun'
             },
             {
                 data: 'id',
@@ -101,9 +107,10 @@
 
     // Proses edit kawasankumuh
     $(document).on('click', ".edit-kawasan-rtlh", function() {
-        $("#modalKawasanKumuhLabel").html("").append("Edit Data Kawasan RTLH");
+        $("#modalKawasanRtlhLabel").html("Edit Data RTLH");
         $("#kelurahan_id").val("");
         $("#jumlah").val("");
+        $("#penanganan").val("");
         $('#modalKawasanRtlh').modal('show');
         let id = $(this).data('id')
         let url = "{{ route('data-kawasan-rtlh.edit', ':id') }}"
@@ -116,13 +123,14 @@
             dataType: "json",
             async: false,
             success: function(result) {
-                console.log(result);
                 let urlUpdate = "{{ route('data-kawasan-rtlh.update', ':id') }}"
                 urlUpdate = urlUpdate.replace(':id', id)
                 $('#kawasan-rtlh-form').attr('action', urlUpdate);
                 $('#kawasan-rtlh-form').attr('method', 'PUT');
                 $("#kelurahan").val(result.data.kelurahan_id);
                 $("#jumlah").val(result.data.jumlah);
+                $("#penanganan").val(result.data.penanganan);
+                $("#tahun").val(result.data.tahun);
             }
         })
         // $('.modal-title').html('').append('Edit Data Perpustakaan')
@@ -139,6 +147,8 @@
         let kawasanRtlhSave = {
             kelurahan_id: $("#kelurahan").val(),
             jumlah: $("#jumlah").val(),
+            penanganan: $("#penanganan").val(),
+            tahun: $("#tahun").val(),
         }
         $.ajax({
             headers: {

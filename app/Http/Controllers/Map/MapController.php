@@ -13,6 +13,8 @@ use App\Models\Master\MasterKecamatan;
 use App\Models\Master\MasterKelurahan;
 use App\Models\Pendukung\KawasanKumuh;
 use App\Models\Pendukung\KawasanRtlh;
+use App\Models\Pendukung\LokasiSpam;
+use App\Models\Pendukung\LokasiSumurPdam;
 use App\Models\Pendukung\LokusKemiskinan;
 use App\Models\Pendukung\LokusStunting;
 use Illuminate\Http\Request;
@@ -179,11 +181,13 @@ class MapController extends Controller
     public function kawasan_kumuh()
     {
         $kawasan_kumuh = KawasanKumuh::with('kelurahan')->get();
+        $last_year = $kawasan_kumuh->max('tahun');
+        $data = $kawasan_kumuh->where('tahun', $last_year);
 
         $response = [
             'judul' => "Kawasan Kumuh",
-            'data' => $kawasan_kumuh,
-            'max_value' => $kawasan_kumuh->max('jumlah')
+            'data' => $data,
+            'max_value' => $data->max('jumlah')
         ];
         return response()->json($response, Response::HTTP_OK);
     }
@@ -191,11 +195,12 @@ class MapController extends Controller
     public function kawasan_rtlh()
     {
         $kawasan_rtlh = KawasanRtlh::with('kelurahan')->get();
-
+        $last_year = $kawasan_rtlh->max('tahun');
+        $data = $kawasan_rtlh->where('tahun', $last_year);
         $response = [
-            'judul' => "RTLH",
-            'data' => $kawasan_rtlh,
-            'max_value' => $kawasan_rtlh->max('jumlah')
+            'judul' => "Data RTLH",
+            'data' => $data,
+            'max_value' => $data->max('jumlah')
         ];
         return response()->json($response, Response::HTTP_OK);
     }
@@ -215,12 +220,35 @@ class MapController extends Controller
     public function lokus_stunting()
     {
         $lokus_stunting = LokusStunting::with('kelurahan')->get();
-
+        $last_year = $lokus_stunting->max('tahun');
+        $data = $lokus_stunting->where('tahun', $last_year);
         $response = [
             'judul' => "Lokus Stunting",
-            'data' => $lokus_stunting,
-            'max_value' => $lokus_stunting->max('jumlah')
+            'data' => $data,
+            'max_value' => $data->max('jumlah')
         ];
+        return response()->json($response, Response::HTTP_OK);
+    }
+
+    public function lokasi_spam()
+    {
+        $spam = LokasiSpam::with('kelurahan:id,kecamatan_id,nama', 'kelurahan.kecamatan:id,nama')->get();
+        $response = [
+            'judul' => "Lokasi SPAM",
+            'data' => $spam,
+        ];
+
+        return response()->json($response, Response::HTTP_OK);
+    }
+
+    public function lokasi_sumur_pdam()
+    {
+        $pdam = LokasiSumurPdam::with('kelurahan:id,kecamatan_id,nama', 'kelurahan.kecamatan:id,nama')->get();
+        $response = [
+            'judul' => "Lokasi Sumur PDAM",
+            'data' => $pdam,
+        ];
+
         return response()->json($response, Response::HTTP_OK);
     }
 }

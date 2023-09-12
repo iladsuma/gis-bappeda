@@ -59,8 +59,10 @@
                         <div class="form-group">
                             <label for="tingkat-kumuh">Tingkat Kekumuhan</label>
                             <select name="" class="form-control" id="tingkat-kumuh">
+                                <option>Kumuh Sangat Ringan</option>
                                 <option>Kumuh Ringan</option>
-                                <option>Kumuh Berat</option>
+                                <option>Kumuh Menengah</option>
+                                <option>Sangat Kumuh</option>
                             </select>
                         </div>
                         <div class="form-group">

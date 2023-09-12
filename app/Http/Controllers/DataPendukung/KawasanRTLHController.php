@@ -46,6 +46,8 @@ class KawasanRTLHController extends Controller
         try {
             $kawasan_rtlh->kelurahan_id = $request->kelurahan_id;
             $kawasan_rtlh->jumlah = $request->jumlah;
+            $kawasan_rtlh->penanganan = $request->penanganan;
+            $kawasan_rtlh->tahun = $request->tahun;
             $kawasan_rtlh->save();
             DB::commit();
         } catch (\Throwable $th) {
@@ -64,6 +66,8 @@ class KawasanRTLHController extends Controller
             $kawasan_rtlh = KawasanRtlh::create([
                 'kelurahan_id'  => $request->kelurahan_id,
                 'jumlah'        => $request->jumlah,
+                'penanganan'        => $request->penanganan,
+                'tahun'        => $request->tahun,
             ]);
             DB::commit();
         } catch (\Throwable $th) {

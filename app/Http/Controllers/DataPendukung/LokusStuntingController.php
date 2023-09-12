@@ -42,7 +42,7 @@ class LokusStuntingController extends Controller
         DB::beginTransaction();
         try {
             $lokus_stunting->kelurahan_id = $request->kelurahan_id;
-            $lokus_stunting->jumlah = $request->jumlah;
+            $lokus_stunting->tahun = $request->tahun;
             $lokus_stunting->save();
             DB::commit();
         } catch (\Throwable $th) {
@@ -60,7 +60,7 @@ class LokusStuntingController extends Controller
         try {
             $lokus_stunting = LokusStunting::create([
                 'kelurahan_id'  => $request->kelurahan_id,
-                'jumlah'        => $request->jumlah,
+                'tahun'        => $request->tahun,
             ]);
             DB::commit();
         } catch (\Throwable $th) {

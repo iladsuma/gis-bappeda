@@ -9,6 +9,8 @@ use Database\Seeders\Master\MasterKecamatanSeeder;
 use Database\Seeders\Master\MasterKelurahanSeeder;
 use Database\Seeders\Pendukung\KawasanKumuhSeeder;
 use Database\Seeders\Pendukung\KawasanRtlhSeeder;
+use Database\Seeders\Pendukung\LokasiSpamSeeder;
+use Database\Seeders\Pendukung\LokasiSumurPdamSeeder;
 use Database\Seeders\Pendukung\LokusKemiskinanSeeder;
 use Database\Seeders\Pendukung\LokusStuntingSeeder;
 use Database\Seeders\Permission\PermissionSeeder;
@@ -35,6 +37,8 @@ class DatabaseSeeder extends Seeder
             KawasanRtlhSeeder::class,
             LokusKemiskinanSeeder::class,
             LokusStuntingSeeder::class,
+            LokasiSpamSeeder::class,
+            LokasiSumurPdamSeeder::class,
         ]);
     }
 }

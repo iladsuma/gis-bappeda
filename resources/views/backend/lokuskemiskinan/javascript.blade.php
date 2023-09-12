@@ -28,10 +28,10 @@
                 data: 'DT_RowIndex',
             },
             {
-                data: 'kelurahan.kecamatan.nama',
+                data: 'kelurahan.nama',
             },
             {
-                data: 'kelurahan.nama',
+                data: 'kelurahan.kecamatan.nama',
             },
             {
                 data: 'jumlah'
