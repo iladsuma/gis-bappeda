@@ -698,6 +698,10 @@
                     content = `<p class="text-center h7" >` + judul + `</p>
                         <table class="table table-sm table-striped">
                             <tr>
+                                <th>Tahun</th>
+                                <td>` + data.tahun + `</td>
+                            </tr>
+                            <tr>
                                 <th>Kelurahan</th>
                                 <td>` + data.kelurahan.nama + `</td>
                             </tr>

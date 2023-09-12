@@ -23,7 +23,7 @@ class LokusStuntingSeeder extends Seeder
             if (!$firstline) {
                 LokusStunting::create([
                     "kelurahan_id" => $data["1"],
-                    "jumlah" => $data["3"],
+                    "tahun" => $data["3"],
                 ]);
             }
             $firstline = false;
