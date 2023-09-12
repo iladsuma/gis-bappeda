@@ -82,7 +82,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="kondisi">Tingkat Kekumuhan</label>
+                                    <label for="kondisi">Kondisi</label>
                                     <select name="" class="form-control" id="kondisi">
                                         <option>Berfungsi</option>
                                         <option>Tidak Berfungsi</option>
