@@ -24,6 +24,8 @@ class KawasanRtlhSeeder extends Seeder
                 KawasanRtlh::create([
                     "kelurahan_id" => $data["1"],
                     "jumlah" => $data["3"],
+                    "penanganan" => $data["4"],
+                    "tahun" => $data["5"],
                 ]);
             }
             $firstline = false;
