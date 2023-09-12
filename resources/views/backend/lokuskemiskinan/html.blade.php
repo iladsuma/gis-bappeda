@@ -4,17 +4,17 @@
         <!-- Small boxes (Stat box) -->
         <div class="card">
             <div class="card-header bold font-weight-bold h4" id="title-lokus-kemiskinan">
-                Data Lokus Kemiskinan
+                Data Kemiskinan
             </div>
             <div class="card-body ">
-                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Lokus Kemiskinan</button>
+                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Kemiskinan</button>
                 <table id="table-lokus-kemiskinan" class="table table-stripped">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Nama Kelurahan</th>
                             <th>Nama Kecamatan</th>
-                            <th>Jumlah Kemiskinan</th>
+                            <th>Jumlah KK</th>
                             <th>Aksi</th>
                             <th></th>
                         </tr>

@@ -7,7 +7,7 @@
                 Data Lokasi SPAM
             </div>
             <div class="card-body ">
-                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Spam</button>
+                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data SPAM</button>
                 <table id="table-lokasi-spam" class="table table-stripped">
                     <thead>
                         <tr>

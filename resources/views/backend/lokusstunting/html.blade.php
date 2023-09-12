@@ -7,7 +7,7 @@
                 Data Lokus Stunting
             </div>
             <div class="card-body ">
-                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Lokus Stunting</button>
+                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Lokus Stunting</button>
                 <table id="table-lokus-stunting" class="table table-stripped">
                     <thead>
                         <tr>

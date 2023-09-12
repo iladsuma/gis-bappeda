@@ -4,10 +4,10 @@
         <!-- Small boxes (Stat box) -->
         <div class="card">
             <div class="card-header bold font-weight-bold h4" id="title-rtlh">
-                Kawasan RTLH
+                Data RTLH
             </div>
             <div class="card-body ">
-                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Kawasan RTLH</button>
+                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data RTLH</button>
                 <table id="table-kawasan-rtlh" class="table table-stripped">
                     <thead>
                         <tr>

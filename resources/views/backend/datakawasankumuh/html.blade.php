@@ -6,7 +6,7 @@
                 Data Kawasan Kumuh
             </div>
             <div class="card-body ">
-                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Kawasan Kumuh</button>
+                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Kawasan Kumuh</button>
                 <table id="table-kawasankumuh" class="table table-stripped">
                     <thead>
                         <tr>

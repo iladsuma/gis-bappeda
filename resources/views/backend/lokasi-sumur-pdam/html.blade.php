@@ -7,7 +7,7 @@
                 Data Lokasi Sumur PDAM
             </div>
             <div class="card-body ">
-                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Spam</button>
+                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Sumur PDAM</button>
                 <table id="table-sumur-pdam" class="table table-stripped">
                     <thead>
                         <tr>
