@@ -13,6 +13,7 @@ use App\Models\Master\MasterKecamatan;
 use App\Models\Master\MasterKelurahan;
 use App\Models\Pendukung\KawasanKumuh;
 use App\Models\Pendukung\KawasanRtlh;
+use App\Models\Pendukung\LokasiIpal;
 use App\Models\Pendukung\LokasiSpam;
 use App\Models\Pendukung\LokasiSumurPdam;
 use App\Models\Pendukung\LokusKemiskinan;
@@ -210,7 +211,7 @@ class MapController extends Controller
         $lokus_kemiskinan = LokusKemiskinan::with('kelurahan')->get();
 
         $response = [
-            'judul' => "Lokus Kemiskinan",
+            'judul' => "Data Kemiskinan",
             'data' => $lokus_kemiskinan,
             'max_value' => $lokus_kemiskinan->max('jumlah')
         ];
@@ -235,6 +236,17 @@ class MapController extends Controller
         $spam = LokasiSpam::with('kelurahan:id,kecamatan_id,nama', 'kelurahan.kecamatan:id,nama')->get();
         $response = [
             'judul' => "Lokasi SPAM",
+            'data' => $spam,
+        ];
+
+        return response()->json($response, Response::HTTP_OK);
+    }
+
+    public function lokasi_ipal()
+    {
+        $spam = LokasiIpal::with('kelurahan:id,kecamatan_id,nama', 'kelurahan.kecamatan:id,nama')->get();
+        $response = [
+            'judul' => "Lokasi IPAL",
             'data' => $spam,
         ];
 

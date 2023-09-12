@@ -211,18 +211,28 @@
             let locationIcon = L.icon({
                 iconUrl: 'assets/icon/icon-infra.png',
                 iconAnchor: [15, 30],
+                popupAnchor: [0, -15],
                 iconSize: [30, 30], // size of the icon
             });
 
             let spamIcon = L.icon({
                 iconUrl: 'assets/icon/icon-spam.png',
                 iconAnchor: [15, 30],
+                popupAnchor: [0, -15],
                 iconSize: [30, 30], // size of the icon
             });
 
             let pdamIcon = L.icon({
                 iconUrl: 'assets/icon/icon-pdam.png',
                 iconAnchor: [15, 30],
+                popupAnchor: [0, -15],
+                iconSize: [30, 30], // size of the icon
+            });
+
+            let ipalIcon = L.icon({
+                iconUrl: 'assets/icon/icon-ipal.png',
+                iconAnchor: [15, 30],
+                popupAnchor: [0, -15],
                 iconSize: [30, 30], // size of the icon
             });
 
@@ -395,36 +405,16 @@
                     layerSpam.clearLayers()
                     let url = "{{ route('map.lokasi-spam') }}"
                     getDataPendukung(url, null);
-                    // let jaringanSpam = new L.GeoJSON.AJAX("assets/jaringan_pdam/jaringan_spam.geojson", {
-                    //     onEachFeature: function(feature, layer) {
-                    //         let latLng = layer.getLatLng()
-                    //         let marker = L.marker([latLng.lat,
-                    //             latLng.lng
-                    //         ], {
-                    //             icon: spamIcon
-                    //         })
-                    //         layerSpam.addLayer(marker).addTo(map)
-                    //         spamOnClick(marker, feature.properties, "spam")
-                    //     }
-                    // })
+                }
+                if (event.name == "Lokasi IPAL") {
+                    layerIpal.clearLayers()
+                    let url = "{{ route('map.lokasi-ipal') }}"
+                    getDataPendukung(url, null);
                 }
                 if (event.name == "Lokasi Sumur PDAM") {
                     layerSumurPdam.clearLayers()
                     let url = "{{ route('map.lokasi-sumur-pdam') }}"
                     getDataPendukung(url, null);
-                    // let sumurPdam = new L.GeoJSON.AJAX("assets/jaringan_pdam/sumur_pdam.geojson", {
-                    //     onEachFeature: function(feature, layer) {
-                    //         let latLng = layer.getLatLng()
-                    //         console.log(latLng)
-                    //         let marker = L.marker([latLng.lat,
-                    //             latLng.lng
-                    //         ], {
-                    //             icon: pdamIcon
-                    //         })
-                    //         layerSumurPdam.addLayer(marker).addTo(map)
-                    //         spamOnClick(marker, feature.properties, "sumurPdam")
-                    //     }
-                    // })
                 }
             })
 
@@ -531,6 +521,16 @@
                                 layerSpam.addLayer(marker).addTo(map)
                                 spamOnClick(marker, data, "spam")
                             })
+                        } else if (result.judul == "Lokasi IPAL") {
+                            $.each(result.data, function(index, data) {
+                                let marker = L.marker([data.lat,
+                                    data.lng
+                                ], {
+                                    icon: ipalIcon
+                                })
+                                layerIpal.addLayer(marker).addTo(map)
+                                spamOnClick(marker, data, "ipal")
+                            })
                         } else if (result.judul == "Lokasi Sumur PDAM") {
                             $.each(result.data, function(index, data) {
                                 let marker = L.marker([data.lat,
@@ -553,7 +553,7 @@
                                     polygon.addTo(layerKawasanKumuh)
                                 } else if (result.judul == "Data RTLH") {
                                     polygon.addTo(layerRtlh)
-                                } else if (result.judul == "Lokus Kemiskinan") {
+                                } else if (result.judul == "Data Kemiskinan") {
                                     polygon.addTo(layerKemiskinan)
                                 } else if (result.judul == "Lokus Stunting") {
                                     polygon.options.fillOpacity = 1
@@ -585,6 +585,27 @@
                                 <td>` + data.aktif + `</td>
                             </tr>`
                 }
+
+                if (type == 'ipal') {
+                    image = ``
+                    misc = `<tr>
+                                <th>Tahun Pembuatan</th>
+                                <td>` + data.tahun + `</td>
+                            </tr>
+                            <tr>
+                                <th>Kondisi</th>
+                                <td>` + data.kondisi + `</td>
+                            </tr>
+                            <tr>
+                                <th>Jumlah Unit</th>
+                                <td>` + data.jumlah + `</td>
+                            </tr>
+                            <tr>
+                                <th>Jumlah Unit</th>
+                                <td>` + data.keluarga + `</td>
+                            </tr>`
+                }
+
                 if (type == 'sumurPdam') {
                     image = ''
                     misc = ''
@@ -689,7 +710,7 @@
                                 <td>` + data.kelurahan.nama + `</td>
                             </tr>
                             <tr>
-                                <th>Jumlah</th>
+                                <th>Jumlah KK</th>
                                 <td>` + data.jumlah + `</td>
                             </tr>
                         </table>`

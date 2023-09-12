@@ -57,7 +57,7 @@
                             <input type="number" class="form-control" id="jumlah">
                         </div>
                         <div class="form-group">
-                            <label for="tingkat-kumuh">Tingkat Kekumuhan</label>
+                            <label for="tingkat-kumuh">Kondisi</label>
                             <select name="" class="form-control" id="tingkat-kumuh">
                                 <option>Kumuh Sangat Ringan</option>
                                 <option>Kumuh Ringan</option>

@@ -46,7 +46,7 @@
                     width: '10px',
                     orderable: false,
                     render: function(data) {
-                        return "<i class='fas fa-pencil edit-sumur-pdam' data-id='" + data +
+                        return "<i class='fas fa-pencil edit-sumur' data-id='" + data +
                             "'></i>"
                     }
                 },
@@ -55,7 +55,7 @@
                     width: '10px',
                     orderable: false,
                     render: function(data) {
-                        return "<i class='fas fa-trash hapus-sumur-pdam' data-id='" + data.id +
+                        return "<i class='fas fa-trash hapus-sumur' data-id='" + data.id +
                             "'></i>"
                     }
                 },
@@ -157,22 +157,22 @@
             }
         })
 
-        $('#modal-lokasi-spam').on('shown.bs.modal', function() {
+        $('#modal-lokasi-sumur').on('shown.bs.modal', function() {
             setTimeout(function() {
                 map.invalidateSize();
             }, 500);
         });
 
         $(document).on('click', "#tambah-data", function() {
-            $("#modal-title").html("").append("Tambah Data Spam");
+            $("#modal-title").html("").append("Tambah Data Sumur PDAM");
             $("#nama").val("");
             $("#alamat").val("");
             $("#koordinat").val("");
             $("#terpasang").val("");
             $("#aktif").val("");
-            let url = "{{ route('data-lokasi-spam.store') }}";
-            $('#lokasi-spam-form').attr('action', url);
-            $('#lokasi-spam-form').attr('method', 'POST');
+            let url = "{{ route('data-lokasi-sumur-pdam.store') }}";
+            $('#lokasi-sumur-form').attr('action', url);
+            $('#lokasi-sumur-form').attr('method', 'POST');
             map.eachLayer(function(layer) {
                 if (layer.toGeoJSON) {
                     map.removeLayer(layer);
@@ -180,18 +180,18 @@
             });
             setView([-8.098244, 112.165077])
             map.pm.addControls(optionsBeforeDraw)
-            $('#modal-lokasi-spam').modal('show');
+            $('#modal-lokasi-sumur').modal('show');
         });
 
         // edit spam
-        $(document).on('click', ".edit-lokasi-spam", function() {
+        $(document).on('click', ".edit-sumur", function() {
             drawnItems.clearLayers()
             map.eachLayer(function(layer) {
                 if (layer.toGeoJSON) {
                     map.removeLayer(layer);
                 }
             });
-            let url = "{{ route('data-lokasi-spam.edit', ':id') }}"
+            let url = "{{ route('data-lokasi-sumur-pdam.edit', ':id') }}"
             url = url.replace(":id", $(this).data("id"))
             $("input").val("")
             $.ajax({
@@ -204,10 +204,10 @@
                 success: function(result) {
                     console.log(result)
                     let data = result.data
-                    let urlUpdate = "{{ route('data-lokasi-spam.update', ':id') }}"
+                    let urlUpdate = "{{ route('data-lokasi-sumur-pdam.update', ':id') }}"
                     urlUpdate = urlUpdate.replace(":id", data.id)
-                    $("#lokasi-spam-form").attr("action", urlUpdate)
-                    $("#lokasi-spam-form").attr("method", "PUT")
+                    $("#lokasi-sumur-form").attr("action", urlUpdate)
+                    $("#lokasi-sumur-form").attr("method", "PUT")
                     $("#nama").val(data.nama)
                     $("#kelurahan").val(data.kelurahan_id)
                     $("#alamat").val(data.alamat)
@@ -219,7 +219,7 @@
                     marker = L.marker([data.lat, data.lng])
                     marker.addTo(drawnItems)
                     drawnItems.addTo(map)
-                    $("#modal-lokasi-spam").modal("show")
+                    $("#modal-lokasi-sumur").modal("show")
                     setView([data.lat, data.lng])
                 }
             })
@@ -227,19 +227,15 @@
 
 
         // submit modal form lokasi-spam
-        $("#lokasi-spam-form").on("submit", function(e) {
+        $("#lokasi-sumur-form").on("submit", function(e) {
             e.preventDefault()
-            let urlSave = $("#lokasi-spam-form").attr("action")
-            let method = $("#lokasi-spam-form").attr("method")
+            let urlSave = $("#lokasi-sumur-form").attr("action")
+            let method = $("#lokasi-sumur-form").attr("method")
             let dataLokasi = new FormData()
             dataLokasi.append("nama", $("#nama").val())
             dataLokasi.append("alamat", $("#alamat").val())
             dataLokasi.append("kelurahan_id", $("#kelurahan").val())
             dataLokasi.append("coordinate", $("#koordinat").val())
-            dataLokasi.append("foto", $("#foto-lokasi")[0].files[0])
-            dataLokasi.append("tahun", $("#tahun").val())
-            dataLokasi.append("terpasang", $("#terpasang").val())
-            dataLokasi.append("aktif", $("#aktif").val())
 
             if (method == "PUT") {
                 dataLokasi.append("_method", "PUT")
@@ -263,7 +259,7 @@
                     }).then(function() {
                         table.ajax.reload();
                     });
-                    $('#modal-lokasi-kegiatan').modal('hide');
+                    $('#modal-lokasi-sumur').modal('hide');
                 },
                 error: (xhr, ajaxOptions, thrownError) => {
                     if (xhr.responseJSON.hasOwnProperty('errors')) {

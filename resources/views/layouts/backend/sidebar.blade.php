@@ -211,7 +211,7 @@
                                 </li>
                             @endcan
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('data-lokasi-ipal.index') }}" class="nav-link">
                                     <i class="far fa-file nav-icon ml-3"></i>
                                     <p>Lokasi IPAL</p>
                                 </a>

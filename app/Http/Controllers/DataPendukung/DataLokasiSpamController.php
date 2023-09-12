@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Master\MasterKelurahan;
 use App\Models\Pendukung\LokasiSpam;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 

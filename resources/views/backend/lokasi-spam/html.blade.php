@@ -4,7 +4,7 @@
         <!-- Small boxes (Stat box) -->
         <div class="card">
             <div class="card-header bold font-weight-bold h4" id="title-dataspampdam">
-                Data Lokai SPAM
+                Data Lokasi SPAM
             </div>
             <div class="card-body ">
                 <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Spam</button>

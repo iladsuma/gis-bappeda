@@ -20,10 +20,10 @@
 <script>
     $(document).ready(function() {
         // show data
-        var table = $('#table-lokasi-spam').DataTable({
+        var table = $('#table-lokasi-ipal').DataTable({
             processing: true,
             ajax: {
-                url: "{{ route('data-lokasi-spam.datatable') }}",
+                url: "{{ route('data-lokasi-ipal.datatable') }}",
                 method: 'GET'
             },
             columns: [{
@@ -45,17 +45,20 @@
                     data: 'tahun'
                 },
                 {
-                    data: 'terpasang'
+                    data: 'kondisi'
                 },
                 {
-                    data: 'aktif'
+                    data: 'jumlah'
+                },
+                {
+                    data: 'keluarga'
                 },
                 {
                     data: 'id',
                     width: '10px',
                     orderable: false,
                     render: function(data) {
-                        return "<i class='fas fa-pencil edit-lokasi-spam' data-id='" + data +
+                        return "<i class='fas fa-pencil edit-lokasi-ipal' data-id='" + data +
                             "'></i>"
                     }
                 },
@@ -64,7 +67,7 @@
                     width: '10px',
                     orderable: false,
                     render: function(data) {
-                        return "<i class='fas fa-trash hapus-lokasi-spam' data-id='" + data.id +
+                        return "<i class='fas fa-trash hapus-lokasi-ipal' data-id='" + data.id +
                             "'></i>"
                     }
                 },
@@ -166,22 +169,23 @@
             }
         })
 
-        $('#modal-lokasi-spam').on('shown.bs.modal', function() {
+        $('#modal-lokasi-ipal').on('shown.bs.modal', function() {
             setTimeout(function() {
                 map.invalidateSize();
             }, 500);
         });
 
         $(document).on('click', "#tambah-data", function() {
-            $("#modal-title").html("").append("Tambah Data Spam");
+            $("#modal-title").html("").append("Tambah Data ipal");
             $("#nama").val("");
             $("#alamat").val("");
             $("#koordinat").val("");
-            $("#terpasang").val("");
-            $("#aktif").val("");
-            let url = "{{ route('data-lokasi-spam.store') }}";
-            $('#lokasi-spam-form').attr('action', url);
-            $('#lokasi-spam-form').attr('method', 'POST');
+            $("#kondisi").val("");
+            $("#jumlah").val("");
+            $("#keluarga").val("");
+            let url = "{{ route('data-lokasi-ipal.store') }}";
+            $('#lokasi-ipal-form').attr('action', url);
+            $('#lokasi-ipal-form').attr('method', 'POST');
             map.eachLayer(function(layer) {
                 if (layer.toGeoJSON) {
                     map.removeLayer(layer);
@@ -189,18 +193,18 @@
             });
             setView([-8.098244, 112.165077])
             map.pm.addControls(optionsBeforeDraw)
-            $('#modal-lokasi-spam').modal('show');
+            $('#modal-lokasi-ipal').modal('show');
         });
 
-        // edit spam
-        $(document).on('click', ".edit-lokasi-spam", function() {
+        // edit ipal
+        $(document).on('click', ".edit-lokasi-ipal", function() {
             drawnItems.clearLayers()
             map.eachLayer(function(layer) {
                 if (layer.toGeoJSON) {
                     map.removeLayer(layer);
                 }
             });
-            let url = "{{ route('data-lokasi-spam.edit', ':id') }}"
+            let url = "{{ route('data-lokasi-ipal.edit', ':id') }}"
             url = url.replace(":id", $(this).data("id"))
             $("input").val("")
             $.ajax({
@@ -213,42 +217,43 @@
                 success: function(result) {
                     console.log(result)
                     let data = result.data
-                    let urlUpdate = "{{ route('data-lokasi-spam.update', ':id') }}"
+                    let urlUpdate = "{{ route('data-lokasi-ipal.update', ':id') }}"
                     urlUpdate = urlUpdate.replace(":id", data.id)
-                    $("#lokasi-spam-form").attr("action", urlUpdate)
-                    $("#lokasi-spam-form").attr("method", "PUT")
+                    $("#lokasi-ipal-form").attr("action", urlUpdate)
+                    $("#lokasi-ipal-form").attr("method", "PUT")
                     $("#nama").val(data.nama)
                     $("#kelurahan").val(data.kelurahan_id)
                     $("#alamat").val(data.alamat)
                     $("#tahun").val(data.tahun)
-                    $("#terpasang").val(data.terpasang)
-                    $("#aktif").val(data.aktif)
+                    $("#kondisi").val(data.kondisi)
+                    $("#jumlah").val(data.jumlah)
+                    $("#keluarga").val(data.keluarga)
                     $("#koordinat").val(data.lat + "," + data.lng)
                     map.pm.addControls(optionsAfterDraw)
                     marker = L.marker([data.lat, data.lng])
                     marker.addTo(drawnItems)
                     drawnItems.addTo(map)
-                    $("#modal-lokasi-spam").modal("show")
+                    $("#modal-lokasi-ipal").modal("show")
                     setView([data.lat, data.lng])
                 }
             })
         });
 
 
-        // submit modal form lokasi-spam
-        $("#lokasi-spam-form").on("submit", function(e) {
+        // submit modal form lokasi-ipal
+        $("#lokasi-ipal-form").on("submit", function(e) {
             e.preventDefault()
-            let urlSave = $("#lokasi-spam-form").attr("action")
-            let method = $("#lokasi-spam-form").attr("method")
+            let urlSave = $("#lokasi-ipal-form").attr("action")
+            let method = $("#lokasi-ipal-form").attr("method")
             let dataLokasi = new FormData()
             dataLokasi.append("nama", $("#nama").val())
             dataLokasi.append("alamat", $("#alamat").val())
             dataLokasi.append("kelurahan_id", $("#kelurahan").val())
             dataLokasi.append("coordinate", $("#koordinat").val())
-            dataLokasi.append("foto", $("#foto-lokasi")[0].files[0])
+            dataLokasi.append("kondisi", $("#kondisi").val())
             dataLokasi.append("tahun", $("#tahun").val())
-            dataLokasi.append("terpasang", $("#terpasang").val())
-            dataLokasi.append("aktif", $("#aktif").val())
+            dataLokasi.append("jumlah", $("#jumlah").val())
+            dataLokasi.append("keluarga", $("#keluarga").val())
 
             if (method == "PUT") {
                 dataLokasi.append("_method", "PUT")
@@ -272,7 +277,7 @@
                     }).then(function() {
                         table.ajax.reload();
                     });
-                    $('#modal-lokasi-spam').modal('hide');
+                    $('#modal-lokasi-ipal').modal('hide');
                 },
                 error: (xhr, ajaxOptions, thrownError) => {
                     if (xhr.responseJSON.hasOwnProperty('errors')) {
@@ -300,7 +305,7 @@
             });
         })
 
-        $(document).on('click', ".hapus-lokasi-spam", function() {
+        $(document).on('click', ".hapus-lokasi-ipal", function() {
             swal.fire({
                     title: 'Hapus',
                     text: "Yakin hapus data" + " ?",
@@ -310,7 +315,7 @@
                 .then((result) => {
                     if (result.isConfirmed) {
                         let id = $(this).data('id')
-                        let url = "{{ route('data-lokasi-spam.drop', ':id') }}"
+                        let url = "{{ route('data-lokasi-ipal.drop', ':id') }}"
 
                         $.ajax({
                             headers: {

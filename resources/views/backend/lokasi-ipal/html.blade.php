@@ -3,12 +3,12 @@
 
         <!-- Small boxes (Stat box) -->
         <div class="card">
-            <div class="card-header bold font-weight-bold h4" id="title-dataspampdam">
-                Data Lokasi Sumur PDAM
+            <div class="card-header bold font-weight-bold h4" id="title-data-ipal">
+                Data Lokasi IPAL
             </div>
             <div class="card-body ">
-                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Spam</button>
-                <table id="table-sumur-pdam" class="table table-stripped">
+                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data IPAL</button>
+                <table id="table-lokasi-ipal" class="table table-stripped">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -16,7 +16,11 @@
                             <th>Alamat</th>
                             <th>Kelurahan</th>
                             <th>Kecamatan</th>
-                            <th>aksi</th>
+                            <th>Tahun Pembuatan</th>
+                            <th>Kondisi</th>
+                            <th>Jumlah Unit</th>
+                            <th>Jumlah KK</th>
+                            <th>Aksi</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -27,20 +31,20 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-lokasi-sumur" tabindex="-1" aria-labelledby="modal-lokasi-kegiatan"
+    <div class="modal fade" id="modal-lokasi-ipal" tabindex="-1" aria-labelledby="modal-lokasi-ipal"
         aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">
-                        Tambah Data Sumur PDAM
+                        Tambah Data IPAL
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="lokasi-sumur-form">
+                    <form id="lokasi-ipal-form">
                         @csrf
                         <div class="row p-2">
                             <div class="col-md-4 border p-3">
@@ -48,12 +52,12 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label for="nama-lokasi">Nama Sumur PDAM</label>
+                                    <label for="nama-lokasi">Nama IPAL</label>
                                     <input type="text" class="form-control form-control-sm" id="nama" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
-                                    <textarea name="" class="form-control form-control-sm" id="alamat" cols="5" rows="2"></textarea>
+                                    <textarea name="" class="form-control form-control-sm" id="alamat" cols="3" rows="2"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="kelurahan">Kelurahan</label>
@@ -69,17 +73,29 @@
                                     {{-- <textarea class="form-control form-control-sm" id="koordinat" cols="3" rows="2"></textarea> --}}
                                     <input type="text" class="form-control form-control-sm" id="koordinat">
                                 </div>
-                                {{-- <div class="text-center">
-                                    <img id="foto-preview" src="#" class="border p-2 align-center"
-                                        style="height: 100px; width: 150px" alt="preview" hidden />
-                                </div> --}}
-                                {{-- <div class="form-group">
-                                    <div class="border border-danger bg-warning p-3 mt-5">
-                                        <span class="h6">Pastikan Lokasi belum ada di database sebelum anda
-                                            memasukkan data lokasi
-                                            baru</span>
-                                    </div>
-                                </div> --}}
+                                <div class="form-group">
+                                    <label for="tahun">Tahun</label>
+                                    <select name="" class="form-control" id="tahun">
+                                        @for ($year = date('Y') - 25; $year <= date('Y'); $year++)
+                                            <option>{{ $year }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="kondisi">Tingkat Kekumuhan</label>
+                                    <select name="" class="form-control" id="kondisi">
+                                        <option>Berfungsi</option>
+                                        <option>Tidak Berfungsi</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jumlah">Jumlah Unit</label>
+                                    <input type="number" class="form-control" id="jumlah">
+                                </div>
+                                <div class="form-group">
+                                    <label for="keluarga">Jumlah KK</label>
+                                    <input type="number" class="form-control" id="keluarga">
+                                </div>
                             </div>
                             <div class="col-md-8 p-4">
                                 <div id="modal-map" class="border" style="height: 600px"></div>
