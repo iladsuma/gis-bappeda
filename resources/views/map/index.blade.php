@@ -209,13 +209,21 @@
             let layerSumurPdam = L.featureGroup();
 
             let locationIcon = L.icon({
-                iconUrl: 'assets/icon/location-icon.png',
-                iconSize: [27, 30], // size of the icon
+                iconUrl: 'assets/icon/icon-infra.png',
+                iconAnchor: [15, 30],
+                iconSize: [30, 30], // size of the icon
             });
 
-            let waterIcon = L.icon({
-                iconUrl: 'assets/icon/water-icon.png',
-                iconSize: [27, 30], // size of the icon
+            let spamIcon = L.icon({
+                iconUrl: 'assets/icon/icon-spam.png',
+                iconAnchor: [15, 30],
+                iconSize: [30, 30], // size of the icon
+            });
+
+            let pdamIcon = L.icon({
+                iconUrl: 'assets/icon/icon-pdam.png',
+                iconAnchor: [15, 30],
+                iconSize: [30, 30], // size of the icon
             });
 
 
@@ -391,7 +399,7 @@
                             let marker = L.marker([latLng.lat,
                                 latLng.lng
                             ], {
-                                icon: waterIcon
+                                icon: spamIcon
                             })
                             layerSpam.addLayer(marker).addTo(map)
                             spamOnClick(marker, feature.properties, "spam")
@@ -406,7 +414,7 @@
                             let marker = L.marker([latLng.lat,
                                 latLng.lng
                             ], {
-                                icon: waterIcon
+                                icon: pdamIcon
                             })
                             layerSumurPdam.addLayer(marker).addTo(map)
                             spamOnClick(marker, feature.properties, "sumurPdam")
