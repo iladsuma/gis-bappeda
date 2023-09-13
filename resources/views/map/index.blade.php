@@ -601,7 +601,7 @@
                                 <td>` + data.jumlah + `</td>
                             </tr>
                             <tr>
-                                <th>Jumlah Unit</th>
+                                <th>Jumlah KK</th>
                                 <td>` + data.keluarga + `</td>
                             </tr>`
                 }
