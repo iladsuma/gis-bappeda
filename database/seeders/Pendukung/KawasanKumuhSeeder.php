@@ -24,6 +24,7 @@ class KawasanKumuhSeeder extends Seeder
                 KawasanKumuh::create([
                     "kelurahan_id" => $data["1"],
                     "jumlah" => $data["3"],
+                    "tahun" => $data["4"],
                 ]);
             }
             $firstline = false;
