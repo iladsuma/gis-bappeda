@@ -142,8 +142,10 @@
                 if (xhr.responseJSON.hasOwnProperty('errors')) {
                     var html =
                         "<ul style=justify-content: space-between;'>";
+                    var txt = "";
                     for (item in xhr.responseJSON.errors) {
                         if (xhr.responseJSON.errors[item].length) {
+                            txt = xhr.responseJSON.errors[item];
                             for (var i = 0; i < xhr.responseJSON.errors[item]
                                 .length; i++) {
                                 html += "<li class='dropdown-item'>" +
@@ -157,11 +159,11 @@
                         }
                     }
                     html += "</ul>";
-                    // swal.fire({
-                    //     title: 'Error',
-                    //     html: html,
-                    //     icon: 'warning',
-                    // });
+                    swal.fire({
+                        title: 'Error',
+                        html: txt,
+                        icon: 'warning',
+                    });
                     $("#dokumenDed-validation").html(html)
                     $("#dokumenDed-validation").removeClass("d-none")
                 }

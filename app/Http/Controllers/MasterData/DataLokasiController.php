@@ -41,6 +41,9 @@ class DataLokasiController extends Controller
                 'coordinate' => $request->coordinate,
             ]);
             if ($request->hasFile("foto")) {
+                $request->validate([
+                    'foto' => 'mimes:jpeg,png,jpg,gif'
+                ]);
                 $foto_name = $request->nama_lokasi . "-" . date("Y");
                 $foto_ext = $request->file('foto')->getClientOriginalExtension();
                 $request->file('foto')->move(public_path('assets/foto_lokasi'), $foto_name . "." . $foto_ext);
@@ -77,6 +80,9 @@ class DataLokasiController extends Controller
             $lokasi->alamat = $request->alamat;
             $lokasi->coordinate = $request->coordinate;
             if ($request->hasFile('foto')) {
+                $request->validate([
+                    'foto' => 'mimes:jpeg,png,jpg,gif'
+                ]);
                 File::delete(public_path('assets/foto_lokasi/' . $lokasi->foto));
                 $foto_name = $request->nama_lokasi . "-" . date("Y");
                 $foto_ext = $request->file('foto')->getClientOriginalExtension();

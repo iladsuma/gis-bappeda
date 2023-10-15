@@ -56,6 +56,9 @@ class DokumenFsController extends Controller
             $dokumen_fs->tahun = $request->tahun;
             $dokumen_fs->lokasi()->sync($lokasi_kegiatan_ids);
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf'
+                ]);
                 File::delete(public_path('assets/dokumen_fs/' . $dokumen_fs->dokumen));
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_fs'), $nama_dokumen);
@@ -89,6 +92,9 @@ class DokumenFsController extends Controller
             $dokumen_fs->lokasi()->sync($lokasi_kegiatan_ids);
 
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf'
+                ]);
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_fs'), $nama_dokumen);
             }

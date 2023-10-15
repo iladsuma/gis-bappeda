@@ -47,6 +47,7 @@ class DokumenFisikController extends Controller
     {
         $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
         $dokumen_fisik = DokumenFisik::findOrFail($id);
+
         DB::beginTransaction();
         try {
             $dokumen_fisik->nama_kegiatan = $request->nama_kegiatan;
@@ -55,12 +56,18 @@ class DokumenFisikController extends Controller
             $dokumen_fisik->tahun = $request->tahun;
             $dokumen_fisik->lokasi()->sync($lokasi_kegiatan_ids);
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf',
+                ]);
                 File::delete(public_path('assets/dokumen_fisik/' . $dokumen_fisik->dokumen));
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_fisik'), $nama_dokumen);
                 $dokumen_fisik->dokumen = $nama_dokumen;
             }
             if ($request->hasFile('foto')) {
+                $request->validate([
+                    'foto' => 'mimes:jpeg,png,jpg,gif'
+                ]);
                 File::delete(public_path('assets/dokumen_fisik/foto' . $dokumen_fisik->dokumen));
                 $nama_foto = $request->nama_kegiatan . "." . $request->file('foto')->getClientOriginalExtension();
                 $request->file('foto')->move(public_path('assets/dokumen_fisik/foto'), $nama_foto);
@@ -81,6 +88,7 @@ class DokumenFisikController extends Controller
     public function store(Request $request)
     {
         $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
+
         DB::beginTransaction();
         try {
             $dokumen_fisik = DokumenFisik::create([
@@ -94,10 +102,16 @@ class DokumenFisikController extends Controller
             $dokumen_fisik->lokasi()->sync($lokasi_kegiatan_ids);
 
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf',
+                ]);
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_fisik'), $nama_dokumen);
             }
             if ($request->hasFile('foto')) {
+                $request->validate([
+                    'foto' => 'mimes:jpeg,png,jpg,gif'
+                ]);
                 $nama_dokumen = $request->nama_kegiatan . "." . $request->file('foto')->getClientOriginalExtension();
                 $request->file('foto')->move(public_path('assets/dokumen_fisik/foto'), $nama_dokumen);
             }

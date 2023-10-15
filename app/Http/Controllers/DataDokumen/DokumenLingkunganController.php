@@ -55,6 +55,9 @@ class DokumenLingkunganController extends Controller
             $dokumen_lingkungan->tahun = $request->tahun;
             $dokumen_lingkungan->lokasi()->sync($lokasi_kegiatan_ids);
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf'
+                ]);
                 File::delete(public_path('assets/dokumen_lingkungan/' . $dokumen_lingkungan->dokumen));
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_lingkungan'), $nama_dokumen);
@@ -76,6 +79,7 @@ class DokumenLingkunganController extends Controller
     public function store(Request $request)
     {
         $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
+
         DB::beginTransaction();
         try {
             $dokumen_lingkungan = DokumenLingkungan::create([
@@ -88,6 +92,9 @@ class DokumenLingkunganController extends Controller
             $dokumen_lingkungan->lokasi()->sync($lokasi_kegiatan_ids);
 
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf'
+                ]);
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_lingkungan'), $nama_dokumen);
             }

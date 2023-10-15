@@ -45,6 +45,7 @@ class DokumenMpController extends Controller
     public function update(Request $request, $id)
     {
         $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
+
         $dokumen_mp = DokumenMp::findOrFail($id);
 
         DB::beginTransaction();
@@ -55,6 +56,9 @@ class DokumenMpController extends Controller
             $dokumen_mp->tahun = $request->tahun;
             $dokumen_mp->lokasi()->sync($lokasi_kegiatan_ids);
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf'
+                ]);
                 File::delete(public_path('assets/dokumen_mp/' . $dokumen_mp->dokumen));
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_mp'), $nama_dokumen);
@@ -89,6 +93,9 @@ class DokumenMpController extends Controller
             $dokumen_mp->lokasi()->sync($lokasi_kegiatan_ids);
 
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf'
+                ]);
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_mp'), $nama_dokumen);
             }

@@ -211,13 +211,15 @@
 
             },
             error: (xhr, ajaxOptions, thrownError) => {
-                console.log(xhr.responseJSON.errors)
+                console.log(xhr.responseJSON.errors.dokumen[0])
                 console.log(thrownError)
                 if (xhr.responseJSON.hasOwnProperty('errors')) {
                     var html =
                         "<ul style=justify-content: space-between;'>";
+                    var txt = "";
                     for (item in xhr.responseJSON.errors) {
                         if (xhr.responseJSON.errors[item].length) {
+                            txt = xhr.responseJSON.errors[item];
                             for (var i = 0; i < xhr.responseJSON.errors[item]
                                 .length; i++) {
                                 html += "<li class='dropdown-item'>" +
@@ -237,7 +239,7 @@
                 }
                 swal.fire({
                     title: 'Error',
-                    html: thrownError,
+                    html: txt,
                     icon: 'warning',
                 });
             }

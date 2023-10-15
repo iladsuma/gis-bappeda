@@ -46,6 +46,7 @@ class DokumenDedController extends Controller
     {
         $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
         $dokumen_ded = DokumenDed::findOrFail($id);
+
         DB::beginTransaction();
         try {
             $dokumen_ded->nama_kegiatan = $request->nama_kegiatan;
@@ -54,6 +55,9 @@ class DokumenDedController extends Controller
             $dokumen_ded->tahun = $request->tahun;
             $dokumen_ded->lokasi()->sync($lokasi_kegiatan_ids);
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf'
+                ]);
                 File::delete(public_path('assets/dokumen_ded/' . $dokumen_ded->dokumen));
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_ded'), $nama_dokumen);
@@ -74,6 +78,7 @@ class DokumenDedController extends Controller
     public function store(Request $request)
     {
         $lokasi_kegiatan_ids = explode(",", $request->lokasi_id);
+
         DB::beginTransaction();
         try {
             $dokumen_ded = DokumenDed::create([
@@ -86,6 +91,9 @@ class DokumenDedController extends Controller
             $dokumen_ded->lokasi()->sync($lokasi_kegiatan_ids);
 
             if ($request->hasFile('dokumen')) {
+                $request->validate([
+                    'dokumen' => 'mimes:pdf'
+                ]);
                 $nama_dokumen = $request->nama_kegiatan . ".pdf";
                 $request->file('dokumen')->move(public_path('assets/dokumen_ded'), $nama_dokumen);
             }
