@@ -20,6 +20,9 @@ class UserController extends Controller
             $user_profile->password = bcrypt($request->password);
         }
         if ($request->hasFile('avatar')) {
+            $request->validate([
+                'avatar' => 'mimes:jpeg,png,jpg,gif'
+            ]);
             if ($user_profile->avatar != "avatar-default.png") {
                 File::delete(public_path('assets/image/avatar/' . $user_profile->avatar));
             }

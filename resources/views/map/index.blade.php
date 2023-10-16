@@ -1239,12 +1239,13 @@
 
                             }
                         }
+                        $('#profileEditModal').modal('hide');
                         html += "</ul>";
-                        // swal.fire({
-                        //     title: 'Error',
-                        //     html: html,
-                        //     icon: 'warning',
-                        // });
+                        swal.fire({
+                            title: 'Error',
+                            html: html,
+                            icon: 'warning',
+                        });
                         $("#dokumenFs-validation").html(html)
                         $("#dokumenFs-validation").removeClass("d-none")
                     }
