@@ -43,9 +43,6 @@
                         @csrf
                         <div class="row p-2">
                             <div class="col-md-4 border p-3">
-                                <div class="alert alert-danger d-none" id="lokasi-validation">
-
-                                </div>
                                 <div class="form-group">
                                     <label for="nama-lokasi">Nama Lokasi Kegiatan</label>
                                     <input type="text" class="form-control form-control-sm" id="nama-lokasi"

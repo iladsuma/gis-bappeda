@@ -7,6 +7,7 @@ use App\Models\Master\MasterKelurahan;
 use App\Models\Pendukung\LokasiSpam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -47,14 +48,17 @@ class DataLokasiSpamController extends Controller
                 'tahun' => $request->tahun,
                 'terpasang' => $request->terpasang,
                 'aktif' => $request->aktif,
+                'image' => $request->nama . "-" . date("Y") . '.' . $request->file('foto')->getClientOriginalExtension(),
             ]);
             if ($request->hasFile("foto")) {
+                $request->validate([
+                    'foto' => 'mimes:jpeg,png,jpg,gif'
+                ]);
                 $foto_name = $request->nama . "-" . date("Y");
                 $foto_ext = $request->file('foto')->getClientOriginalExtension();
-                $request->file('foto')->move(public_path('assets/foto_spam'), $foto_name . "." . $foto_ext);
-                $lokasi->foto = $foto_name . "." . $foto_ext;
-                $lokasi->save();
+                $request->file('foto')->move(public_path('assets/jaringan_pdam/foto_spam'), $foto_name . "." . $foto_ext);
             }
+            $lokasi->save();
 
             DB::commit();
         } catch (\Throwable $th) {
@@ -91,11 +95,14 @@ class DataLokasiSpamController extends Controller
             $lokasi->terpasang = $request->terpasang;
             $lokasi->aktif = $request->aktif;
             if ($request->hasFile('foto')) {
-                File::delete(public_path('assets/foto_spam/' . $lokasi->foto));
-                $foto_name = $request->nama_lokasi . "-" . date("Y");
+                $request->validate([
+                    'foto' => 'mimes:jpeg,png,jpg,gif'
+                ]);
+                File::delete(public_path('assets/jaringan_pdam/foto_spam' . $lokasi->foto));
+                $foto_name = $request->nama . "-" . date("Y");
                 $foto_ext = $request->file('foto')->getClientOriginalExtension();
-                $request->file('foto')->move(public_path('assets/foto_lokasi'), $foto_name . "." . $foto_ext);
-                $lokasi->foto = $foto_name . "." . $foto_ext;
+                $request->file('foto')->move(public_path('assets/jaringan_pdam/foto_spam'), $foto_name . "." . $foto_ext);
+                $lokasi->image = $foto_name . "." . $foto_ext;
             }
             $lokasi->save();
             DB::commit();
@@ -112,8 +119,8 @@ class DataLokasiSpamController extends Controller
     {
         $data_lokasi = LokasiSpam::find($id);
 
-        if (file_exists(public_path('assets/foto_spam/' . $data_lokasi->foto))) {
-            File::delete(public_path('assets/foto_spam/' . $data_lokasi->foto));
+        if (file_exists(public_path('assets/jaringan_pdam/foto_spam/' . $data_lokasi->image))) {
+            File::delete(public_path('assets/jaringan_pdam/foto_spam/' . $data_lokasi->image));
         }
         $data_lokasi->delete();
 
