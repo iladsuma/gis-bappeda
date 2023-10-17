@@ -265,7 +265,7 @@
                 onAdd: function(map) {
                     var img = L.DomUtil.create('img');
 
-                    img.src = '{{ asset('assets/image/logo/watermark.png') }}';
+                    img.src = '{{ asset('assets/image/logo/watermark-new.png') }}';
                     img.style.height = '80px';
 
                     return img;
