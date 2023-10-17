@@ -1270,6 +1270,15 @@
             let avatar = $("#avatar-sidebar").attr("src")
             $("#avatar-sidebar-modal").attr("src", avatar)
         })
+
+        $(document).ready(function() {
+            var yetVisited = sessionStorage['visited'];
+            if (!yetVisited) {
+                $("#flyer-modal").modal("show")
+                // open popup
+                sessionStorage['visited'] = true;
+            }
+        });
     </script>
 </body>
 
