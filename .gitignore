@@ -7,6 +7,7 @@
 /public/assets/dokumen_lingkungan
 /public/assets/dokumen_fisik
 /public/assets/foto_lokasi
+/public/assets/jaringan_pdam
 /storage/*.key
 /vendor
 .env

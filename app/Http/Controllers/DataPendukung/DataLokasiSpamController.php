@@ -98,7 +98,7 @@ class DataLokasiSpamController extends Controller
                 $request->validate([
                     'foto' => 'mimes:jpeg,png,jpg,gif'
                 ]);
-                File::delete(public_path('assets/jaringan_pdam/foto_spam' . $lokasi->foto));
+                File::delete(public_path('assets/jaringan_pdam/foto_spam/' . $lokasi->image));
                 $foto_name = $request->nama . "-" . date("Y");
                 $foto_ext = $request->file('foto')->getClientOriginalExtension();
                 $request->file('foto')->move(public_path('assets/jaringan_pdam/foto_spam'), $foto_name . "." . $foto_ext);
