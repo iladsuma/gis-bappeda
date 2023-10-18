@@ -4,6 +4,7 @@ namespace App\Http\Controllers\DataPendukung;
 
 use App\Http\Controllers\Controller;
 use App\Models\Master\MasterKelurahan;
+use App\Models\Pendukung\LokasiSpam;
 use App\Models\Pendukung\LokasiSumurPdam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

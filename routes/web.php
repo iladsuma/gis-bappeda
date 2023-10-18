@@ -9,6 +9,7 @@ use App\Http\Controllers\DataDokumen\DokumenFsController;
 use App\Http\Controllers\DataDokumen\DokumenLingkunganController;
 use App\Http\Controllers\DataDokumen\DokumenMpController;
 use App\Http\Controllers\DataInfrastruktur\DataInfrastrukturController;
+use App\Http\Controllers\DataPendukung\DataJaringanPipaPdamController;
 use App\Http\Controllers\DataPendukung\DataKawasanKumuhController;
 use App\Http\Controllers\DataPendukung\DataLokasiIpalController;
 use App\Http\Controllers\DataPendukung\DataLokasiSpamController;
@@ -196,6 +197,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-lokasi-sumur-pdam/{id}/edit', [DataLokasiSumurPdamController::class, 'edit'])->name('data-lokasi-sumur-pdam.edit'); //->can('Data Pendukung.Lokasi Spam');
     Route::put('/data-lokasi-sumur-pdam/{id}/update', [DataLokasiSumurPdamController::class, 'update'])->name('data-lokasi-sumur-pdam.update'); //->can('Data Pendukung.Lokasi Spam');
     Route::delete('/data-lokasi-sumur-pdam/{id}/drop', [DataLokasiSumurPdamController::class, 'drop'])->name('data-lokasi-sumur-pdam.drop'); //->can('Data Pendukung.Lokasi Spam');
+
+    // Data Jaringan Pipa PDAM
+    Route::get('/data-jaringan-pipa-pdam', [DataJaringanPipaPdamController::class, 'index'])->name('data-jaringan-pipa-pdam.index'); //->can('Data Pendukung.Lokasi Spam');
     ## --- end of data pendukung --- ##
 
     // User

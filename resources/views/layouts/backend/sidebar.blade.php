@@ -217,7 +217,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('data-jaringan-pipa-pdam.index') }}" class="nav-link">
                                     <i class="far fa-file nav-icon ml-3"></i>
                                     <p>Jaringan Pipa PDAM</p>
                                 </a>
