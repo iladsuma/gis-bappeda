@@ -1,17 +1,17 @@
-no,kelurahan_id,nama_kelurahan,jumlah,tahun
-1,1,Kepanjenkidul,10,2023
-2,3,Sentul,5,2023
-3,4,Kauman,9,2023
-4,6,Bendo,10,2023
-5,7,Kepanjenlor,10,2023
-6,8,Pakunden,6,2023
-7,9,Blitar,4,2023
-8,10,Tlumpu,7,2023
-9,12,Karangsari,4,2023
-10,13,Sukorejo,4,2023
-11,16,Plosokerep,4,2023
-12,17,Klampok,3,2023
-13,18,Sananwetan,3,2023
-14,19,Rembang,4,2023
-15,20,Karangtengah,4,2023
-16,21,Bendogerit,2,2023
+no,kelurahan_id,nama_kelurahan,jumlah,tingkat_kumuh,luas,tahun
+1,1,Kepanjenkidul,27,Kumuh Ringan,9.18,2023
+2,3,Sentul,31,Kumuh Ringan,5.1,2023
+3,4,Kauman,32,Kumuh Ringan,19.05,2023
+4,6,Bendo,39,Kumuh Ringan,4.72,2023
+5,7,Kepanjenlor,34,Kumuh Ringan,19.72,2023
+6,8,Pakunden,25,Kumuh Ringan,6.73,2023
+7,9,Blitar,32,Kumuh Ringan,2.94,2023
+8,10,Tlumpu,32,Kumuh Ringan,4.83,2023
+9,12,Karangsari,23,Kumuh Ringan,3.49,2023
+10,13,Sukorejo,31,Kumuh Ringan,3.16,2023
+11,16,Plosokerep,30,Kumuh Ringan,5.12,2023
+12,17,Klampok,33,Kumuh Ringan,4.67,2023
+13,18,Sananwetan,18,Kumuh Ringan,2.1,2023
+14,19,Rembang,30,Kumuh Ringan,3.27,2023
+15,20,Karangtengah,34,Kumuh Ringan,5.74,2023
+16,21,Bendogerit,20,Kumuh Ringan,3.54,2023
