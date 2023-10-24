@@ -109,6 +109,7 @@
                     geoJson.clearLayers()
                     getGeoJson();
                     $('#btn-container-cancel-map').addClass('d-none')
+                    $('#btn-container-submit-map').addClass('d-none')
                     $('#file-jaringan-pipa-pdam').val("");
                 });
 
@@ -142,6 +143,8 @@
                     }).then(function() {
                         geoJson.clearLayers()
                         getGeoJson();
+                        $('#btn-container-cancel-map').addClass('d-none')
+                        $('#btn-container-submit-map').addClass('d-none')
                         $('#file-jaringan-pipa-pdam').val("");
                     });
                 }
@@ -169,12 +172,14 @@
             reader.readAsDataURL(file)
         }
         $('#btn-container-cancel-map').removeClass('d-none')
+        $('#btn-container-submit-map').removeClass('d-none')
     })
 
     $('#cancel-change-map').on("click", function() {
         geoJson.clearLayers()
         getGeoJson();
         $('#btn-container-cancel-map').addClass('d-none')
+        $('#btn-container-submit-map').addClass('d-none')
         $('#file-jaringan-pipa-pdam').val("");
     });
 </script>

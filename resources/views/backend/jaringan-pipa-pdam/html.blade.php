@@ -25,7 +25,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <div class="col p-1">
+                                        <div class="col p-1 d-none" id="btn-container-submit-map">
                                             <input type="submit" class="btn btn-primary w-100" value="Simpan Perubahan">
                                         </div>
                                         <div class="col p-1 d-none" id="btn-container-cancel-map">
