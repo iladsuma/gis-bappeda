@@ -108,16 +108,17 @@
                 }).then(function() {
                     geoJson.clearLayers()
                     getGeoJson();
+                    $('#btn-container-cancel-map').addClass('d-none')
+                    $('#file-jaringan-pipa-pdam').val("");
                 });
 
             },
             error: (xhr, ajaxOptions, thrownError) => {
-                console.log(xhr.responseJSON.errors.dokumen[0])
-                console.log(thrownError)
+                console.log(xhr.responseJSON.errors)
                 if (xhr.responseJSON.hasOwnProperty('errors')) {
                     var html =
                         "<ul style=justify-content: space-between;'>";
-                    var txt = "";
+                    var txt = '';
                     for (item in xhr.responseJSON.errors) {
                         if (xhr.responseJSON.errors[item].length) {
                             txt = xhr.responseJSON.errors[item];
@@ -134,16 +135,46 @@
                         }
                     }
                     html += "</ul>";
-
-                    // $("#dokumenFs-validation").html(html)
-                    // $("#dokumenFs-validation").removeClass("d-none")
+                    swal.fire({
+                        title: 'Error',
+                        html: txt,
+                        icon: 'warning',
+                    }).then(function() {
+                        geoJson.clearLayers()
+                        getGeoJson();
+                        $('#file-jaringan-pipa-pdam').val("");
+                    });
                 }
-                swal.fire({
-                    title: 'Error',
-                    html: txt,
-                    icon: 'warning',
-                });
             }
         });
     })
+
+    $("#file-jaringan-pipa-pdam").change(function() {
+        const file = this.files[0]
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                // $("#avatar-sidebar-modal").attr("src", event.target.result)
+                console.log(event.target.result);
+                geoJson.clearLayers()
+                let pathFileGeoJSON = event.target.result;
+                let jaringanPdam = new L.GeoJSON.AJAX(pathFileGeoJSON, {
+                    color: "#51dce0",
+                    opacity: 2,
+                    weight: 1.5
+                })
+                jaringanPdam.addTo(geoJson)
+                geoJson.addTo(map)
+            }
+            reader.readAsDataURL(file)
+        }
+        $('#btn-container-cancel-map').removeClass('d-none')
+    })
+
+    $('#cancel-change-map').on("click", function() {
+        geoJson.clearLayers()
+        getGeoJson();
+        $('#btn-container-cancel-map').addClass('d-none')
+        $('#file-jaringan-pipa-pdam').val("");
+    });
 </script>

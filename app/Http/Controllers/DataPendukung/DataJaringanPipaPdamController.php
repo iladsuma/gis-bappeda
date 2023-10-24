@@ -33,9 +33,9 @@ class DataJaringanPipaPdamController extends Controller
         try {
             $jaringan_pipa_pdam->nama = 'jaringan_pdam.geojson';
             if ($request->hasFile('file-jaringan-pipa-pdam')) {
-                // $request->validate([
-                //     'file-jaringan-pipa-pdam' => 'mimes:pdf'
-                // ]);
+                $request->validate([
+                    'file-jaringan-pipa-pdam' => 'required|file|mimetypes:application/json,text/plain',
+                ]);
                 File::delete(public_path('assets/jaringan_pdam/jaringan_pdam.geojson'));
                 $nama = "jaringan_pdam.geojson";
                 $request->file('file-jaringan-pipa-pdam')->move(public_path('assets/jaringan_pdam'), $nama);
