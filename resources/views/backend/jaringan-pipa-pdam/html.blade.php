@@ -6,51 +6,38 @@
                 Data Jaringan Pipa PDAM
             </div>
             <div class="card-body ">
-                <button class="btn btn-primary ml-2 mb-2" id="tambah-data">+ Data Jaringan Pipa PDAM</button>
+                    <div class="row p-2">
+
+                        <div class="col-md-8 p-4">
+                            <div id="modal-map" class="border" style="height: 600px"></div>
+                        </div>
+
+
+                        <div class="col-md-4 border p-3">
+                            <form id="pipa-pdam-form">
+                                @csrf
+                                <input type="hidden" id="name_file" value="{{ $jaringan_pipa_pdam }}">
+                                <div class="form-group">
+                                    <label for="file-jaringan-pipa-pdam">Upload File Geometry</label>
+                                    <div class="custom-file">
+                                        <input type="file" id="file-jaringan-pipa-pdam" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary" value="Upload">
+                                </div>
+                            </form>
+                            <div class="form-group">
+                                <div class="border border-danger bg-warning p-3 mt-5">
+                                    <span class="h6">Pastikan file yang diupload dengan ekstensi <strong>.geojson</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
             </div>
         </div>
     </div>
-
-    {{-- Dokumen Preview Modal --}}
-    <div class="modal fade" id="documentPreviewModal" tabindex="-1" aria-labelledby="documentPreviewModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="documentPreviewModalLabel"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <iframe src="" id="iframeDocumentPreview" height="500" width="100%"
-                        title="Iframe Example"></iframe>
-                </div>
-            </div>
-        </div>
     </div>
 
 </section>
-
-<!-- Modal -->
-<div class="modal fade" id="modalDokumenMP" tabindex="-1" aria-labelledby="modalDokumenMPLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalDokumenMPLabel">
-
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>

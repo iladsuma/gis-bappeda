@@ -200,6 +200,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Data Jaringan Pipa PDAM
     Route::get('/data-jaringan-pipa-pdam', [DataJaringanPipaPdamController::class, 'index'])->name('data-jaringan-pipa-pdam.index'); //->can('Data Pendukung.Lokasi Spam');
+    Route::get('/data-jaringan-pipa-pdam/loadgeojson', [DataJaringanPipaPdamController::class, 'loadGeoJson'])->name('data-jaringan-pipa-pdam.loadgeojson'); //->can('Data Pendukung.Lokasi Spam');
+    Route::put('/data-jaringan-pipa-pdam/{id}/update', [DataJaringanPipaPdamController::class, 'update'])->name('data-jaringan-pipa-pdam.update'); //->can('Data Pendukung.Lokasi Spam');
     ## --- end of data pendukung --- ##
 
     // User
