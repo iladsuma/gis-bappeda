@@ -226,12 +226,12 @@
 </div>
 
 {{-- Flayer --}}
-<div class="modal fade" id="flyer-modal" tabindex="-1" aria-labelledby="flyer-modalLabel"
-    aria-hidden="true" style="z-index: 2001;">
+<div class="modal fade" id="flyer-modal" tabindex="-1" aria-labelledby="flyer-modalLabel" aria-hidden="true"
+    style="z-index: 2001;">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-body p-0">
-                <img src="https://i.ytimg.com/vi/9NhDZdtnM20/maxresdefault.jpg" class="img-fluid" alt="">
+            <div class="modal-body p-1">
+                <img src="{{ asset('assets/image/logo/flyer.png') }}" class="img-fluid" alt="">
             </div>
         </div>
     </div>
